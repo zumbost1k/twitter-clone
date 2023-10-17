@@ -2,6 +2,7 @@ import React from 'react';
 import './homePage.css';
 import ProfileHeader from '@/components/profileHeader/profileHeader';
 import ContentFilter from '@/components/contentFilter/contentFilter';
+import AllNews from '@/components/allNews/allNews';
 
 const HomePage = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage = () => {
       <ProfileHeader />
       <div className='filtered-news'>
         <ContentFilter />
+        <AllNews />
       </div>
     </section>
   );

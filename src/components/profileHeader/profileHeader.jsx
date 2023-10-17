@@ -1,13 +1,18 @@
 import React from 'react';
 import './profileHeader.css';
-import Subscribe from '../../icons/subscribe';
-import CustomButton from '../../UI/button/button';
+import Subscribe from '@/icons/subscribe';
+import CustomButton from '@/UI/button/button';
 const ProfileHeader = () => {
   return (
-    <section className='profile-header'>
+    <section
+      className='profile-header'
+      style={{
+        backgroundImage: "url('./photos/profileBackgrounds/mountain.jpg')",
+      }}
+    >
       <img
         className='avatar profile-header__avatar'
-        src='.\photos\manface.jpg'
+        src='./photos/usersAvatar/manface.jpg'
         alt='avatar'
         width='116'
         height='116'

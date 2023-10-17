@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './contentFilter.css';
+import { useNavigate } from 'react-router-dom';
 
 const filterLinks = [
   {
@@ -21,6 +22,12 @@ const filterLinks = [
 ];
 
 const ContentFilter = () => {
+  const [filter, setFilter] = useState('tweets');
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate(`?filter=${filter}`);
+  }, [filter, navigate]);
+
   return (
     <section className='content-filter'>
       <form className='container content-filter__container'>
@@ -32,8 +39,10 @@ const ContentFilter = () => {
                 type='radio'
                 id={link.id}
                 name='filter-link'
+                checked={link.id === filter}
+                onChange={() => setFilter(link.id)}
               />
-              <div className=' common-text filter-element__common-text'>
+              <div className='common-text filter-element__common-text'>
                 {link.labelText}
               </div>
             </label>
