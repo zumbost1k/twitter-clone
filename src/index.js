@@ -4,7 +4,7 @@ import './index.css';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
-import HomePage from './pages/homePage';
+import HomePage from './pages/homePage/homePage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

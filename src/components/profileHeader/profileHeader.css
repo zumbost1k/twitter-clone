@@ -17,11 +17,7 @@
 }
 
 .container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
     background: #FFF;
-
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
 }
 
@@ -30,6 +26,9 @@
 }
 
 .profile-header__container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     min-width: 345px;
     max-width: 1073px;
     margin: -35px 14px 0px;
@@ -59,13 +58,13 @@
 }
 
 .common-text {
-    text-align: center;
     color: var(--Gray-3, #828282);
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
 
 .followers__common-text {
+    text-align: center;
     font-size: 12px;
     letter-spacing: -0.42px;
 }
@@ -80,6 +79,7 @@
 }
 
 .container__common-text {
+    text-align: center;
     padding: 14px 0px 0px;
     width: 290px;
 }
