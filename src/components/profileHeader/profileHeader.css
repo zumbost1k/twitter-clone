@@ -31,6 +31,7 @@
 
 .profile-header__container {
     min-width: 345px;
+    max-width: 1073px;
     margin: -35px 14px 0px;
     border-radius: 12px;
 }
