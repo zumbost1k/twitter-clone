@@ -4,9 +4,10 @@
 }
 
 .profile-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background-image: url('/public/photos/mountain.jpg');
+    background-size: 100% 178px;
+    text-align: center;
+    background-repeat: no-repeat;
 }
 
 .avatar {
@@ -22,7 +23,7 @@
 }
 
 .profile-header__avatar {
-    margin-top: -100px;
+    margin-top: 62px;
 }
 
 .profile-header__container {
@@ -89,11 +90,11 @@
 }
 
 @media (min-width:1073px) {
-    .profile-header__background {
-        max-height: 298px;
+    .profile-header {
+        background-size: 100% 298px;
     }
 
     .profile-header__container {
-        width: 1073px;
+        margin: 0 auto;
     }
 }

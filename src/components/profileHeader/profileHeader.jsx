@@ -6,13 +6,6 @@ const ProfileHeader = () => {
   return (
     <section className='profile-header'>
       <img
-        src='.\photos\mountain.jpg'
-        alt='mountain'
-        height='298'
-        width='1440'
-        className='background profile-header__background'
-      />
-      <img
         className='avatar profile-header__avatar'
         src='.\photos\manface.jpg'
         alt='avatar'
