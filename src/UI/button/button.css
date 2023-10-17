@@ -1,0 +1,15 @@
+.button {
+    border-radius: 4px;
+    background: var(--Blue-1, #2F80ED);
+    color: white;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.button:hover {
+    background: var(--Blue-1, #2b76d8);
+}
