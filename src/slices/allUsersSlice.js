@@ -18,7 +18,7 @@ const initialState = {
       profileDescription:
         'Photographer & Filmmaker based in Copenhagen, Denmark ✵ 🇩🇰',
       profileBackgroundImagePath: 'mountain.jpg',
-      profileAvatar: 'manface.jpg',
+      profileAvatar: 'alice.jpeg',
     },
     {
       userName: 'Bianca Sosa',
@@ -27,7 +27,7 @@ const initialState = {
       profileDescription:
         'You can never be overdressed or overeducated.» (Oscar Wilde)',
       profileBackgroundImagePath: 'mountain.jpg',
-      profileAvatar: 'manface.jpg',
+      profileAvatar: 'skyler.jpeg',
     },
   ],
   currentUserPageName: 'Daniel Jensen',

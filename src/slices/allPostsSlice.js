@@ -42,7 +42,7 @@ const initialState = {
       creationDate: '24 August at 20:43',
       postText:
         'Traveling - it leaves you speechless, then turns you into a storyteller.',
-      postPhoto: 'tree.jpg',
+      postPhoto: 'trees.jpg',
       quantityOfComments: 449,
       quantityOfRetweets: 59,
       quantityOfSaved: 234,
