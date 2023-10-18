@@ -3,7 +3,7 @@ import './button.css';
 
 const CustomButton = ({ content, onClickfunction }) => {
   return (
-    <button className='button' onClick={onClickfunction}>
+    <button type='button' className='button' onClick={onClickfunction}>
       {content}
     </button>
   );

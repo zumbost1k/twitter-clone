@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './newsItem.css';
 import { useSelector } from 'react-redux';
-import { selectallUserPage } from '@/selectors/selectors';
+import { selectallUserPage, selectCurrentUser } from '@/selectors/selectors';
 import Message from '@/icons/message';
 import Bookmark from '@/icons/bookmark';
 import Heart from '@/icons/heart';
 import Reboot from '@/icons/reboot';
+import Send from '@/icons/send';
 const postButtons = [
   {
     name: 'Comment',
     icon: <Message />,
-    activeText: '',
-    activeClass: '',
+    activeText: 'Comment',
+    activeClass: 'grey-text',
   },
   {
     name: 'Retweet',
@@ -33,10 +34,34 @@ const postButtons = [
   },
 ];
 const NewsItem = ({ currentNews }) => {
+  const [activeButtons, setActiveButtons] = useState({});
+  const [activeComment, setActiveComment] = useState(false);
   const allUsers = useSelector(selectallUserPage);
+  const [answerText, setAnswerText] = useState('');
+  const currentUserInfo = useSelector(selectCurrentUser);
   const postAuthor = allUsers.find((currentUser) => {
     return currentUser.userName === currentNews.authorName;
   });
+  const interactionToolClick = (buttonName) => {
+    setActiveButtons((prevState) => ({
+      ...prevState,
+      [buttonName]: !prevState[buttonName],
+    }));
+    if (buttonName === 'Comment') {
+      setActiveComment(!activeComment);
+    }
+  };
+  const sendComment = (e) => {
+    if (answerText.length !== 0) {
+      e.preventDefault();
+      setAnswerText('');
+      setActiveComment(false);
+      setActiveButtons((prevState) => ({
+        ...prevState,
+        Comment: false,
+      }));
+    }
+  };
   return (
     <div className='container news-container'>
       <div className='news-body container__news-body'>
@@ -79,21 +104,55 @@ const NewsItem = ({ currentNews }) => {
               <label
                 htmlFor={currentButton.name}
                 key={currentButton.name}
-                className='interaction-tool buttons__interaction-tool'
+                className={
+                  activeButtons[currentButton.name]
+                    ? `interaction-tool buttons__interaction-tool ${currentButton.activeClass}`
+                    : 'interaction-tool buttons__interaction-tool'
+                }
               >
                 <button
-                  className='interaction-tool__button'
+                  className='send'
                   id={currentButton.name}
+                  onClick={() => interactionToolClick(currentButton.name)}
                 >
                   {currentButton.icon}
                 </button>
                 <p className='text interaction-tool__text'>
-                  {currentButton.name}
+                  {activeButtons[currentButton.name]
+                    ? currentButton.activeText
+                    : currentButton.name}
                 </p>
               </label>
             );
           })}
         </div>
+        {activeComment && (
+          <div className='comment-body news-body__comment-body'>
+            <img
+              className='avatar'
+              src={`./photos/usersAvatar/${currentUserInfo.userAvatar}`}
+              alt='current user avatar'
+              width='40'
+              height='40'
+            />
+            <form className='form comment-body__form'>
+              <input
+                value={answerText}
+                onChange={(e) => {
+                  setAnswerText(e.target.value);
+                }}
+                type='text'
+                id='comment'
+                required
+                placeholder='Tweet your reply'
+                className='input'
+              />
+              <button onClick={sendComment} type='sumbit' className='send'>
+                <Send />
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
