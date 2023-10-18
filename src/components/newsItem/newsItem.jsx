@@ -117,7 +117,13 @@ const NewsItem = ({ currentNews }) => {
                 >
                   {currentButton.icon}
                 </button>
-                <p className='text interaction-tool__text'>
+                <p
+                  className={
+                    activeButtons[currentButton.name]
+                      ? `text interaction-tool__text ${currentButton.activeClass}`
+                      : `text interaction-tool__text`
+                  }
+                >
                   {activeButtons[currentButton.name]
                     ? currentButton.activeText
                     : currentButton.name}
