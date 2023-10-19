@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import HomePage from './pages/homePage/homePage';
 import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
+import ExplorePage from "./pages/explorePage/explorePage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
         <Routes>
           <Route path='/home/:id' element={<HomePage />} />
           <Route path='*' element={<Navigate to='home/currentUser' />} />
+          <Route path='/explore' element={<ExplorePage />} />
         </Routes>
         <Navigation />
       </Provider>
