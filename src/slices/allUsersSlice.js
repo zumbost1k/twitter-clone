@@ -34,7 +34,7 @@ const initialState = {
       profileAvatar: 'skyler.jpeg',
     },
   ],
-  currentUserPageName: 'Daniel Jensen',
+  currentUserPageId: '',
 };
 
 export const AllUsersSlice = createSlice({
@@ -42,7 +42,7 @@ export const AllUsersSlice = createSlice({
   initialState,
   reducers: {
     changeCurrentUserPage: (state, action) => {
-      state.currentUserPageName = action.payload;
+      state.currentUserPageId = action.payload;
     },
   },
 });

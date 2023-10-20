@@ -2,17 +2,19 @@ import React from 'react';
 import './allNews.css';
 import { useSelector } from 'react-redux';
 import NewsItem from '@/components/newsItem/newsItem.jsx';
-import { selectallNews, selectCurentUSer } from '@/selectors/selectors';
+import { selectallNews, selectCurentUSerById } from '@/selectors/selectors';
 import Reboot from '@/icons/reboot';
 const AllNews = () => {
   const allNews = useSelector(selectallNews);
-  const currentUSer = useSelector(selectCurentUSer);
+  const currentUSer = useSelector(selectCurentUSerById);
   return (
     <section className='all-news'>
-      <p className='common-text all-news__common-text'>
-        <Reboot />
-        {currentUSer.userName} Retweeted
-      </p>
+      {currentUSer && (
+        <p className='common-text all-news__common-text'>
+          <Reboot width={'14'} height={'16'} />
+          {currentUSer.userName} Retweeted
+        </p>
+      )}
       <div className='news-line all-news__news-line'>
         {allNews.map((currentNews) => {
           return (

@@ -1,0 +1,9 @@
+.nav-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 13px 0px;
+}

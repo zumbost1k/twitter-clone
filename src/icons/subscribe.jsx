@@ -1,8 +1,8 @@
-const Subscribe = () => {
+const Subscribe = ({ width, height }) => {
   return (
     <svg
-      width='14'
-      height='14'
+      width={width}
+      height={height}
       viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

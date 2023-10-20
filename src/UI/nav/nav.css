@@ -1,0 +1,17 @@
+.navigation-item {
+  color: #828282;
+  padding: 0px auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon {
+  padding: 9px 0px;
+}
+
+.navigation-item:hover {
+  border-radius: 8px;
+  background: #f2f2f2;
+}

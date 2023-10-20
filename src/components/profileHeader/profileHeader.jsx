@@ -2,44 +2,59 @@ import React from 'react';
 import './profileHeader.css';
 import Subscribe from '@/icons/subscribe';
 import CustomButton from '@/UI/customButton/cistomButton';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { selectCurentUSerById, selectCurrentUser } from '@/selectors/selectors';
 const ProfileHeader = () => {
+  const { id } = useParams();
+  const currentUsersProfile = useSelector(selectCurentUSerById);
+  const userPage = useSelector(selectCurrentUser);
+  const currentUser = id === 'currentUser' ? userPage : currentUsersProfile;
   return (
     <section
       className='profile-header'
       style={{
-        backgroundImage: "url('./photos/profileBackgrounds/mountain.jpg')",
+        backgroundImage: `url('./photos/profileBackgrounds/${currentUser.profileBackgroundImagePath}')`,
       }}
     >
       <img
         className='avatar profile-header__avatar'
-        src='./photos/usersAvatar/manface.jpg'
+        src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
         alt='avatar'
         width='116'
         height='116'
       />
       <div className='container profile-header__container'>
-        <h2 className='name profile-header__name'>Daniel Jensen</h2>
+        <h2 className='name profile-header__name'>{currentUser.userName}</h2>
         <div className='followers container__followers'>
           <p className='common-text followers__common-text'>
-            <span className='followers__common-text_bold'>2,569</span> Following
+            <span className='followers__common-text_bold'>
+              {currentUser.quantityOfFollowing}
+            </span>{' '}
+            Following
           </p>
           <p className='common-text followers__common-text'>
-            <span className='followers__common-text_bold'>10.8K</span> Followers
+            <span className='followers__common-text_bold'>
+              {currentUser.quantityOfFollowers}
+            </span>{' '}
+            Followers
           </p>
         </div>
         <p className='common-text container__common-text'>
-          Photographer & Filmmaker based in Copenhagen, Denmark ✵ 🇩🇰
+          {currentUser.profileDescription}
         </p>
-        <div className='custom-button container__custom-button'>
-          <CustomButton
-            content={
-              <span className='content container__content'>
-                <Subscribe />
-                Follow
-              </span>
-            }
-          />
-        </div>
+        {currentUsersProfile && (
+          <div className='custom-button container__custom-button'>
+            <CustomButton
+              content={
+                <span className='content container__content'>
+                  <Subscribe width={'14'} height={'14'} />
+                  Follow
+                </span>
+              }
+            />
+          </div>
+        )}
       </div>
     </section>
   );

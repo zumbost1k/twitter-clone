@@ -1,9 +1,9 @@
-const Bookmark = () => {
+const Bookmark = ({ width, height }) => {
   return (
     <svg
       fill='currentColor'
-      width='20'
-      height='20'
+      width={width}
+      height={height}
       viewBox='0 0 52 52'
       dataname='Layer 1'
       id='Layer_1'
@@ -14,4 +14,4 @@ const Bookmark = () => {
   );
 };
 
-export default Bookmark
+export default Bookmark;

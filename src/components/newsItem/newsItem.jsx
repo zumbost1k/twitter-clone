@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
 import './newsItem.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectallUserPage, selectCurrentUser } from '@/selectors/selectors';
 import Message from '@/icons/message';
 import Bookmark from '@/icons/bookmark';
 import Heart from '@/icons/heart';
 import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
+import { Link } from 'react-router-dom';
+import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 const postButtons = [
   {
     name: 'Comment',
-    icon: <Message />,
+    icon: <Message width={'20'} height={'20'} />,
     activeText: 'Comment',
     activeClass: 'grey-text',
   },
   {
     name: 'Retweet',
-    icon: <Reboot />,
+    icon: <Reboot width={'20'} height={'20'} />,
     activeText: 'Retweeted',
     activeClass: 'green-text',
   },
   {
     name: 'Like',
-    icon: <Heart />,
+    icon: <Heart width={'20'} height={'20'} />,
     activeText: 'Liked',
     activeClass: 'red-text',
   },
   {
     name: 'Save',
-    icon: <Bookmark />,
+    icon: <Bookmark width={'20'} height={'20'} />,
     activeText: 'Saved',
     activeClass: 'blue-text',
   },
@@ -42,6 +44,7 @@ const NewsItem = ({ currentNews }) => {
   const postAuthor = allUsers.find((currentUser) => {
     return currentUser.userName === currentNews.authorName;
   });
+  const dispatch = useDispatch();
   const interactionToolClick = (buttonName) => {
     setActiveButtons((prevState) => ({
       ...prevState,
@@ -62,6 +65,10 @@ const NewsItem = ({ currentNews }) => {
       }));
     }
   };
+
+  const setCurrentUserHandle = () => {
+    dispatch(changeCurrentUserPage(postAuthor.userId));
+  };
   return (
     <div className='container news-container'>
       <div className='news-body container__news-body'>
@@ -73,7 +80,13 @@ const NewsItem = ({ currentNews }) => {
           height='40'
         />
         <div className='post-author news-body__post-author'>
-          <p className='text post-author__text'>{postAuthor.userName}</p>
+          <Link
+            onClick={setCurrentUserHandle}
+            to={`/home/${postAuthor.userId}`}
+            className='text post-author__text'
+          >
+            {postAuthor.userName}
+          </Link>
           <time
             className='disabled-text post-author__disabled-text'
             datatime={currentNews.creationDate}
@@ -154,7 +167,7 @@ const NewsItem = ({ currentNews }) => {
                 className='input'
               />
               <button onClick={sendComment} type='sumbit' className='send'>
-                <Send />
+                <Send width={'20'} height={'20'} />
               </button>
             </form>
           </div>
