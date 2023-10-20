@@ -71,7 +71,7 @@
 }
 
 .disabled-text {
-  color: var(--Gray-4, #bdbdbd);
+  color:  #bdbdbd;
   font-weight: 500;
 }
 
@@ -94,7 +94,7 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  color: var(--Gray-2, #4f4f4f);
+  color:  #4f4f4f;
   width: 25%;
   padding: 11px 0px;
 }
@@ -111,15 +111,15 @@
 }
 
 .green-text {
-  color: var(--Green-2, #27ae60);
+  color:  #27ae60;
 }
 
 .red-text {
-  color: var(--Red, #eb5757);
+  color: #eb5757;
 }
 
 .blue-text {
-  color: var(--Blue-2, #2d9cdb);
+  color:  #2d9cdb;
 }
 
 .grey-text {

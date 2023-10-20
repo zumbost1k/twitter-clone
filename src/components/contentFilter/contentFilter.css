@@ -28,8 +28,10 @@
 }
 
 .filter-element__radio:checked + .filter-element__common-text {
-  color:  #2f80ed;
+  color: #2f80ed;
   padding-left: 19px;
   border-left: 2px solid #2f80ed;
   border-radius: 0px;
+  display: flex;
+  align-items: center;
 }
