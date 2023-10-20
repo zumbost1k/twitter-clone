@@ -28,7 +28,7 @@ const ProfileHeader = () => {
           </p>
         </div>
         <p className='common-text container__common-text'>
-          Photographer & Filmmaker based in Copenhagen, Denmark ✵ 🇩🇰
+          Photographer & Filmmaker based in Copenhagen, Denmark ✵ &#9770;
         </p>
         <div className='custom-button container__custom-button'>
           <CustomButton
