@@ -9,7 +9,8 @@ const ProfileHeader = () => {
   const { id } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
   const userPage = useSelector(selectCurrentUser);
-  const currentUser = id === 'currentUser' ? userPage : currentUsersProfile;
+  const isCurrentUserPage = id === 'currentUser';
+  const currentUser = isCurrentUserPage ? userPage : currentUsersProfile;
   return (
     <section
       className='profile-header'
@@ -43,7 +44,7 @@ const ProfileHeader = () => {
         <p className='common-text container__common-text'>
           {currentUser.profileDescription}
         </p>
-        {currentUsersProfile && (
+        {!isCurrentUserPage && (
           <div className='custom-button container__custom-button'>
             <CustomButton
               content={
