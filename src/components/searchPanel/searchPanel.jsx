@@ -1,7 +1,7 @@
 import React from 'react';
-import Search from '../../icons/search';
+import Search from '@/icons/search';
 import './searchPanel.css'
-import CustomButton from "../../UI/button/button";
+import CustomButton from "@/UI/button/button";
 
 const SearchPanel = () => {
     return (
