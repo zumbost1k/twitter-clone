@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 } from 'uuid';
 
 const initialState = {
   allUsers: [
     {
+      userId: v4(),
       userName: 'Peyton Lyons',
       quantityOfFollowers: '254k',
       quantityOfFollowing: '420',
@@ -12,6 +14,7 @@ const initialState = {
       profileAvatar: 'manface.jpg',
     },
     {
+      userId: v4(),
       userName: 'Daniel Jensen',
       quantityOfFollowers: '254k',
       quantityOfFollowing: '421',
@@ -21,6 +24,7 @@ const initialState = {
       profileAvatar: 'alice.jpeg',
     },
     {
+      userId: v4(),
       userName: 'Bianca Sosa',
       quantityOfFollowers: '254k',
       quantityOfFollowing: '422',

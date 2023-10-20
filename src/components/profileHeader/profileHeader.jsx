@@ -1,7 +1,7 @@
 import React from 'react';
 import './profileHeader.css';
 import Subscribe from '@/icons/subscribe';
-import CustomButton from '@/UI/button/button';
+import CustomButton from '@/UI/customButton/cistomButton';
 const ProfileHeader = () => {
   return (
     <section

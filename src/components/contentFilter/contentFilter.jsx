@@ -2,26 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './contentFilter.css';
 import { useNavigate } from 'react-router-dom';
 
-const filterLinks = [
-  {
-    labelText: 'Tweets',
-    id: 'tweets',
-  },
-  {
-    labelText: 'Tweets & replies',
-    id: 'replies',
-  },
-  {
-    labelText: 'Media',
-    id: 'media',
-  },
-  {
-    labelText: 'Likes',
-    id: 'likes',
-  },
-];
-
-const ContentFilter = () => {
+const ContentFilter = ({filterLinks}) => {
   const [filter, setFilter] = useState('tweets');
   const navigate = useNavigate();
   useEffect(() => {

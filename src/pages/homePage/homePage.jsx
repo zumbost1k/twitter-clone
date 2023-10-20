@@ -9,7 +9,26 @@ const HomePage = () => {
     <section>
       <ProfileHeader />
       <div className='filtered-news'>
-        <ContentFilter />
+        <ContentFilter
+          filterLinks={[
+            {
+              labelText: 'Tweets',
+              id: 'tweets',
+            },
+            {
+              labelText: 'Tweets & replies',
+              id: 'replies',
+            },
+            {
+              labelText: 'Media',
+              id: 'media',
+            },
+            {
+              labelText: 'Likes',
+              id: 'likes',
+            },
+          ]}
+        />
         <AllNews />
       </div>
     </section>
