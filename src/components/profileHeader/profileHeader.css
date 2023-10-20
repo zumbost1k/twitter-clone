@@ -58,7 +58,7 @@
 }
 
 .common-text {
-    color: var(--Gray-3, #828282);
+    color:  #828282;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
@@ -70,7 +70,7 @@
 }
 
 .followers__common-text_bold {
-    color: var(--Gray-1, #333);
+    color:  #333;
     font-weight: 600;
 }
 
