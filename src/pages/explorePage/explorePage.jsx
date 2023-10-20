@@ -2,7 +2,7 @@ import React from 'react';
 import './explorePage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
-import SearchPanel from "../../components/searchPanel/searchPanel";
+import SearchPanel from "@/components/searchPanel/searchPanel";
 
 const ExplorePage = () => {
   return (
