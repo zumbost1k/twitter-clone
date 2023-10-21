@@ -5,6 +5,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import HomePage from './pages/homePage/homePage';
+import ExplorePage from "./pages/explorePage/explorePage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +14,7 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path='*' element={<HomePage />} />
+          <Route path='/explore' element={<ExplorePage />} />
         </Routes>
       </Provider>
     </HashRouter>
