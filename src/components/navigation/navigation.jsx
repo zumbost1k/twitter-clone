@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './navigation.css';
 import Home from '@/icons/home';
 import Bookmark from '@/icons/bookmark';
@@ -23,6 +23,10 @@ const navLinks = [
 ];
 
 const Navigation = () => {
+  const [activeButtons, setActiveButtons] = useState('Explore');
+  const interactionToolClick = (buttonName) => {
+    setActiveButtons(buttonName);
+  };
   return (
     <nav>
       <div className='nav-container'>
@@ -31,6 +35,8 @@ const Navigation = () => {
             <NavElement
               key={currentNavLink.key}
               navigationElement={currentNavLink}
+              interactionToolClick={interactionToolClick}
+              activeButtons={activeButtons}
             />
           );
         })}
