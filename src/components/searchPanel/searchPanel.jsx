@@ -6,13 +6,17 @@ import CustomButton from "@/UI/button/button";
 const SearchPanel = () => {
     return (
         <div className='search-panel'>
-            <Search/>
-            <input className='search-panel__input' placeholder='Search'/>
-            <CustomButton content={
-                <span className='search-panel__button'>
+            <div className='search-panel__container'>
+                <div className='search-panel__search'>
+                    <Search/>
+                    <input placeholder='Search'/>
+                </div>
+                <CustomButton content={
+                    <span className='search-panel__button'>
                     Search
                 </span>
-            }/>
+                }/>
+            </div>
         </div>
     );
 };
