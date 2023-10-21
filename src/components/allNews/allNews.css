@@ -1,0 +1,18 @@
+.all-news {
+  padding: 26px 15px 0px;
+  text-align: left;
+}
+
+.all-news__common-text {
+  font-size: 14px;
+  display: flex;
+  align-items: left;
+  gap: 2px;
+}
+
+.all-news__news-line {
+  padding-top: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
