@@ -149,7 +149,7 @@ const NewsItem = ({ currentNews }) => {
           <div className='comment-body news-body__comment-body'>
             <img
               className='avatar'
-              src={`./photos/usersAvatar/${currentUserInfo.userAvatar}`}
+              src={`./photos/usersAvatar/${currentUserInfo.profileAvatar}`}
               alt='current user avatar'
               width='40'
               height='40'
