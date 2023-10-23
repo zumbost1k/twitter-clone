@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import HomePage from './pages/homePage/homePage';
 import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
-import ExplorePage from "./pages/explorePage/explorePage";
+import ExplorePage from './pages/explorePage/explorePage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
