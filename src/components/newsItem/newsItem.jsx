@@ -164,7 +164,7 @@ const NewsItem = ({ currentNews }) => {
                 id='comment'
                 required
                 placeholder='Tweet your reply'
-                className='input'
+                className='input form__input'
               />
               <button onClick={sendComment} type='sumbit' className='send'>
                 <Send width={'20'} height={'20'} />

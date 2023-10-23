@@ -4,10 +4,11 @@ import './index.css';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
-import HomePage from './pages/homePage/homePage';
+import UserPage from './pages/userPage/userPage';
 import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
 import ExplorePage from './pages/explorePage/explorePage';
+import HomePage from './pages/homePage/homePage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +17,8 @@ root.render(
       <Provider store={store}>
         <ScrollToTop />
         <Routes>
-          <Route path='/user/:id' element={<HomePage />} />
+          <Route path='/user/:id' element={<UserPage />} />
+          <Route path='/home' element={<HomePage />} />
           <Route path='*' element={<Navigate to='user/currentUser' />} />
           <Route path='/explore' element={<ExplorePage />} />
         </Routes>

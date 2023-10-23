@@ -1,0 +1,76 @@
+.add-news__container {
+    margin: 0 auto;
+    border-radius: 12px;
+    min-width: 342px;
+    max-width: 745px;
+    padding: 11px 14px;
+}
+
+.add-news {
+    width: 100%;
+    padding: 15px 16px;
+}
+
+.dark-text {
+    color: #4F4F4F;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dark-text__container {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.42px;
+}
+
+.tweet-form {
+    border-top: 1px solid #F2F2F2;
+    margin-top: 7px;
+    padding-top: 9px;
+}
+
+.tweet-body {
+    display: flex;
+}
+
+.tweet-body__input {
+    padding-left: 12px;
+    font-size: 16px;
+}
+
+.tweet-buttons {
+    display: flex;
+    color: #2F80ED;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.icon:hover {
+    color: #2b76d8;
+}
+
+.tweet-body__buttons {
+    padding-top: 25px;
+    height: auto;
+}
+
+.tweet-buttons__icon {
+    font-size: 12px;
+    letter-spacing: -0.42px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.button__tweet {
+    font-size: 12px;
+}
