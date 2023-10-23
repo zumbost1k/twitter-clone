@@ -16,11 +16,13 @@ const AllNews = () => {
   const userPage = useSelector(selectCurrentUser);
   const isCurrentUserPage = id === 'currentUser';
   const currentUser = isCurrentUserPage ? userPage : currentUsersProfile;
+  console.log(currentUsersProfile);
+
   return (
     <section className='all-news'>
       <p className='common-text all-news__common-text'>
         <Reboot width={'14'} height={'16'} />
-        {isCurrentUserPage ? 'You' : currentUser.userName} Retweeted
+        {/* {isCurrentUserPage ? 'You' : currentUser.userName} Retweeted */}
       </p>
 
       <div className='news-line all-news__news-line'>
