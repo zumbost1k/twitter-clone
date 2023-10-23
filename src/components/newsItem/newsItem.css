@@ -71,7 +71,7 @@
 }
 
 .disabled-text {
-  color:  #bdbdbd;
+  color: #bdbdbd;
   font-weight: 500;
 }
 
@@ -94,7 +94,7 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  color:  #4f4f4f;
+  color: #4f4f4f;
   width: 25%;
   padding: 11px 0px;
 }
@@ -111,7 +111,7 @@
 }
 
 .green-text {
-  color:  #27ae60;
+  color: #27ae60;
 }
 
 .red-text {
@@ -119,7 +119,7 @@
 }
 
 .blue-text {
-  color:  #2d9cdb;
+  color: #2d9cdb;
 }
 
 .grey-text {
@@ -152,8 +152,11 @@
 
 .input {
   width: 100%;
-  font-size: 14px;
   letter-spacing: -0.49px;
+}
+
+.form__input {
+  font-size: 14px;
 }
 
 input::placeholder {

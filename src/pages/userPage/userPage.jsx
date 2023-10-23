@@ -1,10 +1,10 @@
 import React from 'react';
-import './homePage.css';
+import './userPage.css';
+import ProfileHeader from '@/components/profileHeader/profileHeader';
+import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
-import { useSelector } from 'react-redux';
-import { selectallNews } from '@/selectors/selectors';
-const HomePage = () => {
-  const usersPageNews = useSelector(selectallNews);
+
+const UserPage = () => {
   return (
     <section>
       <ProfileHeader />
@@ -29,10 +29,10 @@ const HomePage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={true} allNews={usersPageNews} />
+        <AllNews isUserPage={true} />
       </div>
     </section>
   );
 };
 
-export default HomePage;
+export default UserPage;
