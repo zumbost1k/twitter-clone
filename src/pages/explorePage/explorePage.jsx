@@ -29,7 +29,7 @@ const ExplorePage = () => {
             },
           ]}
         />
-        <AllNews />
+        <AllNews isUserPage={false} />
       </div>
     </section>
   );

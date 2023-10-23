@@ -29,7 +29,7 @@ const HomePage = () => {
             },
           ]}
         />
-        <AllNews />
+        <AllNews isUserPage={true} />
       </div>
     </section>
   );
