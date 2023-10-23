@@ -15,11 +15,19 @@ const NavElement = ({
       className={
         activeButtons !== navigationElement.key
           ? `navigation-item`
-          : `navigation-item navigation-item__active`
+          : `navigation-item navigation-item_active`
       }
       to={navigationElement.path}
     >
-      <span className='nav-icon'>{navigationElement.content}</span>
+      <span
+        className={
+          activeButtons !== navigationElement.key
+            ? `nav-icon`
+            : `nav-icon nav-icon_active`
+        }
+      >
+        {navigationElement.content}
+      </span>
     </Link>
   );
 };
