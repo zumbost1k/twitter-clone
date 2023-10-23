@@ -1,9 +1,13 @@
 import React from 'react';
 import './customButton.css';
 
-const CustomButton = ({ content, onClickfunction }) => {
+const CustomButton = ({ content, onClickfunction, size,type }) => {
   return (
-    <button type='button' className='button' onClick={onClickfunction}>
+    <button
+      type={type}
+      className={`button ${size}`}
+      onClick={onClickfunction}
+    >
       {content}
     </button>
   );

@@ -38,7 +38,6 @@
 
 .container__content {
   z-index: 1;
-  padding: 9px 24px;
 }
 
 .profile-header__name {
@@ -58,9 +57,9 @@
 }
 
 .common-text {
-    color:  #828282;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+  color: #828282;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
 }
 
 .followers__common-text {
@@ -70,8 +69,8 @@
 }
 
 .followers__common-text_bold {
-    color:  #333;
-    font-weight: 600;
+  color: #333;
+  font-weight: 600;
 }
 
 .container__followers {

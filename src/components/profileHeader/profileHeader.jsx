@@ -47,6 +47,8 @@ const ProfileHeader = () => {
         {!isCurrentUserPage && (
           <div className='custom-button container__custom-button'>
             <CustomButton
+            type={'button'}
+            size={'standard'}
               content={
                 <span className='content container__content'>
                   <Subscribe width={'14'} height={'14'} />
