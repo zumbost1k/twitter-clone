@@ -16,8 +16,8 @@ root.render(
       <Provider store={store}>
         <ScrollToTop />
         <Routes>
-          <Route path='/home/:id' element={<HomePage />} />
-          <Route path='*' element={<Navigate to='home/currentUser' />} />
+          <Route path='/user/:id' element={<HomePage />} />
+          <Route path='*' element={<Navigate to='user/currentUser' />} />
           <Route path='/explore' element={<ExplorePage />} />
         </Routes>
         <Navigation />

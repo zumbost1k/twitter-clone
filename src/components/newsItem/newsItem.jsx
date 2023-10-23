@@ -82,7 +82,7 @@ const NewsItem = ({ currentNews }) => {
         <div className='post-author news-body__post-author'>
           <Link
             onClick={setCurrentUserHandle}
-            to={`/home/${postAuthor.userId}`}
+            to={`/user/${postAuthor.userId}`}
             className='text post-author__text'
           >
             {postAuthor.userName}

@@ -8,7 +8,7 @@ const navLinks = [
   {
     content: <Home width={'24'} height={'24'} />,
     key: 'Home',
-    path: `/home/currentUser`,
+    path: `/user/currentUser`,
   },
   {
     content: <Compass width={'24'} height={'24'} />,
