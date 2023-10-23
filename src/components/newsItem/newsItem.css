@@ -159,6 +159,10 @@
   font-size: 14px;
 }
 
+.form__input {
+  font-size: 14px;
+}
+
 ::placeholder {
   color: #bdbdbd;
 }
