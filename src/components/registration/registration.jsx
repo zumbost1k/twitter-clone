@@ -18,7 +18,6 @@ const Registration = () => {
   const isEmailValid = useValid(email, ['isEmpty']);
   const disabledState =
     checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
-  console.log(disabledState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const HandleRegistration = (e) => {
