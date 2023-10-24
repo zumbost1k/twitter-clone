@@ -1,0 +1,100 @@
+.registration-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.rout-link {
+    color: black;
+}
+
+.registration-input__input-caption_red {
+    color: red;
+}
+
+.title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.registration-block {
+    border-radius: 8px;
+    border: 2px solid #2F80ED;
+    border-top: 10px solid #2F80ED;
+    padding: 40px;
+}
+
+.registration-section__title {
+    text-align: center;
+    font-size: 24px;
+    padding-top: 24px;
+}
+
+.reg-text {
+    font-family: 'New York Medium';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 170%;
+}
+
+.registration-section__text {
+    width: 250px;
+    padding-top: 24px;
+    text-align: center;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.registration-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.registration-section__form {
+    padding-top: 35px;
+}
+
+
+.registration-input {
+    border-radius: 8px;
+    width: 250px;
+    border: 2px solid #2F80ED;
+    padding: 15px 12px;
+}
+
+.form__registration-input {
+    font-size: 14px;
+}
+
+@media (min-width: 855px) {
+    .form__registration-input {
+        font-size: 16px;
+    }
+
+    .registration-input {
+        width: 400px;
+    }
+
+    .registration-form {
+        gap: 40px;
+    }
+
+    .reg-text {
+        font-size: 20px;
+    }
+
+    .registration-section__title {
+        font-size: 32px;
+    }
+
+    .registration-section__text {
+        width: 400px;
+    }
+}
