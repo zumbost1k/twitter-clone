@@ -3,8 +3,11 @@ import './explorePage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import SearchPanel from '@/components/searchPanel/searchPanel';
-
+import { useSelector } from 'react-redux';
+import { selectallNews } from '@/selectors/selectors';
 const ExplorePage = () => {
+  const allNews = useSelector(selectallNews);
+  
   return (
     <section>
       <SearchPanel />
@@ -29,7 +32,7 @@ const ExplorePage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={false} />
+        <AllNews isUserPage={false} allNews={allNews} />
       </div>
     </section>
   );
