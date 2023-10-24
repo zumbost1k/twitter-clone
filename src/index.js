@@ -9,6 +9,7 @@ import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
 import ExplorePage from './pages/explorePage/explorePage';
 import Header from './components/header/header';
+import BookmarksPage from './pages/bookmarksPage/bookmarksPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
           <Route path='/user/:id' element={<HomePage />} />
           <Route path='*' element={<Navigate to='user/currentUser' />} />
           <Route path='/explore' element={<ExplorePage />} />
+          <Route path='/bookmarks' element={<BookmarksPage />} />
         </Routes>
         <Navigation />
       </Provider>

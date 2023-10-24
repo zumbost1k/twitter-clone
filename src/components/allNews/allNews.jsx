@@ -4,13 +4,11 @@ import { useSelector } from 'react-redux';
 import NewsItem from '@/components/newsItem/newsItem.jsx';
 import { useParams } from 'react-router-dom';
 import {
-  selectallNews,
   selectCurentUSerById,
   selectCurrentUser,
 } from '@/selectors/selectors';
 import Reboot from '@/icons/reboot';
-const AllNews = ({ isUserPage }) => {
-  const allNews = useSelector(selectallNews);
+const AllNews = ({ isUserPage,allNews }) => {
   const { id } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
   const userPage = useSelector(selectCurrentUser);

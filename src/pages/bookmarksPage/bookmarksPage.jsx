@@ -1,15 +1,14 @@
 import React from 'react';
-import './homePage.css';
-import ProfileHeader from '@/components/profileHeader/profileHeader';
+import './bookmarksPage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import { useSelector } from 'react-redux';
 import { selectallNews } from '@/selectors/selectors';
-const HomePage = () => {
-  const usersPageNews = useSelector(selectallNews);
+
+const BookmarksPage = () => {
+  const bookMaksNews = useSelector(selectallNews);
   return (
     <section>
-      <ProfileHeader />
       <div className='filtered-news'>
         <ContentFilter
           filterLinks={[
@@ -31,10 +30,10 @@ const HomePage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={true} allNews={usersPageNews} />
+        <AllNews isUserPage={false} allNews={bookMaksNews} />
       </div>
     </section>
   );
 };
 
-export default HomePage;
+export default BookmarksPage;
