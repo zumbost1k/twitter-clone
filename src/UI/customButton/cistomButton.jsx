@@ -1,11 +1,18 @@
 import React from 'react';
 import './customButton.css';
 
-const CustomButton = ({ content, onClickfunction, size,type }) => {
+const CustomButton = ({
+  content,
+  onClickfunction,
+  size,
+  type,
+  disabledState,
+}) => {
   return (
     <button
       type={type}
       className={`button ${size}`}
+      disabled={disabledState}
       onClick={onClickfunction}
     >
       {content}

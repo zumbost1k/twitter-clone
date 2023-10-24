@@ -22,3 +22,8 @@
 .button:hover {
     background: #2b76d8;
 }
+
+.button:disabled {
+    background: #577baa;
+    color: rgb(197, 196, 196);
+}

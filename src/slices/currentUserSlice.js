@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 } from 'uuid';
 
 const initialState = {
+  userEmail: null,
+  userPassword: null,
   userName: 'Waqar Bloom',
   profileAvatar: 'waqar.jpg',
   userId: v4(),
@@ -10,12 +12,19 @@ const initialState = {
   profileDescription:
     'You can never be overdressed or overeducated.» (Oscar Wilde)',
   profileBackgroundImagePath: 'mountain.jpg',
+  userToken: null,
 };
 
 export const CurrentUserSlice = createSlice({
   name: 'currentUser',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentUser: (state, action) => {
+      state.userEmail = action.payload.userEmail;
+      state.userToken = action.payload.userToken;
+    },
+  },
 });
 
+export const { setCurrentUser } = CurrentUserSlice.actions;
 export default CurrentUserSlice.reducer;
