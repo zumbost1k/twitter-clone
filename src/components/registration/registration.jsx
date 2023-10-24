@@ -5,7 +5,7 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import Tweeter from '@/icons/tweeter';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Registration = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const Registration = () => {
   const isPasswordValid = useValid(password, ['lengthCheck']);
   const isEmailValid = useValid(email, ['isEmpty']);
   const disabledState =
-    checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
+    !checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const HandleRegistration = (e) => {
