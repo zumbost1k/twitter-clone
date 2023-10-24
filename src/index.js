@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import UserPage from './pages/userPage/userPage';
@@ -10,6 +10,13 @@ import ScrollToTop from './components/scroll_to_top';
 import ExplorePage from './pages/explorePage/explorePage';
 import HomePage from './pages/homePage/homePage';
 import BookmarksPage from './pages/bookmarksPage/bookmarksPage';
+import Registration from './components/registration/registration';
+import { useAuth } from './hooks/use-auth';
+
+const PrivateRoute = ({ children }) => {
+  const { isAuth } = useAuth();
+  return isAuth ? children : <Navigate to='/registration' />;
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,12 +25,42 @@ root.render(
       <Provider store={store}>
         <ScrollToTop />
         <Routes>
-          <Route path='/user/:id' element={<UserPage />} />
-          <Route path='/home' element={<HomePage />} />
-          <Route path='*' element={<Navigate to='user/currentUser' />} />
-          <Route path='/explore' element={<ExplorePage />} />
+          <Route path='/registration' element={<Registration />} />
+          <Route
+            path='user/currentUser'
+            element={
+              <PrivateRoute>
+                <UserPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/user/:id'
+            element={
+              <PrivateRoute>
+                <UserPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/home'
+            element={
+              <PrivateRoute>
+                <HomePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/explore'
+            element={
+              <PrivateRoute>
+                <ExplorePage />
+              </PrivateRoute>
+            }
+          />
           <Route path='/bookmarks' element={<BookmarksPage />} />
         </Routes>
+
         <Navigation />
       </Provider>
     </HashRouter>
