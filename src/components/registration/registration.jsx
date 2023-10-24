@@ -17,7 +17,7 @@ const Registration = () => {
   const isPasswordValid = useValid(password, ['lengthCheck']);
   const isEmailValid = useValid(email, ['isEmpty']);
   const disabledState =
-    !checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
+    checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const HandleRegistration = (e) => {
