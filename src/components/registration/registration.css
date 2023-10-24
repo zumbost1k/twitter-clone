@@ -8,6 +8,7 @@
 
 .rout-link {
     color: black;
+    border-bottom: 1px solid black;
 }
 
 .registration-input__input-caption_red {

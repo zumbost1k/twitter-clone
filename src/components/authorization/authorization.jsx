@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './registration.css';
+import './authorization.css';
 import { useValid } from '@/hooks/use-valid';
 import CustomButton from '@/UI/customButton/cistomButton';
 import Tweeter from '@/icons/tweeter';
@@ -7,21 +7,15 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Registration = () => {
+const Authorization = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [retryPassword, setRetryPassword] = useState('');
-  const checkPasswords = (password1, password2) => {
-    return password1 === password2;
-  };
   const isPasswordValid = useValid(password, ['lengthCheck']);
   const isEmailValid = useValid(email, ['isEmpty']);
-  const disabledState =
-    checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
-  console.log(disabledState);
+  const disabledState = isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const HandleRegistration = (e) => {
+  const HandleAuthorization = (e) => {
     e.preventDefault();
     dispatch(
       setCurrentUser({
@@ -40,14 +34,14 @@ const Registration = () => {
         </div>
 
         <p className='text registration-section__text'>
-          If you already have an account register you can Login{' '}
-          <Link className='rout-link' to='/authorization'>
+          If you don’t have an account register you can Register{' '}
+          <Link className='rout-link' to='/registration'>
             here
           </Link>
           !
         </p>
         <form
-          onSubmit={HandleRegistration}
+          onSubmit={HandleAuthorization}
           className='registration-form registration-section__form'
         >
           <div className='form__registration-input'>
@@ -82,30 +76,7 @@ const Registration = () => {
               type='password'
             />
           </div>
-          <div className='form__registration-input'>
-            <label htmlFor='confirm-password' className='text'>
-              Confrim Password
-            </label>
-            <input
-              required
-              value={retryPassword}
-              onInput={(e) => {
-                setRetryPassword(e.target.value);
-              }}
-              id='confirm-password'
-              className='registration-input'
-              placeholder='Enter your password...'
-              type='password'
-            />
-            {!checkPasswords(password, retryPassword) && (
-              <label
-                htmlFor='confirm-password'
-                className='text registration-input__input-caption_red'
-              >
-                Passwords must match
-              </label>
-            )}
-          </div>
+
           <CustomButton
             disabledState={!disabledState}
             content={<span>Sign in</span>}
@@ -118,4 +89,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default Authorization;

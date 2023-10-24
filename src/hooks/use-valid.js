@@ -17,5 +17,6 @@ export const useValid = (stringToCheck, validatorsForString) => {
       isValid = false;
     }
   });
+  // console.log('this is valid',stringToCheck, isValid);
   return isValid;
 };

@@ -13,6 +13,7 @@ import Header from './components/header/header';
 import BookmarksPage from './pages/bookmarksPage/bookmarksPage';
 import Registration from './components/registration/registration';
 import { useAuth } from './hooks/use-auth';
+import Authorization from './components/authorization/authorization';
 
 const PrivateRoute = ({ children }) => {
   const { isAuth } = useAuth();
@@ -28,6 +29,7 @@ root.render(
         <Header/>
         <Routes>
           <Route path='/registration' element={<Registration />} />
+          <Route path='/authorization' element={<Authorization />} />
           <Route
             path='user/currentUser'
             element={
