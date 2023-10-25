@@ -28,6 +28,7 @@ root.render(
         <Routes>
           <Route path='/registration' element={<Registration />} />
           <Route path='/authorization' element={<Authorization />} />
+          <Route path='/*' element={<Navigate to='/registration'/>} />
           <Route
             path='user/currentUser'
             element={
