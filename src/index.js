@@ -25,6 +25,7 @@ root.render(
         <ScrollToTop />
         <Routes>
           <Route path='/registration' element={<Registration />} />
+          <Route path='/*' element={<Navigate to='/registration'/>} />
           <Route
             path='user/currentUser'
             element={
