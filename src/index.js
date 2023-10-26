@@ -39,40 +39,23 @@ root.render(
           />
           <Route
             path='/user/:id'
-            element={
-              <PrivateRoute>
-                <UserPage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute children={<UserPage />} />}
           />
           <Route
             path='/home'
-            element={
-              <PrivateRoute>
-                <HomePage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute children={<HomePage />} />}
           />
           <Route
             path='/explore'
-            element={
-              <PrivateRoute>
-                <ExplorePage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute children={<ExplorePage />} />}
           />
           <Route
             path='/bookmarks'
-            element={
-              <PrivateRoute>
-                <BookmarksPage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute children={<BookmarksPage />} />}
           />
         </Routes>
-        <PrivateRoute>
-          <Navigation />
-        </PrivateRoute>
+
+        <Navigation />
       </Provider>
     </HashRouter>
   </React.StrictMode>
