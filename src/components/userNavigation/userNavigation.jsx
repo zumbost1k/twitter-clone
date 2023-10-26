@@ -11,22 +11,22 @@ import {selectCurrentUser} from '@/selectors/selectors';
 
 const navLinks = [
     {
-        icon: <UserProfile width={'20px'} height={'20px'} />,
+        icon: <UserProfile width={'20'} height={'20'} />,
         title: 'My Profile',
-        path: `/userProfile`,
+        path: `/user/currentUser`,
     },
     {
-        icon: <GroupChat width={'20px'} height={'20px'} />,
+        icon: <GroupChat width={'20'} height={'20'} />,
         title: 'Group chat',
         path: '/chat',
     },
     {
-        icon: <Settings width={'20px'} height={'20px'} />,
+        icon: <Settings width={'20'} height={'20'} />,
         title: 'Settings',
         path: '/userSettings',
     },
     {
-        icon: <Logout width={'20px'} height={'20px'} />,
+        icon: <Logout width={'20'} height={'20'} />,
         title: 'Logout',
         path: '/logout',
     },
@@ -46,11 +46,11 @@ const UserNavigation = () => {
 
     const mappedLinks = navLinks.map(link => {
         return (
-            <li className={link.title === 'Logout' ? 'navigation-item_logout-element' : ''}>
+            <li className={link.title === 'Logout' && 'navigation-item_logout-element'}>
                 <UserNavElement key={link.title}
                                 navigationElement={link}
                                 activeButtons={activeButton}
-                                className={link.title === 'Logout' ? 'navigation-item_logout-title' : ''}
+                                className={link.title === 'Logout' && 'navigation-item_logout-title'}
                                 interactionToolClick={interactionToolClick}/>
             </li>
         )
@@ -59,7 +59,7 @@ const UserNavigation = () => {
     return (
         <>
             <div className={'currentUser__info'} onClick={() => setIsActiveMenu(!isActiveMenu)}>
-                <img src={currentUser.profileAvatar} width={'32px'} height={'32px'} alt='user-avatar'/>
+                <img src={currentUser.profileAvatar} width={'32'} height={'32'} alt='user-avatar'/>
                 <span className={'currentUser__title'}>{currentUser.userName}</span>
             </div>
             <nav className={isActiveMenu ? 'currentUser__menu currentUser__menu_active' :'currentUser__menu'}>
