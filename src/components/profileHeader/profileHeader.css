@@ -3,10 +3,16 @@
   max-height: 140px;
 }
 
-.profile-header {
+.profile-header-container {
   background-size: 100% 178px;
   text-align: center;
   background-repeat: no-repeat;
+}
+
+.profile-header {
+  position: relative;
+  max-width: 1073px;
+  margin: 0 auto;
 }
 
 .avatar {
@@ -78,6 +84,7 @@
 }
 
 .container__common-text {
+  font-size: 18px;
   text-align: center;
   padding: 14px 0px 0px;
   width: 290px;
@@ -88,11 +95,51 @@
 }
 
 @media (min-width: 1073px) {
-  .profile-header {
+  .profile-header-container {
     background-size: 100% 298px;
   }
 
   .profile-header__container {
-    margin: 0 auto;
+    flex-direction: row;
+    margin: -90px 14px 0px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0px 35px;
+    flex-wrap: wrap;
+  }
+
+  .profile-header__avatar {
+    margin: 0px 100% 0px 24px;
+    width: 152px;
+    height: 152px;
+    margin-top: 192px;
+  }
+
+  .profile-header__name {
+    order: 1;
+    padding: 0px 0px 0px 154px;
+    width: 33%;
+  }
+
+  .container__followers {
+    order: 2;
+    width: 33%;
+    padding: 4px 0px 0px 5px;
+  }
+
+  .container__common-text {
+    width: 100%;
+    order: 4;
+    text-align: left;
+    padding: 14px 0px 0px;
+    width: 427px;
+    margin-left: 174px;
+  }
+
+  .container__custom-button {
+    width: 33%;
+    order: 3;
+    padding: 0px 28px 0px 0px;
+    text-align: right;
   }
 }
