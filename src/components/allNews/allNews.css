@@ -16,3 +16,14 @@
   flex-direction: column;
   gap: 23px;
 }
+
+@media (min-width:1073px) {
+  .all-news {
+    padding: 0px 15px 95px;
+    text-align: left;
+  }
+
+  .all-news__news-line {
+    padding-top: 0px;
+  }
+}

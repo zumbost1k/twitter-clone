@@ -4,3 +4,13 @@
   justify-content: center;
   flex-direction: column;
 }
+
+
+@media (min-width:1073px) {
+  .filtered-news {
+    max-width: 1073px;
+    flex-direction: row ;
+    align-items: flex-start;
+    margin: 26px auto 0px;
+  }
+}

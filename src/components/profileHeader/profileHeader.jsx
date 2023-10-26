@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectCurentUSerById, selectCurrentUser } from '@/selectors/selectors';
 const ProfileHeader = () => {
-  const { id } = useParams();
+  const { id = 'currentUser' } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
   const userPage = useSelector(selectCurrentUser);
   const isCurrentUserPage = id === 'currentUser';
@@ -18,7 +18,7 @@ const ProfileHeader = () => {
         backgroundImage: `url('./photos/profileBackgrounds/${currentUser.profileBackgroundImagePath}')`,
       }}
     >
-      <div  className='profile-header'>
+      <div className='profile-header'>
         <img
           className='avatar profile-header__avatar'
           src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
@@ -45,7 +45,7 @@ const ProfileHeader = () => {
           <p className='common-text container__common-text'>
             {currentUser.profileDescription}
           </p>
-          {!isCurrentUserPage && (
+          {!isCurrentUserPage ? (
             <div className='custom-button container__custom-button'>
               <CustomButton
                 type={'button'}
@@ -58,6 +58,8 @@ const ProfileHeader = () => {
                 }
               />
             </div>
+          ) : (
+            <div className='custom-button container__custom-button' />
           )}
         </div>
       </div>

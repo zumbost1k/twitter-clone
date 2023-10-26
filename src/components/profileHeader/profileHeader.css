@@ -100,6 +100,7 @@
   }
 
   .profile-header__container {
+    width: 1073;
     flex-direction: row;
     margin: -90px 14px 0px;
     justify-content: space-between;
