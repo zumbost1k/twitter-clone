@@ -8,6 +8,7 @@ import HomePage from './pages/homePage/homePage';
 import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
 import ExplorePage from './pages/explorePage/explorePage';
+import Header from './components/header/header';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
     <HashRouter>
       <Provider store={store}>
         <ScrollToTop />
+        <Header/>
         <Routes>
           <Route path='/user/:id' element={<HomePage />} />
           <Route path='*' element={<Navigate to='user/currentUser' />} />

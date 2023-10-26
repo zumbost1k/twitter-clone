@@ -1,17 +1,14 @@
 const UserProfile = ({ width, height }) => {
   return (
-      <svg viewBox="0 0 24 24"
-           width={width}
-           height={height}
-           version="1.1" xmlns="http://www.w3.org/2000/svg"
-           xmlns:xlink="http://www.w3.org/1999/xlink"
-           fill="#4F4F4F">
+      <svg width={width} height={height} viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#4F4F4F">
         <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
         <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-        <g id="SVGRepo_iconCarrier"> <title>user-profile-filled</title>
-          <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-            <g id="drop" fill="#000000" transform="translate(42.666667, 42.666667)">
-        <path d="M213.333333,3.55271368e-14 C269.912851,3.55271368e-14 324.175019,22.4761259 364.18278,62.4838867 C404.190541,102.491647 426.666667,156.753816 426.666667,213.333333 C426.666667,331.15408 331.15408,426.666667 213.333333,426.666667 C95.5125867,426.666667 2.84217094e-14,331.15408 2.84217094e-14,213.333333 C2.84217094e-14,95.5125867 95.5125867,3.55271368e-14 213.333333,3.55271368e-14 Z M234.666667,234.666667 L192,234.666667 C139.18529,234.666667 93.8415802,266.653822 74.285337,312.314895 C105.229171,355.70638 155.977088,384 213.333333,384 C270.689579,384 321.437496,355.70638 352.381644,312.31198 C332.825087,266.653822 287.481377,234.666667 234.666667,234.666667 L234.666667,234.666667 Z M213.333333,64 C177.987109,64 149.333333,92.653776 149.333333,128 C149.333333,163.346224 177.987109,192 213.333333,192 C248.679557,192 277.333333,163.346224 277.333333,128 C277.333333,92.653776 248.679557,64 213.333333,64 Z" id="Combined-Shape"> </path>
+        <g id="SVGRepo_iconCarrier">
+          <title>user-profile-circle-solid</title>
+          <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box">
+            <rect width="48" height="48" fill="none"></rect> </g>
+            <g id="icons_Q2" data-name="icons Q2">
+              <path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2Zm0,8a8,8,0,1,1-8,8A8,8,0,0,1,24,10Zm0,32a18.2,18.2,0,0,1-12.2-4.8A26.4,26.4,0,0,1,24,34a26.4,26.4,0,0,1,12.2,3.2A18.2,18.2,0,0,1,24,42Z"></path>
             </g>
           </g>
         </g>
