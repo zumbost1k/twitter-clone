@@ -46,7 +46,7 @@ const Authorization = () => {
         >
           <div className='form__registration-input'>
             <label htmlFor='login' className='text'>
-              Login
+              Email
             </label>
             <input
               required

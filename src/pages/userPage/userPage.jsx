@@ -3,8 +3,11 @@ import './userPage.css';
 import ProfileHeader from '@/components/profileHeader/profileHeader';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
+import { useSelector } from 'react-redux';
+import { selectallNews } from '@/selectors/selectors';
 
 const UserPage = () => {
+  const userPageNews = useSelector(selectallNews);
   return (
     <section>
       <ProfileHeader />
@@ -29,7 +32,7 @@ const UserPage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={true} />
+        <AllNews isUserPage={true} allNews={userPageNews}/>
       </div>
     </section>
   );
