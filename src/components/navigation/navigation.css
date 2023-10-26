@@ -5,6 +5,7 @@
   background: #fff;
   display: flex;
   justify-content: space-around;
+  z-index: 9999;
 }
 
 @media (min-width: 900px) {

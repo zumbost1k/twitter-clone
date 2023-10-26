@@ -4,6 +4,7 @@ import Home from '@/icons/home';
 import Bookmark from '@/icons/bookmark';
 import Compass from '@/icons/compass';
 import NavElement from '@/UI/nav/nav';
+import { useAuth } from '@/hooks/use-auth';
 const navLinks = [
   {
     content: <Home width={'24'} height={'24'} />,
@@ -27,22 +28,25 @@ const Navigation = () => {
   const interactionToolClick = (buttonName) => {
     setActiveButtons(buttonName);
   };
-  return (
-    <nav>
-      <div className='nav-container'>
-        {navLinks.map((currentNavLink) => {
-          return (
-            <NavElement
-              key={currentNavLink.key}
-              navigationElement={currentNavLink}
-              interactionToolClick={interactionToolClick}
-              activeButtons={activeButtons}
-            />
-          );
-        })}
-      </div>
-    </nav>
-  );
+  const { isAuth } = useAuth();
+  if (isAuth) {
+    return (
+      <nav>
+        <div className='nav-container'>
+          {navLinks.map((currentNavLink) => {
+            return (
+              <NavElement
+                key={currentNavLink.key}
+                navigationElement={currentNavLink}
+                interactionToolClick={interactionToolClick}
+                activeButtons={activeButtons}
+              />
+            );
+          })}
+        </div>
+      </nav>
+    );
+  }
 };
 
 export default Navigation;
