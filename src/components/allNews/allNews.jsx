@@ -23,7 +23,9 @@ const AllNews = ({ isUserPage, allNews }) => {
       <div className='news-line all-news__news-line'>
         {allNews.map((currentNews) => {
           return (
-            <NewsItem key={currentNews.postId} currentNews={currentNews} />
+            <div key={currentNews.postId}>
+              <NewsItem currentNews={currentNews} />
+            </div>
           );
         })}
       </div>

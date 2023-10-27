@@ -31,7 +31,7 @@ const Navigation = () => {
   const { isAuth } = useAuth();
   if (isAuth) {
     return (
-      <nav>
+      <nav className='navigation'>
         <div className='nav-container'>
           {navLinks.map((currentNavLink) => {
             return (

@@ -13,51 +13,55 @@ const ProfileHeader = () => {
   const currentUser = isCurrentUserPage ? userPage : currentUsersProfile;
   return (
     <section
-      className='profile-header'
+      className='profile-header-container'
       style={{
         backgroundImage: `url('./photos/profileBackgrounds/${currentUser.profileBackgroundImagePath}')`,
       }}
     >
-      <img
-        className='avatar profile-header__avatar'
-        src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
-        alt='avatar'
-        width='116'
-        height='116'
-      />
-      <div className='container profile-header__container'>
-        <h2 className='name profile-header__name'>{currentUser.userName}</h2>
-        <div className='followers container__followers'>
-          <p className='common-text followers__common-text'>
-            <span className='followers__common-text_bold'>
-              {currentUser.quantityOfFollowing}
-            </span>{' '}
-            Following
-          </p>
-          <p className='common-text followers__common-text'>
-            <span className='followers__common-text_bold'>
-              {currentUser.quantityOfFollowers}
-            </span>{' '}
-            Followers
-          </p>
-        </div>
-        <p className='common-text container__common-text'>
-          {currentUser.profileDescription}
-        </p>
-        {!isCurrentUserPage && (
-          <div className='custom-button container__custom-button'>
-            <CustomButton
-              type={'button'}
-              size={'standard'}
-              content={
-                <span className='content container__content'>
-                  <Subscribe width={'14'} height={'14'} />
-                  Follow
-                </span>
-              }
-            />
+      <div className='profile-header'>
+        <img
+          className='avatar profile-header__avatar'
+          src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
+          alt='avatar'
+          width='116'
+          height='116'
+        />
+        <div className='container profile-header__container'>
+          <h2 className='name profile-header__name'>{currentUser.userName}</h2>
+          <div className='followers container__followers'>
+            <p className='common-text followers__common-text'>
+              <span className='followers__common-text_bold'>
+                {currentUser.quantityOfFollowing}
+              </span>{' '}
+              Following
+            </p>
+            <p className='common-text followers__common-text'>
+              <span className='followers__common-text_bold'>
+                {currentUser.quantityOfFollowers}
+              </span>{' '}
+              Followers
+            </p>
           </div>
-        )}
+          <p className='common-text container__common-text'>
+            {currentUser.profileDescription}
+          </p>
+          {!isCurrentUserPage ? (
+            <div className='custom-button container__custom-button'>
+              <CustomButton
+                type={'button'}
+                size={'standard'}
+                content={
+                  <span className='content container__content'>
+                    <Subscribe width={'14'} height={'14'} />
+                    Follow
+                  </span>
+                }
+              />
+            </div>
+          ) : (
+            <div className='custom-button container__custom-button' />
+          )}
+        </div>
       </div>
     </section>
   );

@@ -9,7 +9,7 @@
 }
 
 @media (min-width: 900px) {
-  .nav-container {
+  .navigation {
     display: none;
   }
 }
