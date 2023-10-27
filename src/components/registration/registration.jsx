@@ -5,7 +5,7 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import Tweeter from '@/icons/tweeter';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Registration = () => {
   const [email, setEmail] = useState('');
@@ -51,7 +51,7 @@ const Registration = () => {
         >
           <div className='form__registration-input'>
             <label htmlFor='login' className='text'>
-              Login
+              Email
             </label>
             <input
               required

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import UserPage from './pages/userPage/userPage';
@@ -9,8 +9,6 @@ import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
 import ExplorePage from './pages/explorePage/explorePage';
 import HomePage from './pages/homePage/homePage';
-import { useAuth } from './hooks/use-auth';
-import Header from './components/header/header';
 import BookmarksPage from './pages/bookmarksPage/bookmarksPage';
 import Registration from './components/registration/registration';
 import { useAuth } from './hooks/use-auth';
@@ -29,10 +27,9 @@ root.render(
         <ScrollToTop />
         <Header/>
         <Routes>
-          <Route path='/home' element={<UserPage />} />
           <Route path='/registration' element={<Registration />} />
           <Route path='/authorization' element={<Authorization />} />
-          <Route path='/*' element={<Navigate to='/registration'/>} />
+          <Route path='/*' element={<Navigate to='/registration' />} />
           <Route
             path='user/currentUser'
             element={
