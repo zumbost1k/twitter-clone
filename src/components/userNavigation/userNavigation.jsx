@@ -70,7 +70,7 @@ const UserNavigation = () => {
         onClick={() => setIsActiveMenu(!isActiveMenu)}
       >
         <img
-          className='avatar'
+          className='avatar header__avatar'
           src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
           width={'32'}
           height={'32'}
