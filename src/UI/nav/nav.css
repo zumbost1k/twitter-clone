@@ -1,6 +1,5 @@
 .navigation-item {
   color: #828282;
-  padding: 0px auto;
   width: 100%;
   display: flex;
   align-items: center;
@@ -25,4 +24,33 @@
 
 .nav-icon_active {
   border-bottom: 2px solid #2f80ed;
+}
+
+@media (min-width:1073px) {
+  .navigation-item {
+    margin: auto 0px 0px;
+  }
+
+  .navigation-item:hover {
+    border-radius: 0px;
+    background: #ffffff;
+  }
+
+  .nav-icon:hover {
+    border-radius: 8px;
+    background: #f2f2f2;
+  }
+
+  .nav-icon {
+    margin-bottom: 10px;
+  }
+
+  .nav-icon_active {
+    margin-bottom: 8px;
+    border: 0px;
+  }
+
+  .navigation-item_active {
+    border-bottom: 2px solid #2f80ed;
+  }
 }
