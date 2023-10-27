@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectCurentUSerById, selectCurrentUser } from '@/selectors/selectors';
 const ProfileHeader = () => {
-  const { id } = useParams();
+  const { id = 'currentUser' } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
   const userPage = useSelector(selectCurrentUser);
   const isCurrentUserPage = id === 'currentUser';

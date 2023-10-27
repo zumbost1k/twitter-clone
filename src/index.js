@@ -13,7 +13,7 @@ import BookmarksPage from './pages/bookmarksPage/bookmarksPage';
 import Registration from './components/registration/registration';
 import { useAuth } from './hooks/use-auth';
 import Authorization from './components/authorization/authorization';
-
+import Header from './components/header/header';
 const PrivateRoute = ({ children }) => {
   const { isAuth } = useAuth();
   return isAuth ? children : <Navigate to='/registration' />;
@@ -25,18 +25,14 @@ root.render(
     <HashRouter>
       <Provider store={store}>
         <ScrollToTop />
-        <Header/>
+        <Header />
         <Routes>
           <Route path='/registration' element={<Registration />} />
           <Route path='/authorization' element={<Authorization />} />
           <Route path='/*' element={<Navigate to='/registration' />} />
           <Route
             path='user/currentUser'
-            element={
-              <PrivateRoute>
-                <UserPage />
-              </PrivateRoute>
-            }
+            element={<PrivateRoute children={<UserPage />} />}
           />
           <Route
             path='/user/:id'
