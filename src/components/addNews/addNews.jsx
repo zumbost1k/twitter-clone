@@ -13,7 +13,7 @@ const AddNews = () => {
   const [postPhoto, setPostPhoto] = useState(null);
   const sendNewComment = (e) => {
     e.preventDefault();
-    console.log( 
+    console.log(
       postText,
       postPhoto,
       isReplyAbility,

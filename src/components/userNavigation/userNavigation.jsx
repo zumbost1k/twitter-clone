@@ -76,7 +76,9 @@ const UserNavigation = () => {
           height={'32'}
           alt='user-avatar'
         />
-        <span className={'currentUser__title'}>{currentUser.userName}</span>
+        <span className='dark-text currentUser__dark-text'>
+          {currentUser.userName}
+        </span>
       </div>
       <nav
         className={

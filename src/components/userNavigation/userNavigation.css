@@ -1,5 +1,9 @@
-.currentUser__title {
+.currentUser__dark-text {
     display: none;
+}
+
+.currentUser__info {
+    cursor: pointer;
 }
 
 .currentUser__menu {
@@ -35,4 +39,19 @@
     background: #fff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
     border-radius: 8px;
+}
+
+@media (min-width:1073px) {
+    .currentUser__dark-text {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: -0.42px;
+    }
+
+    .currentUser__info {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
 }
