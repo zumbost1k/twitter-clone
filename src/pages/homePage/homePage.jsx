@@ -4,6 +4,7 @@ import AllNews from '@/components/allNews/allNews';
 import AddNews from '@/components/addNews/addNews';
 import { useSelector } from 'react-redux';
 import { selectallNews } from '@/selectors/selectors';
+import HashtagFilter from '@/components/hashtagFilter/hashtagFilter';
 
 const HomePage = () => {
   const homePageNews = useSelector(selectallNews);
@@ -12,6 +13,9 @@ const HomePage = () => {
       <div>
         <AddNews />
         <AllNews isUserPage={false} allNews={homePageNews} />
+      </div>
+      <div className='trends'>
+        <HashtagFilter />
       </div>
     </section>
   );
