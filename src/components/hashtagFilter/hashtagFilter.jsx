@@ -35,7 +35,7 @@ const HashtagFilter = () => {
   const [filter, setFilter] = useState('allNews');
   const navigate = useNavigate();
   useEffect(() => {
-    navigate(`?filter=${filter}`);
+    navigate(`?hashtag=${filter}`);
   }, [filter, navigate]);
   return (
     <section className='hashtag-filter-section'>
@@ -45,6 +45,7 @@ const HashtagFilter = () => {
           {hashtags.map((currentHashtag) => {
             return (
               <div
+                key={currentHashtag.hashtagName}
                 onClick={() => {
                   setFilter(currentHashtag.hashtagName);
                 }}

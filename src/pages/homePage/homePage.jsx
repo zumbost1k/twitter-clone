@@ -5,6 +5,7 @@ import AddNews from '@/components/addNews/addNews';
 import { useSelector } from 'react-redux';
 import { selectallNews } from '@/selectors/selectors';
 import HashtagFilter from '@/components/hashtagFilter/hashtagFilter';
+import UsersToFollow from '@/components/usersToFollow/usersToFollow';
 
 const HomePage = () => {
   const homePageNews = useSelector(selectallNews);
@@ -16,6 +17,7 @@ const HomePage = () => {
       </div>
       <div className='trends'>
         <HashtagFilter />
+        <UsersToFollow />
       </div>
     </section>
   );
