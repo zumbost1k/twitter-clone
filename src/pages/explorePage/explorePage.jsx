@@ -7,11 +7,10 @@ import { useSelector } from 'react-redux';
 import { selectallNews } from '@/selectors/selectors';
 const ExplorePage = () => {
   const allNews = useSelector(selectallNews);
-  
+
   return (
-    <section>
-      <SearchPanel />
-      <div className='filtered-news'>
+    <section className='explore-page'>
+      <div className='explore-filter'>
         <ContentFilter
           filterLinks={[
             {
@@ -32,7 +31,14 @@ const ExplorePage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={false} allNews={allNews} />
+      </div>
+      <div className='explore-news'>
+        <div className='explore-search-panel'>
+          <SearchPanel />
+        </div>
+        <div className='explore-all-news'>
+          <AllNews isUserPage={false} allNews={allNews} />
+        </div>
       </div>
     </section>
   );
