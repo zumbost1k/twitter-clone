@@ -21,7 +21,7 @@ const UsersToFollow = () => {
         <div className='top-users top-users__container'>
           {topUsersByFollowers.map((currentTopUserByFollowers) => {
             return (
-              <div className='top-user top-users__top-user'>
+              <div key={currentTopUserByFollowers.userId} className='top-user top-users__top-user'>
                 <div className='top-user__avatar'>
                   <img
                     src={`./photos/usersAvatar/${currentTopUserByFollowers.profileAvatar}`}
