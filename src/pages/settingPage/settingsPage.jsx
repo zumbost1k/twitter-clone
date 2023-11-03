@@ -3,6 +3,7 @@ import './settingsPage.css';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/selectors/selectors';
 import SettingBlock from '@/UI/settingBlock/settingBlock';
+import CustomButton from '@/UI/customButton/cistomButton';
 
 const SettingsPage = () => {
   const currentUsersProfile = useSelector(selectCurrentUser);
@@ -19,6 +20,9 @@ const SettingsPage = () => {
   const [userProfileDescription, setUserProfileDescription] = useState(
     currentUsersProfile.profileDescription
   );
+  const SendNewUserDate = (e) => {
+    e.preventDefault();
+  };
   return (
     <section className='settings-page'>
       <div className='container settings-page__container'>
@@ -44,7 +48,7 @@ const SettingsPage = () => {
                       const newBackgroundUrl = URL.createObjectURL(
                         e.target.files[0]
                       );
-                      setBackground(newBackgroundUrl);
+                      setUserAvatar(newBackgroundUrl);
                     }
                   }}
                 />
@@ -79,7 +83,7 @@ const SettingsPage = () => {
                 onChange={(e) => {
                   if (e.target.files[0]) {
                     const newAvatarUrl = URL.createObjectURL(e.target.files[0]);
-                    setUserAvatar(newAvatarUrl);
+                    setBackground(newAvatarUrl);
                   }
                 }}
               />
@@ -103,10 +107,18 @@ const SettingsPage = () => {
             <SettingBlock
               inputValue={userProfileDescription}
               setInputValue={setUserProfileDescription}
-              label={'Description'}
+              label={'Profile description'}
               inputId={'user-description'}
               inputType={'text'}
               size={'textholder-input'}
+            />
+          </div>
+          <div className='settings-form__button'>
+            <CustomButton
+              onClickfunction={SendNewUserDate}
+              type={'submit'}
+              size={'standard'}
+              content={'Save'}
             />
           </div>
         </form>

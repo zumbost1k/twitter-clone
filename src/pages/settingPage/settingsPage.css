@@ -1,17 +1,9 @@
-.settings-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 100px;
-}
-
 .settings-page__container {
   min-width: 345px;
   max-width: 745px;
   border-radius: 8px;
-  padding: 20px 16px 14px;
-  margin: 0px 16px;
+  padding: 20px 16px 35px;
+  margin: 0px 16px 90px;
 }
 
 .none {
@@ -54,9 +46,18 @@
   font-size: 12px;
 }
 
-
 .user-background__common-text {
   font-size: 14px;
 }
 
-@media (min-width: 1073px) {}
+.settings-form__button {
+  padding-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 745px) {
+  .settings-page__container {
+    margin: 0px auto 80px;
+  }
+}
