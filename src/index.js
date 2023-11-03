@@ -10,10 +10,11 @@ import ScrollToTop from './components/scroll_to_top';
 import ExplorePage from './pages/explorePage/explorePage';
 import HomePage from './pages/homePage/homePage';
 import BookmarksPage from './pages/bookmarksPage/bookmarksPage';
-import Registration from './components/registration/registration';
+import Registration from './pages/registration/registration';
 import { useAuth } from './hooks/use-auth';
-import Authorization from './components/authorization/authorization';
+import Authorization from './pages/authorization/authorization';
 import Header from './components/header/header';
+import SettingsPage from './pages/settingPage/settingsPage';
 const PrivateRoute = ({ children }) => {
   const { isAuth } = useAuth();
   return isAuth ? children : <Navigate to='/registration' />;
@@ -33,6 +34,10 @@ root.render(
           <Route
             path='user/currentUser'
             element={<PrivateRoute children={<UserPage />} />}
+          />
+           <Route
+            path='/userSettings'
+            element={<PrivateRoute children={<SettingsPage />} />}
           />
           <Route
             path='/user/:id'

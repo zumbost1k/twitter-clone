@@ -11,6 +11,7 @@ const initialState = {
       profileDescription:
         'The best dreams happen when youre awake.» (Cherie Gilderbloom)',
       profileBackgroundImagePath: 'pens.jpg',
+      nickName:'Peyloy',
       profileAvatar: 'manface.jpg',
     },
     {
@@ -21,6 +22,7 @@ const initialState = {
       profileDescription:
         'Photographer & Filmmaker based in Copenhagen, Denmark ✵ 🇩🇰',
       profileBackgroundImagePath: 'mountain.jpg',
+      nickName:'Peyloy',
       profileAvatar: 'alice.jpeg',
     },
     {
@@ -31,6 +33,7 @@ const initialState = {
       profileDescription:
         'You can never be overdressed or overeducated.» (Oscar Wilde)',
       profileBackgroundImagePath: 'mountain.jpg',
+      nickName:'Peyloy',
       profileAvatar: 'skyler.jpeg',
     },
   ],
