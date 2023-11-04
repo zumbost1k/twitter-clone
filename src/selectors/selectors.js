@@ -14,3 +14,21 @@ export const selectCurentUSerById = createSelector(
     });
   }
 );
+
+export const selectTopTwoUsersByFollowers = createSelector(
+  [selectallUserPage],
+  (allusers) => {
+    let firstUser = {};
+    let secondUser = {};
+    allusers.forEach((currentUser) => {
+      if (
+        currentUser.quantityOfFollowers > firstUser.quantityOfFollowers ||
+        !firstUser.quantityOfFollowers
+      ) {
+        secondUser = Object.assign({}, firstUser);
+        firstUser = Object.assign({}, currentUser);
+      }
+    });
+    return [firstUser, secondUser];
+  }
+);

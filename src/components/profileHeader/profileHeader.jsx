@@ -5,6 +5,7 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectCurentUSerById, selectCurrentUser } from '@/selectors/selectors';
+import { format } from 'numerable';
 const ProfileHeader = () => {
   const { id = 'currentUser' } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
@@ -31,13 +32,13 @@ const ProfileHeader = () => {
           <div className='followers container__followers'>
             <p className='common-text followers__common-text'>
               <span className='followers__common-text_bold'>
-                {currentUser.quantityOfFollowing}
+                {format(currentUser.quantityOfFollowing, '0a')}
               </span>{' '}
               Following
             </p>
             <p className='common-text followers__common-text'>
               <span className='followers__common-text_bold'>
-                {currentUser.quantityOfFollowers}
+                {format(currentUser.quantityOfFollowers, '0a')}
               </span>{' '}
               Followers
             </p>

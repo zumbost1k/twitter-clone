@@ -23,7 +23,7 @@ const navLinks = [
 ];
 const Header = () => {
   const { isAuth } = useAuth();
-  const [activeButtons, setActiveButtons] = useState('Explore');
+  const [activeButtons, setActiveButtons] = useState('Home');
   const interactionToolClick = (buttonName) => {
     setActiveButtons(buttonName);
   };

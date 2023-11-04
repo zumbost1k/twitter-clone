@@ -27,7 +27,7 @@ const AddNews = () => {
   return (
     <section className='add-news'>
       <div className='container add-news__container'>
-        <h2 className='dark-text dark-text__container'>Tweet something</h2>
+        <h2 className='dark-text container__dark-text'>Tweet something</h2>
         <form onSubmit={sendNewComment} className='tweet-form'>
           <div className='tweet-body'>
             <img
