@@ -1,1 +1,26 @@
+.explore-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1073px;
+  margin: 0 auto;
+}
+.explore-search-panel {
+    padding-top: 15px;
+    margin: 0 16px;
+   }
+@media (min-width: 1073px) {
+  .explore-page {
+   flex-direction: row;
+   align-items: flex-start;
+  
+  }
+  .explore-filter {
+  padding-top: 15px;
+  }
 
+  .explore-search-panel {
+   padding-bottom: 17px;
+  }
+}

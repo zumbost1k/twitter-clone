@@ -1,7 +1,7 @@
 .search-panel {
+  min-width: 345px;
+  max-width: 745px;
   margin: 0 auto;
-  max-width: 345px;
-  width: 100%;
 }
 
 .search-panel__container {
