@@ -70,13 +70,15 @@ const UserNavigation = () => {
         onClick={() => setIsActiveMenu(!isActiveMenu)}
       >
         <img
-          className='avatar'
+          className='avatar header__avatar'
           src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
           width={'32'}
           height={'32'}
           alt='user-avatar'
         />
-        <span className={'currentUser__title'}>{currentUser.userName}</span>
+        <span className='dark-text currentUser__dark-text'>
+          {currentUser.userName}
+        </span>
       </div>
       <nav
         className={

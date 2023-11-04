@@ -1,4 +1,4 @@
-.navigation-item {
+.navigation-item-modal {
   width: 164px;
   height: 39px;
   display: flex;
@@ -14,8 +14,8 @@
   margin: 0;
 }
 
-.navigation-item:hover,
-.navigation-item_active {
+.navigation-item-modal:hover,
+.navigation-item-modal_active {
   border-radius: 8px;
   background: #f2f2f2;
 }
