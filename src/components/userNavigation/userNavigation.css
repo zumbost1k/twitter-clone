@@ -21,12 +21,16 @@
 }
 
 .currentUser__menu_active {
-    transform: translateX(0);
+    transform: translateX(-15%);
     transition: all 0.5s ease-out;
 }
 
 .header__avatar {
     cursor: pointer;
+}
+
+.currentUser__triangle {
+    display: none;
 }
 
 .currentUser__container {
@@ -53,5 +57,9 @@
         display: flex;
         align-items: center;
         gap: 11px;
+    }
+
+    .currentUser__triangle {
+        display: flex;
     }
 }

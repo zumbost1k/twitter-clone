@@ -4,6 +4,7 @@ import './header.css';
 import { useAuth } from '@/hooks/use-auth';
 import Tweeter from '@/icons/tweeter';
 import NavElement from '@/UI/nav/nav';
+import {Link} from "react-router-dom";
 const navLinks = [
   {
     content: 'Home',
@@ -31,7 +32,9 @@ const Header = () => {
     return (
       <section className='header'>
         <div className='header__container'>
-          <Tweeter width={'90'} height={'20'} />
+          <Link to={`/home`}>
+            <Tweeter width={'90'} height={'20'} />
+          </Link>
           <div className='navigate__container'>
             {navLinks.map((currentNavLink) => {
               return (
