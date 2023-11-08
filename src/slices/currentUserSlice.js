@@ -12,6 +12,7 @@ const initialState = {
   profileDescription:
     'You can never be overdressed or overeducated.» (Oscar Wilde)',
   profileBackgroundImagePath: 'mountain.jpg',
+  nickName:'waqbl',
   userToken: null,
 };
 

@@ -1,0 +1,26 @@
+.setting-block {
+    border-top: 2px solid #F2F2F2;
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.setting-block__input {
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #d3d3d3;
+    background: #f3f3f3;
+    width: 100%;
+}
+
+.standard-input {
+    padding: 10px 12px;
+}
+
+.setting-block__common-text {
+    font-size: 14px;
+}
+
+.textholder-input {
+    padding: 10px 12px;
+    word-wrap: break-word;
+}
