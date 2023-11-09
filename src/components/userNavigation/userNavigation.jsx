@@ -4,10 +4,11 @@ import GroupChat from '@/icons/groupChat';
 import Settings from '@/icons/settings';
 import Logout from '@/icons/logout';
 import UserNavElement from '@/UI/userNav/UserNav';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
 import Triangle from "../../icons/triangle";
+import { deleteCurrentUser } from '@/slices/currentUserSlice';
 
 const navLinks = [
   {
@@ -32,6 +33,7 @@ const UserNavigation = () => {
   const [isActiveMenu, setIsActiveMenu] = useState(false);
 
   const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
   const elementRef = useRef(null);
 
@@ -64,6 +66,12 @@ const UserNavigation = () => {
   const interactionToolClick = (buttonName) => {
     setActiveButton(buttonName);
     setIsActiveMenu(!isActiveMenu);
+  };
+
+  const interactionToolClickLogOut = (buttonName) => {
+    setActiveButton(buttonName);
+    setIsActiveMenu(!isActiveMenu);
+    dispatch(deleteCurrentUser())
   };
 
   const mappedLinks = navLinks.map((link) => {
@@ -118,7 +126,7 @@ const UserNavigation = () => {
                 }}
                 activeButtons={activeButton}
                 className={'navigation-item_logout-title'}
-                interactionToolClick={interactionToolClick}
+                interactionToolClick={interactionToolClickLogOut}
             />
           </div>
         </ul>

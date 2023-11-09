@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/use-auth';
 import Tweeter from '@/icons/tweeter';
 import NavElement from '@/UI/nav/nav';
 import {Link} from "react-router-dom";
+
 const navLinks = [
   {
     content: 'Home',
@@ -25,6 +26,7 @@ const navLinks = [
 const Header = () => {
   const { isAuth } = useAuth();
   const [activeButtons, setActiveButtons] = useState('Home');
+
   const interactionToolClick = (buttonName) => {
     setActiveButtons(buttonName);
   };
@@ -32,7 +34,7 @@ const Header = () => {
     return (
       <section className='header'>
         <div className='header__container'>
-          <Link to={`/home`}>
+          <Link to={`/home`} onClick={() => setActiveButtons('Home')}>
             <Tweeter width={'90'} height={'20'} />
           </Link>
           <div className='navigate__container'>
