@@ -68,8 +68,8 @@ const UserNavigation = () => {
     setIsActiveMenu(!isActiveMenu);
   };
 
-  const interactionToolClickLogOut = (buttonName) => {
-    setActiveButton(buttonName);
+  const interactionToolClickLogOut = () => {
+    setActiveButton('Logout');
     setIsActiveMenu(!isActiveMenu);
     dispatch(deleteCurrentUser())
   };
