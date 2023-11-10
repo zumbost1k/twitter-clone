@@ -3,8 +3,6 @@ import './registration.css';
 import { useValid } from '@/hooks/use-valid';
 import CustomButton from '@/UI/customButton/cistomButton';
 import Tweeter from '@/icons/tweeter';
-import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '@/slices/currentUserSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Registration = () => {
@@ -18,7 +16,6 @@ const Registration = () => {
   const isEmailValid = useValid(email, ['isEmpty']);
   const disabledState =
     checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const HandleRegistration = (e) => {
     e.preventDefault();
