@@ -22,14 +22,36 @@ const Registration = () => {
   const navigate = useNavigate();
   const HandleRegistration = (e) => {
     e.preventDefault();
-    dispatch(
-      setCurrentUser({
-        userEmail: email,
-        userToken: '1',
+    fetch(
+      'https://twittercloneapi.azurewebsites.net/Authentication/Registration',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-    );
-    navigate('/home');
+      .then((data) => {
+        navigate('/authorization');
+      })
+      .catch((error) => {
+        console.error(
+          'There has been a problem with your fetch operation:',
+          error
+        );
+      });
   };
+
   return (
     <section className='registration-section'>
       <div className='registration-block'>
