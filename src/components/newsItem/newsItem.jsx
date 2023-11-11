@@ -50,7 +50,7 @@ const NewsItem = ({ currentNews }) => {
       ...prevState,
       [buttonName]: !prevState[buttonName],
     }));
-    if (buttonName === 'Comment') {
+    if (buttonName === 'Comment' + currentNews.postId) {
       setActiveComment(!activeComment);
     }
   };
@@ -115,18 +115,22 @@ const NewsItem = ({ currentNews }) => {
           {postButtons.map((currentButton) => {
             return (
               <label
-                htmlFor={currentButton.name}
-                key={currentButton.name}
+                htmlFor={currentButton.name + currentNews.postId}
+                key={currentButton.name + currentNews.postId}
                 className={
-                  activeButtons[currentButton.name]
+                  activeButtons[currentButton.name + currentNews.postId]
                     ? `interaction-tool buttons__interaction-tool ${currentButton.activeClass}`
                     : 'interaction-tool buttons__interaction-tool'
                 }
               >
                 <button
                   className='send'
-                  id={currentButton.name}
-                  onClick={() => interactionToolClick(currentButton.name)}
+                  id={currentButton.name + currentNews.postId}
+                  onClick={() =>
+                    interactionToolClick(
+                      currentButton.name + currentNews.postId
+                    )
+                  }
                 >
                   {currentButton.icon}
                 </button>

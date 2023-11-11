@@ -24,8 +24,12 @@ export const CurrentUserSlice = createSlice({
       state.userEmail = action.payload.userEmail;
       state.userToken = action.payload.userToken;
     },
+    deleteCurrentUser: (state) => {
+      state.userEmail = null;
+      state.userToken = null;
+    },
   },
 });
 
-export const { setCurrentUser } = CurrentUserSlice.actions;
+export const { setCurrentUser, deleteCurrentUser } = CurrentUserSlice.actions;
 export default CurrentUserSlice.reducer;
