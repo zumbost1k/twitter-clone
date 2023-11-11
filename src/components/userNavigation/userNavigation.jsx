@@ -1,13 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UserProfile from '@/icons/userProfile';
 import GroupChat from '@/icons/groupChat';
 import Settings from '@/icons/settings';
 import Logout from '@/icons/logout';
 import UserNavElement from '@/UI/userNav/UserNav';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
-import Triangle from "../../icons/triangle";
+import Triangle from '@/icons/triangle';
 import { deleteCurrentUser } from '@/slices/currentUserSlice';
 
 const navLinks = [
@@ -38,26 +38,18 @@ const UserNavigation = () => {
   const elementRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (elementRef.current && !elementRef.current.contains(event.target)) {
-        setIsActiveMenu(false);
-      }
-    };
-
     const handleScroll = () => {
       setIsActiveMenu(false);
-    }
+    };
 
     const handlePageChange = () => {
       setIsActiveMenu(false);
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('beforeunload', handlePageChange);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handlePageChange);
     };
@@ -71,14 +63,12 @@ const UserNavigation = () => {
   const interactionToolClickLogOut = () => {
     setActiveButton('Logout');
     setIsActiveMenu(!isActiveMenu);
-    dispatch(deleteCurrentUser())
+    dispatch(deleteCurrentUser());
   };
 
   const mappedLinks = navLinks.map((link) => {
     return (
-      <li
-        key={link.title}
-      >
+      <li key={link.title}>
         <UserNavElement
           navigationElement={link}
           activeButtons={activeButton}
@@ -106,7 +96,7 @@ const UserNavigation = () => {
           {currentUser.userName}
         </span>
         <span className={'currentUser__triangle'}>
-          <Triangle width={'7'} height={'5'}/>
+          <Triangle width={'7'} height={'5'} />
         </span>
       </div>
       <nav
@@ -120,13 +110,13 @@ const UserNavigation = () => {
           {mappedLinks}
           <div className={'navigation-item_logout-element'}>
             <UserNavElement
-                navigationElement={{
-                  icon: <Logout width={'20'} height={'20'} />,
-                  title: 'Logout',
-                }}
-                activeButtons={activeButton}
-                className={'navigation-item_logout-title'}
-                interactionToolClick={interactionToolClickLogOut}
+              navigationElement={{
+                icon: <Logout width={'20'} height={'20'} />,
+                title: 'Logout',
+              }}
+              activeButtons={activeButton}
+              className={'navigation-item_logout-title'}
+              interactionToolClick={interactionToolClickLogOut}
             />
           </div>
         </ul>

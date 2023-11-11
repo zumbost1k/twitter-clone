@@ -27,6 +27,6 @@
     .navigate__container {
         height: 100%;
         display: flex;
-        width: 350px
+        width: 350px;
     }
 }
