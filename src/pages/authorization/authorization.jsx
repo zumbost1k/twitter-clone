@@ -17,12 +17,48 @@ const Authorization = () => {
   const navigate = useNavigate();
   const HandleAuthorization = (e) => {
     e.preventDefault();
-    dispatch(
-      setCurrentUser({
-        userEmail: email,
-        userToken: '1',
+    fetch(
+      'https://twittercloneapi.azurewebsites.net/Authentication/Authorization',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-    );
+      .then((data) => {
+        dispatch(
+          setCurrentUser({
+            userEmail: data.email,
+            userName: 'user' + data.userId,
+            profileAvatar: 'waqar.jpg',
+            userId: data.userId,
+            quantityOfFollowers: '254k',
+            quantityOfFollowing: '422',
+            profileDescription: '',
+            profileBackgroundImagePath: 'mountain.jpg',
+            nickName: '',
+          })
+        );
+        navigate('/home');
+      })
+      .catch((error) => {
+        console.error(
+          'There has been a problem with your fetch operation:',
+          error
+        );
+      });
+
     navigate('/home');
   };
   return (
