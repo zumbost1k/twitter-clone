@@ -1,18 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 } from 'uuid';
 
 const initialState = {
   userEmail: null,
-  userPassword: null,
-  userName: 'Waqar Bloom',
-  profileAvatar: 'waqar.jpg',
-  userId: v4(),
-  quantityOfFollowers: '254k',
-  quantityOfFollowing: '422',
-  profileDescription:
-    'You can never be overdressed or overeducated.» (Oscar Wilde)',
-  profileBackgroundImagePath: 'mountain.jpg',
-  nickName:'waqbl',
+  userName: null,
+  profileAvatar: null,
+  userId: null,
+  quantityOfFollowers: null,
+  quantityOfFollowing: null,
+  profileDescription: null,
+  profileBackgroundImagePath: null,
+  nickName: null,
   userToken: null,
 };
 
@@ -22,6 +19,16 @@ export const CurrentUserSlice = createSlice({
   reducers: {
     setCurrentUser: (state, action) => {
       state.userEmail = action.payload.userEmail;
+      state.userToken = action.payload.userToken;
+      state.userName = action.payload.userName;
+      state.profileAvatar = action.payload.profileAvatar;
+      state.userId = action.payload.userId;
+      state.quantityOfFollowers = action.payload.quantityOfFollowers;
+      state.quantityOfFollowing = action.payload.quantityOfFollowing;
+      state.profileDescription = action.payload.profileDescription;
+      state.profileBackgroundImagePath =
+        action.payload.profileBackgroundImagePath;
+      state.nickName = action.payload.nickName;
       state.userToken = action.payload.userToken;
     },
   },

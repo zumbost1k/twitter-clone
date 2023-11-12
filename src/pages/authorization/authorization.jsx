@@ -37,17 +37,25 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         dispatch(
           setCurrentUser({
-            userEmail: data.email,
-            userName: 'user' + data.userId,
-            profileAvatar: 'waqar.jpg',
+            userEmail: data.user.email,
+            userName: !!data.fullName ? data.fullName : data.userName,
+            profileAvatar: !!data.profilePicture
+              ? data.profilePicture
+              : 'emptyAvatar.jpg',
             userId: data.userId,
-            quantityOfFollowers: '254k',
-            quantityOfFollowing: '422',
-            profileDescription: '',
-            profileBackgroundImagePath: 'mountain.jpg',
-            nickName: '',
+            quantityOfFollowers: data.user.followerFollowerUsers.length,
+            quantityOfFollowing: data.user.followerUsers.length,
+            profileDescription: !!data.bio
+              ? data.bio
+              : 'description hasn`t been written yet.',
+            profileBackgroundImagePath: !!data.backPicture
+              ? data.backPicture
+              : 'mountain.jpg',
+            nickName: data.userName,
+            userToken: data.user.tokenExpires,
           })
         );
         navigate('/home');
