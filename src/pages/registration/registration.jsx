@@ -13,7 +13,7 @@ const Registration = () => {
     return password1 === password2;
   };
   const isPasswordValid = useValid(password, ['lengthCheck']);
-  const isEmailValid = useValid(email, ['isEmpty']);
+  const isEmailValid = useValid(email, ['isEmpty', 'isEmail']);
   const disabledState =
     checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
   const navigate = useNavigate();
