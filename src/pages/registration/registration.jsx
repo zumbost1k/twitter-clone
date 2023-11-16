@@ -134,7 +134,7 @@ const Registration = () => {
           </div>
           <CustomButton
             disabledState={!disabledState}
-            content={<span>Sign in</span>}
+            content={<span>Sign up</span>}
             type={'submit'}
             size={'standard'}
           />
