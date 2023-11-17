@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build:production"
 
 [context.production.environment]
   REACT_APP_API_URL = "https://twittercloneapiproductionenv.azurewebsites.net"
