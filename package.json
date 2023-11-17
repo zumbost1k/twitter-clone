@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build:production": "craco build",
+    "build:test": "REACT_APP_ENV=test craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
