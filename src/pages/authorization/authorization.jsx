@@ -15,22 +15,25 @@ const Authorization = () => {
   const disabledState = isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const apiUrl = process.env.REACT_APP_API_URL;
+  // const apiUrl = process.env.REACT_APP_API_URL;
   const HandleAuthorization = (e) => {
     e.preventDefault();
-    fetch(`${apiUrl}/Authentication/Authorization`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-      withCredentials: true,
-      crossorigin: true,
-    })
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Authorization`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -38,25 +41,24 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         dispatch(
           setCurrentUser({
-            userEmail: data.user.email,
+            userEmail: data.userEmail,
             userName: !!data.fullName ? data.fullName : data.userName,
             profileAvatar: !!data.profilePicture
               ? data.profilePicture
               : 'emptyAvatar.jpg',
-            userId: data.userId,
-            quantityOfFollowers: data.user.followerFollowerUsers.length,
-            quantityOfFollowing: data.user.followerUsers.length,
-            profileDescription: !!data.bio
-              ? data.bio
+            userId: data.userID,
+            quantityOfFollowers: data.quantityOfFollowers,
+            quantityOfFollowing: data.quantityOfFollowing,
+            profileDescription: !!data.profileDescription
+              ? data.profileDescription
               : 'description hasn`t been written yet.',
             profileBackgroundImagePath: !!data.backPicture
               ? data.backPicture
               : 'mountain.jpg',
             nickName: data.userName,
-            userToken: data.user.tokenExpires,
           })
         );
         navigate('/home');

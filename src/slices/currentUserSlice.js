@@ -10,7 +10,6 @@ const initialState = {
   profileDescription: null,
   profileBackgroundImagePath: null,
   nickName: null,
-  userToken: null,
 };
 
 export const CurrentUserSlice = createSlice({
@@ -29,7 +28,6 @@ export const CurrentUserSlice = createSlice({
       state.profileBackgroundImagePath =
         action.payload.profileBackgroundImagePath;
       state.nickName = action.payload.nickName;
-      state.userToken = action.payload.userToken;
     },
   },
 });
