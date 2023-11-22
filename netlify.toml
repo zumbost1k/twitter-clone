@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build:production"
+
+[context.production.environment]
+  REACT_APP_API_URL = "https://twittercloneapiproductionenv.azurewebsites.net"
+  REACT_APP_ENV = "production"
+
+[context.deploy-preview.environment]
+  REACT_APP_API_URL = "https://twittercloneapi.azurewebsites.net"
+  REACT_APP_ENV = "test"
