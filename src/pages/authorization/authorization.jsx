@@ -15,21 +15,22 @@ const Authorization = () => {
   const disabledState = isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
   const HandleAuthorization = (e) => {
     e.preventDefault();
-    fetch(
-      'https://twittercloneapi.azurewebsites.net/Authentication/Authorization',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }
-    )
+    fetch(`${apiUrl}/Authentication/Authorization`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+      withCredentials: true,
+      crossorigin: true,
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

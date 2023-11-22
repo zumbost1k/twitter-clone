@@ -15,6 +15,7 @@ import { useAuth } from './hooks/use-auth';
 import Authorization from './pages/authorization/authorization';
 import Header from './components/header/header';
 import SettingsPage from './pages/settingPage/settingsPage';
+import SetUserAuth from './components/SetUserAuth';
 const PrivateRoute = ({ children }) => {
   const { isAuth } = useAuth();
   return isAuth ? children : <Navigate to='/registration' />;
@@ -25,6 +26,7 @@ root.render(
   <React.StrictMode>
     <HashRouter>
       <Provider store={store}>
+        <SetUserAuth />
         <ScrollToTop />
         <Header />
         <Routes>
@@ -35,7 +37,7 @@ root.render(
             path='user/currentUser'
             element={<PrivateRoute children={<UserPage />} />}
           />
-           <Route
+          <Route
             path='/userSettings'
             element={<PrivateRoute children={<SettingsPage />} />}
           />
