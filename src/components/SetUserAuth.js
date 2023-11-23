@@ -1,46 +1,64 @@
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
 
 export default function SetUserAuth() {
-  const [userInfo, setUserInfo] = useState(null);
   const dispatch = useDispatch();
-  // const apiUrl = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetCurrentUserProfile`
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+  const fetchData = useCallback(async () => {
+    const response = await fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetCurrentUserProfile`,
+      {
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
       }
-      const data = await response.json();
-      setUserInfo({
-        userEmail: data.userEmail,
-        userName: !!data.fullName ? data.fullName : data.userName,
-        profileAvatar: !!data.profilePicture
-          ? data.profilePicture
+    );
+    const responseData = await response.json();
+    dispatch(
+      setCurrentUser({
+        userEmail: responseData.data.userEmail,
+        userName: !!responseData.data.fullName
+          ? responseData.data.fullName
+          : responseData.data.userName,
+        profileAvatar: !!responseData.data.profilePicture
+          ? responseData.data.profilePicture
           : 'emptyAvatar.jpg',
-        userId: data.userID,
-        quantityOfFollowers: data.quantityOfFollowers,
-        quantityOfFollowing: data.quantityOfFollowing,
-        profileDescription: !!data.profileDescription
-          ? data.profileDescription
+        userId: responseData.data.userId,
+        quantityOfFollowers: responseData.data.quantityOfFollowers,
+        quantityOfFollowing: responseData.data.quantityOfFollowing,
+        profileDescription: !!responseData.data.profileDescription
+          ? responseData.data.profileDescription
           : 'description hasn`t been written yet.',
-        profileBackgroundImagePath: !!data.backPicture
-          ? data.backPicture
+        profileBackgroundImagePath: !!responseData.data.backPicture
+          ? responseData.data.backPicture
           : 'mountain.jpg',
-        nickName: data.userName,
-      });
-    };
-    fetchData().catch((error) => console.log(error));
-  }, []);
+        nickName: responseData.data.userName,
+      })
+    );
+    navigate('/home');
+  }, [dispatch, navigate]);
+
+  const fetchRefreshToken = useCallback(async () => {
+    const response = await fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/RefreshToken`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    );
+    if (!response.ok) {
+      navigate('/registration');
+    }
+  }, [navigate]);
 
   useEffect(() => {
-    if (userInfo) {
-      dispatch(setCurrentUser(userInfo));
-    }
-  }, [dispatch, userInfo]);
+    fetchData().catch((error) => {
+      fetchRefreshToken().catch(() => {});
+    });
+  }, [fetchData, fetchRefreshToken, navigate]);
 }

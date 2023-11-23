@@ -18,7 +18,6 @@ export const CurrentUserSlice = createSlice({
   reducers: {
     setCurrentUser: (state, action) => {
       state.userEmail = action.payload.userEmail;
-      state.userToken = action.payload.userToken;
       state.userName = action.payload.userName;
       state.profileAvatar = action.payload.profileAvatar;
       state.userId = action.payload.userId;
