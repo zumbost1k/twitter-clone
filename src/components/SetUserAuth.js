@@ -22,7 +22,8 @@ export default function SetUserAuth() {
       ? responseData.data.profilePicture
       : 'emptyAvatar.jpg';
 
-    responseData.data.backPicture = !!responseData.data.backPicture
+    responseData.data.profileBackgroundImagePath = !!responseData.data
+      .backPicture
       ? responseData.data.backPicture
       : 'mountain.jpg';
     dispatch(setCurrentUser(responseData.data));
