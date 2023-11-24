@@ -10,6 +10,9 @@ const SettingsPage = () => {
   const [userAvatar, setUserAvatar] = useState(
     `./photos/usersAvatar/${currentUsersProfile.profileAvatar}`
   );
+  const [currentUserAvatar, setCurrentUserAvatar] = useState(
+    `./photos/usersAvatar/${currentUsersProfile.profileAvatar}`
+  );
   const [userBackground, setBackground] = useState(
     `./photos/profileBackgrounds/${currentUsersProfile.profileBackgroundImagePath}`
   );
@@ -32,7 +35,7 @@ const SettingsPage = () => {
             <div className='setter-photo__user-avatar'>
               <label htmlFor='user-avatar'>
                 <img
-                  src={userAvatar}
+                  src={currentUserAvatar}
                   alt='avatar'
                   width='72'
                   height='72'
@@ -45,10 +48,11 @@ const SettingsPage = () => {
                   accept='image/,.png,.jpeg,.jpg'
                   onChange={(e) => {
                     if (e.target.files[0]) {
-                      const newBackgroundUrl = URL.createObjectURL(
+                      const newAvatardUrl = URL.createObjectURL(
                         e.target.files[0]
                       );
-                      setUserAvatar(newBackgroundUrl);
+                      setCurrentUserAvatar(newAvatardUrl);
+                      setUserAvatar(e.target.files[0]);
                     }
                   }}
                 />

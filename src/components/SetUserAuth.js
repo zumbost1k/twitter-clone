@@ -2,11 +2,12 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
+import { useAuth } from '../hooks/use-auth';
 
 export default function SetUserAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { isAuth } = useAuth();
   const fetchData = useCallback(async () => {
     const response = await fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetCurrentUserProfile`,
@@ -57,8 +58,10 @@ export default function SetUserAuth() {
   }, [navigate]);
 
   useEffect(() => {
-    fetchData().catch((error) => {
-      fetchRefreshToken().catch(() => {});
-    });
+    if (!isAuth) {
+      fetchData().catch((error) => {
+        fetchRefreshToken().catch(() => {});
+      });
+    }
   }, [fetchData, fetchRefreshToken, navigate]);
 }
