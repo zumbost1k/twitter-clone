@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function SetUserAuth() {
   const dispatch = useDispatch();
@@ -18,27 +18,15 @@ export default function SetUserAuth() {
       }
     );
     const responseData = await response.json();
-    dispatch(
-      setCurrentUser({
-        userEmail: responseData.data.userEmail,
-        userName: !!responseData.data.fullName
-          ? responseData.data.fullName
-          : responseData.data.userName,
-        profileAvatar: !!responseData.data.profilePicture
-          ? responseData.data.profilePicture
-          : 'emptyAvatar.jpg',
-        userId: responseData.data.userId,
-        quantityOfFollowers: responseData.data.quantityOfFollowers,
-        quantityOfFollowing: responseData.data.quantityOfFollowing,
-        profileDescription: !!responseData.data.profileDescription
-          ? responseData.data.profileDescription
-          : 'description hasn`t been written yet.',
-        profileBackgroundImagePath: !!responseData.data.backPicture
-          ? responseData.data.backPicture
-          : 'mountain.jpg',
-        nickName: responseData.data.userName,
-      })
-    );
+    responseData.data.profileAvatar = !!responseData.data.profilePicture
+      ? responseData.data.profilePicture
+      : 'emptyAvatar.jpg';
+
+    responseData.data.backPicture = !!responseData.data.backPicture
+      ? responseData.data.backPicture
+      : 'mountain.jpg';
+    dispatch(setCurrentUser(responseData.data));
+    console.log(responseData.data)
     navigate('/home');
   }, [dispatch, navigate]);
 
@@ -63,5 +51,5 @@ export default function SetUserAuth() {
         fetchRefreshToken().catch(() => {});
       });
     }
-  }, [fetchData, fetchRefreshToken, navigate]);
+  }, [fetchData, fetchRefreshToken, navigate, isAuth]);
 }

@@ -24,6 +24,25 @@ const SettingsPage = () => {
   );
   const SendNewUserDate = (e) => {
     e.preventDefault();
+    fetch(
+      'https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/UpdateUserProfile',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+        body: JSON.stringify({
+          userName: userNickName,
+          FullName: userName,
+          Bio: userProfileDescription,
+          ProfilePicture: userAvatar,
+          BackPicture: userBackground,
+        }),
+      }
+    );
   };
   return (
     <section className='settings-page'>
