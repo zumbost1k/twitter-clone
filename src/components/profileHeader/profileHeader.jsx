@@ -6,44 +6,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectCurentUSerById, selectCurrentUser } from '@/selectors/selectors';
 import { format } from 'numerable';
-// import { setCurrentUser } from '@/slices/currentUserSlice';
 const ProfileHeader = () => {
-  // const [userInfo, setUserInfo] = useState(null);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   console.log('hi there');
-  //   const fetchData = async () => {
-  //     fetch(
-  //       `https://twittercloneapi.azurewebsites.net/UserProfile/GetCurrentUserProfile`
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         setUserInfo({
-  //           userEmail: data.user.email,
-  //           userName: !!data.fullName ? data.fullName : data.userName,
-  //           profileAvatar: !!data.profilePicture
-  //             ? data.profilePicture
-  //             : 'emptyAvatar.jpg',
-  //           userId: data.userId,
-  //           quantityOfFollowers: data.user.followerFollowerUsers.length,
-  //           quantityOfFollowing: data.user.followerUsers.length,
-  //           profileDescription: !!data.bio
-  //             ? data.bio
-  //             : 'description hasn`t been written yet.',
-  //           profileBackgroundImagePath: !!data.backPicture
-  //             ? data.backPicture
-  //             : 'mountain.jpg',
-  //           nickName: data.userName,
-  //           userToken: data.user.tokenExpires,
-  //         });
-  //       });
-  //   };
-  //   fetchData();
-  // }, []);
-
-  // useEffect(() => {
-  //   dispatch(setCurrentUser(userInfo));
-  // }, [dispatch, userInfo]);
 
   const { id = 'currentUser' } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
@@ -55,13 +18,13 @@ const ProfileHeader = () => {
     <section
       className='profile-header-container'
       style={{
-        backgroundImage: `url('./photos/profileBackgrounds/${currentUser.profileBackgroundImagePath}')`,
+        backgroundImage: `url('${currentUser.profileBackgroundImagePath}')`,
       }}
     >
       <div className='profile-header'>
         <img
           className='avatar profile-header__avatar'
-          src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
+          src={`${currentUser.profileAvatar}`}
           alt='avatar'
           width='116'
           height='116'

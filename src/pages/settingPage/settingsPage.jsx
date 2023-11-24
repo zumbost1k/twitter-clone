@@ -23,32 +23,34 @@ const SettingsPage = () => {
     currentUsersProfile.profileDescription || ''
   );
   const SendNewUserDate = (e) => {
-    e.preventDefault()
+    console.log('hello world');
+    const formData = new FormData();
+    formData.append('UserName', userNickName);
+    formData.append('FullName', userName);
+    formData.append('Bio', userProfileDescription);
+    formData.append('ProfilePicture', userAvatar);
+    formData.append('BackPicture', userBackground);
+
     fetch(
       'https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/UpdateUserProfile',
       {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        body: formData,
         credentials: 'include',
         withCredentials: true,
         crossorigin: true,
-        body: JSON.stringify({
-          userName: userNickName,
-          FullName: userName,
-          Bio: userProfileDescription,
-          ProfilePicture: userAvatar,
-          BackPicture: userBackground,
-        }),
       }
     );
   };
+
   return (
     <section className='settings-page'>
       <div className='container settings-page__container'>
         <h3 className='dark-text dark-text__container'>Personal information</h3>
-        <form className='settings-form container__settings-form'>
+        <form
+          onSubmit={SendNewUserDate}
+          className='settings-form container__settings-form'
+        >
           <div className='setter-photos settings-form__setter-photos'>
             <div className='setter-photo__user-avatar'>
               <label htmlFor='user-avatar'>
@@ -142,12 +144,7 @@ const SettingsPage = () => {
             />
           </div>
           <div className='settings-form__button'>
-            <CustomButton
-              onClickfunction={SendNewUserDate}
-              type={'submit'}
-              size={'standard'}
-              content={'Save'}
-            />
+            <CustomButton type={'submit'} size={'standard'} content={'Save'} />
           </div>
         </form>
       </div>

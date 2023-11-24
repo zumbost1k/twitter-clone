@@ -34,9 +34,7 @@ const navLinks = [
 const UserNavigation = () => {
   const [activeButton, setActiveButton] = useState('My Profile');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
-
   const currentUser = useSelector(selectCurrentUser);
-
   const interactionToolClick = (buttonName) => {
     setActiveButton(buttonName);
     setIsActiveMenu(!isActiveMenu);
@@ -71,7 +69,7 @@ const UserNavigation = () => {
       >
         <img
           className='avatar header__avatar'
-          src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
+          src={`https://twittercloneapiproductionenv.azurewebsites.net/${currentUser.profileAvatar}`}
           width={'32'}
           height={'32'}
           alt='user-avatar'

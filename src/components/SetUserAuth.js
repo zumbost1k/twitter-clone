@@ -20,13 +20,13 @@ export default function SetUserAuth() {
     const responseData = await response.json();
     responseData.data.profileAvatar = !!responseData.data.profilePicture
       ? responseData.data.profilePicture
-      : 'emptyAvatar.jpg';
+      : './photos/usersAvatar/emptyAvatar.jpg';
 
     responseData.data.profileBackgroundImagePath = !!responseData.data
       .backPicture
       ? responseData.data.backPicture
-      : 'mountain.jpg';
-      console.log(responseData.data)
+      : './photos/profileBackgrounds/mountain.jpg';
+    console.log(responseData.data);
     dispatch(setCurrentUser(responseData.data));
     navigate('/home');
   }, [dispatch, navigate]);
