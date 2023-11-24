@@ -7,13 +7,12 @@ import CustomButton from '@/UI/customButton/cistomButton';
 
 const SettingsPage = () => {
   const currentUsersProfile = useSelector(selectCurrentUser);
-  const [userAvatar, setUserAvatar] = useState(
-    `./photos/usersAvatar/${currentUsersProfile.profileAvatar}`
-  );
+  const [userAvatar, setUserAvatar] = useState(null);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(
     `./photos/usersAvatar/${currentUsersProfile.profileAvatar}`
   );
-  const [userBackground, setBackground] = useState(
+  const [userBackground, setBackground] = useState(null);
+  const [currentUserBackground, setCurrentUserBackground] = useState(
     `./photos/profileBackgrounds/${currentUsersProfile.profileBackgroundImagePath}`
   );
   const [userName, setUserName] = useState(currentUsersProfile.userName);
@@ -73,7 +72,7 @@ const SettingsPage = () => {
                 Background image
               </p>
               <img
-                src={userBackground}
+                src={currentUserBackground}
                 alt='avatar'
                 width='325'
                 height='105'
@@ -86,8 +85,11 @@ const SettingsPage = () => {
                 accept='image/,.png,.jpeg,.jpg'
                 onChange={(e) => {
                   if (e.target.files[0]) {
-                    const newAvatarUrl = URL.createObjectURL(e.target.files[0]);
-                    setBackground(newAvatarUrl);
+                    const newBackgroundUrl = URL.createObjectURL(
+                      e.target.files[0]
+                    );
+                    setCurrentUserBackground(newBackgroundUrl);
+                    setBackground(e.target.files[0]);
                   }
                 }}
               />
