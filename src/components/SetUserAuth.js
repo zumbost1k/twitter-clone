@@ -17,7 +17,9 @@ export default function SetUserAuth() {
       }
     );
     const responseData = await response.json();
-    dispatch(setCurrentUser(responseData.data));
+    dispatch(
+      setCurrentUser(responseData.data)
+    );
     navigate('/home');
   }, [dispatch, navigate]);
 
