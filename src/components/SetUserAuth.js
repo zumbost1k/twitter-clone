@@ -2,11 +2,12 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function SetUserAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { isAuth } = useAuth();
   const fetchData = useCallback(async () => {
     const response = await fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetCurrentUserProfile`,
@@ -17,9 +18,15 @@ export default function SetUserAuth() {
       }
     );
     const responseData = await response.json();
-    dispatch(
-      setCurrentUser(responseData.data)
-    );
+    console.log(responseData.data);
+    responseData.data.profileAvatar = !!responseData.data.profilePicture
+      ? responseData.data.profilePicture
+      : 'emptyAvatar.jpg';
+
+    responseData.data.backPicture = !!responseData.data.backPicture
+      ? responseData.data.backPicture
+      : 'mountain.jpg';
+    dispatch(setCurrentUser(responseData.data));
     navigate('/home');
   }, [dispatch, navigate]);
 
@@ -39,8 +46,10 @@ export default function SetUserAuth() {
   }, [navigate]);
 
   useEffect(() => {
-    fetchData().catch((error) => {
-      fetchRefreshToken().catch(() => {});
-    });
-  }, [fetchData, fetchRefreshToken, navigate]);
+    if (!isAuth) {
+      fetchData().catch((error) => {
+        fetchRefreshToken().catch(() => {});
+      });
+    }
+  }, [fetchData, fetchRefreshToken, navigate, isAuth]);
 }
