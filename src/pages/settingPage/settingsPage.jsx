@@ -24,7 +24,6 @@ const SettingsPage = () => {
   );
   const SendNewUserDate = (e) => {
     e.preventDefault()
-    console.log('im here')
     fetch(
       'https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/UpdateUserProfile',
       {
