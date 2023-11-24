@@ -22,11 +22,12 @@ export default function SetUserAuth() {
       ? responseData.data.profilePicture
       : 'emptyAvatar.jpg';
 
-    responseData.data.backPicture = !!responseData.data.backPicture
+    responseData.data.profileBackgroundImagePath = !!responseData.data
+      .backPicture
       ? responseData.data.backPicture
       : 'mountain.jpg';
+      console.log(responseData.data)
     dispatch(setCurrentUser(responseData.data));
-    console.log(responseData.data)
     navigate('/home');
   }, [dispatch, navigate]);
 

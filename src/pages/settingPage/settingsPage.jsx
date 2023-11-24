@@ -17,13 +17,14 @@ const SettingsPage = () => {
   );
   const [userName, setUserName] = useState(currentUsersProfile.userName);
   const [userNickName, setUserNickName] = useState(
-    currentUsersProfile.nickName
+    currentUsersProfile.nickName || ''
   );
   const [userProfileDescription, setUserProfileDescription] = useState(
-    currentUsersProfile.profileDescription
+    currentUsersProfile.profileDescription || ''
   );
   const SendNewUserDate = (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    console.log('im here')
     fetch(
       'https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/UpdateUserProfile',
       {
@@ -120,6 +121,7 @@ const SettingsPage = () => {
               inputId={'user-name'}
               inputType={'text'}
               size={'standard-input'}
+              required={false}
             />
             <SettingBlock
               inputValue={userNickName}
@@ -128,6 +130,7 @@ const SettingsPage = () => {
               inputId={'user-nickname'}
               inputType={'text'}
               size={'standard-input'}
+              required={false}
             />
             <SettingBlock
               inputValue={userProfileDescription}
@@ -136,6 +139,7 @@ const SettingsPage = () => {
               inputId={'user-description'}
               inputType={'text'}
               size={'textholder-input'}
+              required={false}
             />
           </div>
           <div className='settings-form__button'>
