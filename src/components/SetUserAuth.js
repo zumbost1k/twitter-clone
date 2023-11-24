@@ -18,7 +18,6 @@ export default function SetUserAuth() {
       }
     );
     const responseData = await response.json();
-    console.log(responseData.data);
     responseData.data.profileAvatar = !!responseData.data.profilePicture
       ? responseData.data.profilePicture
       : 'emptyAvatar.jpg';
