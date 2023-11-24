@@ -17,27 +17,7 @@ export default function SetUserAuth() {
       }
     );
     const responseData = await response.json();
-    dispatch(
-      setCurrentUser({
-        userEmail: responseData.data.userEmail,
-        userName: !!responseData.data.fullName
-          ? responseData.data.fullName
-          : responseData.data.userName,
-        profileAvatar: !!responseData.data.profilePicture
-          ? responseData.data.profilePicture
-          : 'emptyAvatar.jpg',
-        userId: responseData.data.userId,
-        quantityOfFollowers: responseData.data.quantityOfFollowers,
-        quantityOfFollowing: responseData.data.quantityOfFollowing,
-        profileDescription: !!responseData.data.profileDescription
-          ? responseData.data.profileDescription
-          : 'description hasn`t been written yet.',
-        profileBackgroundImagePath: !!responseData.data.backPicture
-          ? responseData.data.backPicture
-          : 'mountain.jpg',
-        nickName: responseData.data.userName,
-      })
-    );
+    dispatch(setCurrentUser(responseData.data));
     navigate('/home');
   }, [dispatch, navigate]);
 

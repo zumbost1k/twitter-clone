@@ -15,7 +15,6 @@ const Authorization = () => {
   const disabledState = isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const apiUrl = process.env.REACT_APP_API_URL;
   const HandleAuthorization = (e) => {
     e.preventDefault();
     fetch(
