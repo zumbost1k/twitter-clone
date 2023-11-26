@@ -15,7 +15,6 @@ const Authorization = () => {
   const disabledState = isPasswordValid && isEmailValid;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const apiUrl = process.env.REACT_APP_API_URL;
   const HandleAuthorization = (e) => {
     e.preventDefault();
     fetch(
@@ -41,13 +40,14 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data)
         dispatch(
           setCurrentUser({
             userEmail: data.userEmail,
             userName: !!data.fullName ? data.fullName : data.userName,
             profileAvatar: !!data.profilePicture
               ? data.profilePicture
-              : 'emptyAvatar.jpg',
+              : './photos/usersAvatar/emptyAvatar.jpg',
             userId: data.userID,
             quantityOfFollowers: data.quantityOfFollowers,
             quantityOfFollowing: data.quantityOfFollowing,
@@ -56,7 +56,7 @@ const Authorization = () => {
               : 'description hasn`t been written yet.',
             profileBackgroundImagePath: !!data.backPicture
               ? data.backPicture
-              : 'mountain.jpg',
+              : './photos/profileBackgrounds/mountain.jpg',
             nickName: data.userName,
           })
         );

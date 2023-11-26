@@ -26,6 +26,7 @@ export default function SetUserAuth() {
       .backPicture
       ? responseData.data.backPicture
       : './photos/profileBackgrounds/mountain.jpg';
+    responseData.data.profileDescription = responseData.data.bio;
     console.log(responseData.data);
     dispatch(setCurrentUser(responseData.data));
     navigate('/home');

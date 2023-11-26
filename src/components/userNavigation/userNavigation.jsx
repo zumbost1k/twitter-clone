@@ -69,7 +69,7 @@ const UserNavigation = () => {
       >
         <img
           className='avatar header__avatar'
-          src={`https://twittercloneapiproductionenv.azurewebsites.net/${currentUser.profileAvatar}`}
+          src={`${currentUser.profileAvatar}`}
           width={'32'}
           height={'32'}
           alt='user-avatar'
