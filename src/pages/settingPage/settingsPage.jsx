@@ -9,11 +9,11 @@ const SettingsPage = () => {
   const currentUsersProfile = useSelector(selectCurrentUser);
   const [userAvatar, setUserAvatar] = useState(null);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(
-    `./photos/usersAvatar/${currentUsersProfile.profileAvatar}`
+    `${currentUsersProfile.profileAvatar}`
   );
   const [userBackground, setBackground] = useState(null);
   const [currentUserBackground, setCurrentUserBackground] = useState(
-    `./photos/profileBackgrounds/${currentUsersProfile.profileBackgroundImagePath}`
+    `${currentUsersProfile.profileBackgroundImagePath}`
   );
   const [userName, setUserName] = useState(currentUsersProfile.userName);
   const [userNickName, setUserNickName] = useState(
