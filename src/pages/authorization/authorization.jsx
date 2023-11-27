@@ -40,15 +40,14 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data)
         dispatch(
           setCurrentUser({
             userEmail: data.userEmail,
-            userName: !!data.fullName ? data.fullName : data.userName,
+            userName: data.fullName ? data.fullName : data.userName,
             profileAvatar: !!data.profilePicture
               ? data.profilePicture
               : './photos/usersAvatar/emptyAvatar.jpg',
-            userId: data.userID,
+            userId: data.userId,
             quantityOfFollowers: data.quantityOfFollowers,
             quantityOfFollowing: data.quantityOfFollowing,
             profileDescription: !!data.profileDescription

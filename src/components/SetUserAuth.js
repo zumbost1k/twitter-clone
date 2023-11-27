@@ -1,10 +1,11 @@
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '@/slices/currentUserSlice';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 
 export default function SetUserAuth() {
+  const [shouldFetch, setShouldFetch] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth } = useAuth();
@@ -22,12 +23,12 @@ export default function SetUserAuth() {
       ? responseData.data.profilePicture
       : './photos/usersAvatar/emptyAvatar.jpg';
 
+    responseData.data.nickName = responseData.data.userName;
+    responseData.data.userName = responseData.data.fullName;
     responseData.data.profileBackgroundImagePath = !!responseData.data
       .backPicture
       ? responseData.data.backPicture
       : './photos/profileBackgrounds/mountain.jpg';
-    responseData.data.profileDescription = responseData.data.bio;
-    console.log(responseData.data);
     dispatch(setCurrentUser(responseData.data));
     navigate('/home');
   }, [dispatch, navigate]);
@@ -43,15 +44,16 @@ export default function SetUserAuth() {
       }
     );
     if (!response.ok) {
+      setShouldFetch(false);
       navigate('/registration');
     }
   }, [navigate]);
 
   useEffect(() => {
-    if (!isAuth) {
+    if (!isAuth && shouldFetch) {
       fetchData().catch((error) => {
         fetchRefreshToken().catch(() => {});
       });
     }
-  }, [fetchData, fetchRefreshToken, navigate, isAuth]);
+  }, [fetchData, fetchRefreshToken, navigate, isAuth, shouldFetch]);
 }

@@ -23,7 +23,6 @@ const SettingsPage = () => {
     currentUsersProfile.profileDescription || ''
   );
   const SendNewUserDate = (e) => {
-    console.log('hello world');
     const formData = new FormData();
     formData.append('UserName', userNickName);
     formData.append('FullName', userName);
