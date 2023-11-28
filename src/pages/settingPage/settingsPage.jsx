@@ -18,7 +18,7 @@ const SettingsPage = () => {
   const [userName, setUserName] = useState(currentUsersProfile.userName);
   const [userNickName, setUserNickName] = useState(
     currentUsersProfile.nickName || ''
-  );
+  ); 
   const [userProfileDescription, setUserProfileDescription] = useState(
     currentUsersProfile.profileDescription || ''
   );
