@@ -13,7 +13,7 @@ const Registration = () => {
     return password1 === password2;
   };
   const isPasswordValid = useValid(password, ['lengthCheck']);
-  const isEmailValid = useValid(email, ['isEmpty']);
+  const isEmailValid = useValid(email, ['isEmpty', 'isEmail']);
   const disabledState =
     checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const Registration = () => {
       <div className='registration-block'>
         <div className='logo registration-block__logo'>
           <Tweeter width={'120'} height={'45'} />{' '}
-          <h2 className='title registration-section__title'>Sign in</h2>
+          <h2 className='title registration-section__title'>Sign up</h2>
         </div>
 
         <p className='text registration-section__text'>
@@ -81,9 +81,17 @@ const Registration = () => {
               }}
               id='login'
               className='registration-input'
-              placeholder='Enter your login...'
+              placeholder='Enter your email...'
               type='email'
             />
+            {isEmailValid ? '' : (
+                <label
+                    htmlFor='login'
+                    className='text registration-input__input-caption_red'
+                >
+                  Please insert a valid email address
+                </label>
+            )}
           </div>
           <div className='form__registration-input'>
             <label htmlFor='password' className='text'>
@@ -127,7 +135,7 @@ const Registration = () => {
           </div>
           <CustomButton
             disabledState={!disabledState}
-            content={<span>Sign in</span>}
+            content={<span>Sign up</span>}
             type={'submit'}
             size={'standard'}
           />
