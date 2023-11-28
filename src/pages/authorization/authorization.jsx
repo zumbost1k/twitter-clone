@@ -17,12 +17,57 @@ const Authorization = () => {
   const navigate = useNavigate();
   const HandleAuthorization = (e) => {
     e.preventDefault();
-    dispatch(
-      setCurrentUser({
-        userEmail: email,
-        userToken: '1',
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Authorization`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-    );
+      .then((data) => {
+        dispatch(
+          setCurrentUser({
+            userEmail: data.userEmail,
+            userName: !!data.fullName ? data.fullName : data.userName,
+            profileAvatar: !!data.profilePicture
+              ? data.profilePicture
+              : 'emptyAvatar.jpg',
+            userId: data.userID,
+            quantityOfFollowers: data.quantityOfFollowers,
+            quantityOfFollowing: data.quantityOfFollowing,
+            profileDescription: !!data.profileDescription
+              ? data.profileDescription
+              : 'description hasn`t been written yet.',
+            profileBackgroundImagePath: !!data.backPicture
+              ? data.backPicture
+              : 'mountain.jpg',
+            nickName: data.userName,
+          })
+        );
+        navigate('/home');
+      })
+      .catch((error) => {
+        console.error(
+          'There has been a problem with your fetch operation:',
+          error
+        );
+      });
+
     navigate('/home');
   };
   return (

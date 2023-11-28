@@ -1,19 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 } from 'uuid';
 
 const initialState = {
   userEmail: null,
-  userPassword: null,
-  userName: 'Waqar Bloom',
-  profileAvatar: 'waqar.jpg',
-  userId: v4(),
-  quantityOfFollowers: '254k',
-  quantityOfFollowing: '422',
-  profileDescription:
-    'You can never be overdressed or overeducated.» (Oscar Wilde)',
-  profileBackgroundImagePath: 'mountain.jpg',
-  nickName:'waqbl',
-  userToken: null,
+  userName: null,
+  profileAvatar: null,
+  userId: null,
+  quantityOfFollowers: null,
+  quantityOfFollowing: null,
+  profileDescription: null,
+  profileBackgroundImagePath: null,
+  nickName: null,
 };
 
 export const CurrentUserSlice = createSlice({
@@ -21,8 +17,7 @@ export const CurrentUserSlice = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      state.userEmail = action.payload.userEmail;
-      state.userToken = action.payload.userToken;
+      Object.assign(state, action.payload)
     },
     deleteCurrentUser: (state) => {
       state.userEmail = null;

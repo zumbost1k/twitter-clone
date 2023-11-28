@@ -17,11 +17,11 @@ const Registration = () => {
   const disabledState =
     checkPasswords(password, retryPassword) && isPasswordValid && isEmailValid;
   const navigate = useNavigate();
-  const apiUrl = process.env.REACT_APP_API_URL;
+  // const apiUrl = process.env.REACT_APP_API_URL;
   const HandleRegistration = (e) => {
     e.preventDefault();
     fetch(
-      `${apiUrl}/Authentication/Registration`,
+        `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Registration`,
       {
         method: 'POST',
         headers: {

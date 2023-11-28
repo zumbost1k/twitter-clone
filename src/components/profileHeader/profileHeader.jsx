@@ -7,11 +7,13 @@ import { useParams } from 'react-router-dom';
 import { selectCurentUSerById, selectCurrentUser } from '@/selectors/selectors';
 import { format } from 'numerable';
 const ProfileHeader = () => {
+
   const { id = 'currentUser' } = useParams();
   const currentUsersProfile = useSelector(selectCurentUSerById);
   const userPage = useSelector(selectCurrentUser);
   const isCurrentUserPage = id === 'currentUser';
   const currentUser = isCurrentUserPage ? userPage : currentUsersProfile;
+
   return (
     <section
       className='profile-header-container'
