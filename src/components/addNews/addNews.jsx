@@ -12,17 +12,21 @@ const AddNews = () => {
   const [postText, setTextPost] = useState('');
   const [postPhoto, setPostPhoto] = useState(null);
   const sendNewComment = (e) => {
-    e.preventDefault();
-    console.log(
-      postText,
-      postPhoto,
-      isReplyAbility,
-      Date.now(),
-      currentUser.userId
+    const formData = new FormData();
+    formData.append('Content', postText);
+    formData.append('TweetImage', postPhoto);
+    formData.append('IsPublic', isReplyAbility);
+
+    fetch(
+        'https://twittercloneapiproductionenv.azurewebsites.net/Tweet/CreateTweet',
+        {
+          method: 'PUT',
+          body: formData,
+          credentials: 'include',
+          withCredentials: true,
+          crossorigin: true,
+        }
     );
-    setTextPost('');
-    setPostPhoto(null);
-    setIsReplyAbility(true);
   };
   return (
     <section className='add-news'>
@@ -53,13 +57,17 @@ const AddNews = () => {
               <div>
                 <input
                   onChange={(e) => {
-                    setPostPhoto(e);
-                  }}
+                    if (e.target.files[0]) {
+                      const newImagedUrl = URL.createObjectURL(
+                          e.target.files[0]
+                      );
+                    setPostPhoto(newImagedUrl);
+                  }}}
                   type='file'
                   id='file'
                   accept='image/,.png,.jpeg,.jpg'
                   style={{ display: 'none' }}
-                  required
+                  ///required
                 />
                 <label htmlFor='file' className='icon'>
                   <PhotoUpload width={'20'} height={'20'} />
