@@ -46,11 +46,12 @@ const NewsItem = ({ currentNews }) => {
   });
   const dispatch = useDispatch();
   const interactionToolClick = (buttonName) => {
+    console.log(buttonName);
     setActiveButtons((prevState) => ({
       ...prevState,
       [buttonName]: !prevState[buttonName],
     }));
-    if (buttonName === 'Comment') {
+    if (buttonName === 'Comment'+currentNews.postId) {
       setActiveComment(!activeComment);
     }
   };
@@ -74,7 +75,7 @@ const NewsItem = ({ currentNews }) => {
       <div className='news-body container__news-body'>
         <img
           className='avatar news-body__avatar'
-          src={`./photos/usersAvatar/${postAuthor.profileAvatar}`}
+          src={`${postAuthor.profileAvatar}`}
           alt='avatar'
           width='40'
           height='40'
@@ -115,29 +116,29 @@ const NewsItem = ({ currentNews }) => {
           {postButtons.map((currentButton) => {
             return (
               <label
-                htmlFor={currentButton.name}
-                key={currentButton.name}
+                htmlFor={currentButton.name+currentNews.postId}
+                key={currentButton.name+currentNews.postId}
                 className={
-                  activeButtons[currentButton.name]
+                  activeButtons[currentButton.name+currentNews.postId]
                     ? `interaction-tool buttons__interaction-tool ${currentButton.activeClass}`
                     : 'interaction-tool buttons__interaction-tool'
                 }
               >
                 <button
                   className='send'
-                  id={currentButton.name}
-                  onClick={() => interactionToolClick(currentButton.name)}
+                  id={currentButton.name+currentNews.postId}
+                  onClick={() => interactionToolClick(currentButton.name+currentNews.postId)}
                 >
                   {currentButton.icon}
                 </button>
                 <p
                   className={
-                    activeButtons[currentButton.name]
+                    activeButtons[currentButton.name+currentNews.postId]
                       ? `text interaction-tool__text ${currentButton.activeClass}`
                       : `text interaction-tool__text`
                   }
                 >
-                  {activeButtons[currentButton.name]
+                  {activeButtons[currentButton.name+currentNews.postId]
                     ? currentButton.activeText
                     : currentButton.name}
                 </p>

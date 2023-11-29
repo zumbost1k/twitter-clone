@@ -24,7 +24,7 @@ const UsersToFollow = () => {
               <div key={currentTopUserByFollowers.userId} className='top-user top-users__top-user'>
                 <div className='top-user__avatar'>
                   <img
-                    src={`./photos/usersAvatar/${currentTopUserByFollowers.profileAvatar}`}
+                    src={`${currentTopUserByFollowers.profileAvatar}`}
                     alt='avatar'
                     width='40'
                     height='40'
