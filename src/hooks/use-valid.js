@@ -5,6 +5,10 @@ const validators = {
   lengthCheck: (stringToCheck) => {
     return stringToCheck.length <= 6;
   },
+  isEmail: (stringToCheck) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return !emailRegex.test(stringToCheck);
+  },
 };
 
 export const useValid = (stringToCheck, validatorsForString) => {

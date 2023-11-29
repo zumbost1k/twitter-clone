@@ -17,19 +17,14 @@ export const CurrentUserSlice = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      state.userEmail = action.payload.userEmail;
-      state.userName = action.payload.userName;
-      state.profileAvatar = action.payload.profileAvatar;
-      state.userId = action.payload.userId;
-      state.quantityOfFollowers = action.payload.quantityOfFollowers;
-      state.quantityOfFollowing = action.payload.quantityOfFollowing;
-      state.profileDescription = action.payload.profileDescription;
-      state.profileBackgroundImagePath =
-        action.payload.profileBackgroundImagePath;
-      state.nickName = action.payload.nickName;
+      Object.assign(state, action.payload)
+    },
+    deleteCurrentUser: (state) => {
+      state.userEmail = null;
+      state.userToken = null;
     },
   },
 });
 
-export const { setCurrentUser } = CurrentUserSlice.actions;
+export const { setCurrentUser, deleteCurrentUser } = CurrentUserSlice.actions;
 export default CurrentUserSlice.reducer;
