@@ -31,7 +31,7 @@ const AddNews = () => {
         <form onSubmit={sendNewComment} className='tweet-form'>
           <div className='tweet-body'>
             <img
-              src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
+              src={`${currentUser.profileAvatar}`}
               alt='avatar'
               width='40'
               height='40'

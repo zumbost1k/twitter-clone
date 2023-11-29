@@ -40,14 +40,15 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data)
         dispatch(
           setCurrentUser({
             userEmail: data.userEmail,
             userName: !!data.fullName ? data.fullName : data.userName,
-            profileAvatar: !!data.profilePicture
+            profileAvatar: data.profilePicture
               ? data.profilePicture
-              : 'emptyAvatar.jpg',
-            userId: data.userID,
+              : './photos/usersAvatar/emptyAvatar.jpg',
+            userId: data.userId,
             quantityOfFollowers: data.quantityOfFollowers,
             quantityOfFollowing: data.quantityOfFollowing,
             profileDescription: !!data.profileDescription
@@ -55,7 +56,7 @@ const Authorization = () => {
               : 'description hasn`t been written yet.',
             profileBackgroundImagePath: !!data.backPicture
               ? data.backPicture
-              : 'mountain.jpg',
+              : './photos/profileBackgrounds/mountain.jpg',
             nickName: data.userName,
           })
         );

@@ -18,13 +18,13 @@ const ProfileHeader = () => {
     <section
       className='profile-header-container'
       style={{
-        backgroundImage: `url('./photos/profileBackgrounds/${currentUser.profileBackgroundImagePath}')`,
+        backgroundImage: `url('${currentUser.profileBackgroundImagePath}')`,
       }}
     >
       <div className='profile-header'>
         <img
           className='avatar profile-header__avatar'
-          src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
+          src={`${currentUser.profileAvatar}`}
           alt='avatar'
           width='116'
           height='116'

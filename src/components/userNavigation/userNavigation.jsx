@@ -31,7 +31,6 @@ const navLinks = [
 const UserNavigation = () => {
   const [activeButton, setActiveButton] = useState('My Profile');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
-
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
@@ -87,7 +86,7 @@ const UserNavigation = () => {
       >
         <img
           className='avatar header__avatar'
-          src={`./photos/usersAvatar/${currentUser.profileAvatar}`}
+          src={`${currentUser.profileAvatar}`}
           width={'32'}
           height={'32'}
           alt='user-avatar'

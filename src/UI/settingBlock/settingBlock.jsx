@@ -8,6 +8,7 @@ const SettingBlock = ({
   inputId,
   inputType,
   size,
+  required,
 }) => {
   return (
     <label htmlFor={inputId} className='setting-block'>
@@ -15,7 +16,7 @@ const SettingBlock = ({
       <input
         className={`setting-block__input ${size}`}
         type={inputType}
-        required
+        required={required}
         id={inputId}
         value={inputValue}
         onChange={(e) => {
