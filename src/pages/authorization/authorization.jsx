@@ -40,11 +40,12 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data)
         dispatch(
           setCurrentUser({
             userEmail: data.userEmail,
-            userName: data.fullName ? data.fullName : data.userName,
-            profileAvatar: !!data.profilePicture
+            userName: !!data.fullName ? data.fullName : data.userName,
+            profileAvatar: data.profilePicture
               ? data.profilePicture
               : './photos/usersAvatar/emptyAvatar.jpg',
             userId: data.userId,
