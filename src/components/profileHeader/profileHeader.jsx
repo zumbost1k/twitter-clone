@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './profileHeader.css';
 import Subscribe from '@/icons/subscribe';
 import CustomButton from '@/UI/customButton/cistomButton';
@@ -6,56 +6,17 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectCurentUSerById } from '@/selectors/selectors';
 import { format } from 'numerable';
+import { useSubscribe } from '@/hooks/use-subscribe';
+
 const ProfileHeader = () => {
-  const [shouldFetch, setShouldFetch] = useState(true);
-  const [isSubscribe, setIsSubscribe] = useState(false);
+  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(38);
   const [currentUser, setCurrentUser] = useState(null);
   const { id = 'currentUser' } = useParams();
   const isCurrentUserPage = id === 'currentUser';
   useSelector(selectCurentUSerById).then((data) => {
     setCurrentUser(data);
   });
-  const unsubscribe = async () => {
-    fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Follower/Unsubscribe${38}`,
-      {
-        method: 'DELETE',
-        credentials: 'include',
-        withCredentials: true,
-        crossorigin: true,
-      }
-    ).then((responce) => {
-      if (responce.ok) {
-        setIsSubscribe(false);
-      }
-    });
-  };
-  const subscribe = useCallback(async () => {
-    const response = await fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Follower/Subscribe${38}`,
-      {
-        method: 'POST',
-        credentials: 'include',
-        withCredentials: true,
-        crossorigin: true,
-      }
-    );
-    if (!response.ok) {
-      setIsSubscribe(true);
-      setShouldFetch(false);
-    } else if (response.ok && shouldFetch) {
-      unsubscribe();
-      setShouldFetch(false);
-    } else if (response.ok && !shouldFetch) {
-      setIsSubscribe(true);
-    }
-  }, [shouldFetch]);
 
-  useEffect(() => {
-    if (shouldFetch) {
-      subscribe();
-    }
-  }, [subscribe, shouldFetch]);
   if (currentUser) {
     return (
       <section
