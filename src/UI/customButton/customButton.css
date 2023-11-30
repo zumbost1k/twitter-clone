@@ -5,10 +5,12 @@
 
 .blue {
     background: #2F80ED;
+    transition: #2F80ED 0.3s ease;
 }
 
 .button__subscribee-grey {
     background: rgb(126, 125, 125);
+    transition: rgb(126, 125, 125) 0.3s ease;
 }
 
 .button__subscribee-grey:hover {
