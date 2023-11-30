@@ -7,11 +7,12 @@ const CustomButton = ({
   size,
   type,
   disabledState,
+  activeClass = 'blue',
 }) => {
   return (
     <button
       type={type}
-      className={`button ${size}`}
+      className={`button ${activeClass} ${size}`}
       disabled={disabledState}
       onClick={onClickfunction}
     >

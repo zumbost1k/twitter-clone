@@ -7,11 +7,26 @@ export const selectCurrentUserPage = (state) =>
   state.allUsers.currentUserPageId;
 
 export const selectCurentUSerById = createSelector(
-  [selectallUserPage, selectCurrentUserPage],
-  (allusers, currentUserId) => {
-    return allusers.find((currentUser) => {
-      return currentUser.userId === currentUserId;
-    });
+  [selectCurrentUser, selectCurrentUserPage],
+  async (currentUser, currentUserPageId) => {
+    if (currentUserPageId === 'currentUser') {
+      return currentUser;
+    }
+    const getUserById = await fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${38}`
+    );
+    const responseData = await getUserById.json();
+    responseData.data.profileAvatar = !!responseData.data.profilePicture
+      ? responseData.data.profilePicture
+      : './photos/usersAvatar/emptyAvatar.jpg';
+
+    responseData.data.nickName = responseData.data.userName;
+    responseData.data.userName = responseData.data.fullName;
+    responseData.data.profileBackgroundImagePath = !!responseData.data
+      .backPicture
+      ? responseData.data.backPicture
+      : './photos/profileBackgrounds/mountain.jpg';
+    return responseData.data;
   }
 );
 

@@ -1,7 +1,18 @@
 .button {
     border-radius: 4px;
-    background: #2F80ED;
     color: white;
+}
+
+.blue {
+    background: #2F80ED;
+}
+
+.button__subscribee-grey {
+    background: rgb(126, 125, 125);
+}
+
+.button__subscribee-grey:hover {
+    background: rgb(100, 100, 100);
 }
 
 .standard {
@@ -19,7 +30,7 @@
     font-size: 12px;
 }
 
-.button:hover {
+.blue:hover {
     background: #2b76d8;
 }
 

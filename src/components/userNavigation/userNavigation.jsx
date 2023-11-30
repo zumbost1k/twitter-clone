@@ -4,9 +4,10 @@ import GroupChat from '@/icons/groupChat';
 import Settings from '@/icons/settings';
 import Logout from '@/icons/logout';
 import UserNavElement from '@/UI/userNav/UserNav';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
+import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 
 const navLinks = [
   {
@@ -32,12 +33,16 @@ const navLinks = [
 ];
 
 const UserNavigation = () => {
+  const dispatch = useDispatch();
   const [activeButton, setActiveButton] = useState('My Profile');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
   const interactionToolClick = (buttonName) => {
     setActiveButton(buttonName);
     setIsActiveMenu(!isActiveMenu);
+    if (buttonName === 'My Profile') {
+      dispatch(changeCurrentUserPage('currentUser'));
+    }
   };
 
   const mappedLinks = navLinks.map((link) => {
