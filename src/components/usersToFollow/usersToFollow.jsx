@@ -7,6 +7,7 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import { format } from 'numerable';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 import { Link } from 'react-router-dom';
+import { useSubscribe } from '@/hooks/use-subscribe';
 
 const UsersToFollow = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const UsersToFollow = () => {
   const setCurrentUserHandle = (userId) => {
     dispatch(changeCurrentUserPage(userId));
   };
+  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(38);
   return (
     <section className='users-to-follow-section'>
       <div className='container users-to-follow-section__container'>
@@ -21,7 +23,10 @@ const UsersToFollow = () => {
         <div className='top-users top-users__container'>
           {topUsersByFollowers.map((currentTopUserByFollowers) => {
             return (
-              <div key={currentTopUserByFollowers.userId} className='top-user top-users__top-user'>
+              <div
+                key={currentTopUserByFollowers.userId}
+                className='top-user top-users__top-user'
+              >
                 <div className='top-user__avatar'>
                   <img
                     src={`${currentTopUserByFollowers.profileAvatar}`}
@@ -37,7 +42,7 @@ const UsersToFollow = () => {
                     onClick={() => {
                       setCurrentUserHandle(currentTopUserByFollowers.userId);
                     }}
-                    to={`/user/${currentTopUserByFollowers.userId}`}
+                    to={`/user/${38}`}
                     className='name name-followers-block__name'
                   >
                     {currentTopUserByFollowers.userName}
@@ -53,11 +58,23 @@ const UsersToFollow = () => {
                   <CustomButton
                     type={'button'}
                     size={'small'}
+                    onClickfunction={isSubscribe ? unsubscribe : subscribe}
+                    activeClass={
+                      isSubscribe ? 'button__subscribee-grey' : 'blue'
+                    }
                     content={
-                      <span className='content container__content'>
-                        <Subscribe width={'14'} height={'14'} />
-                        Follow
-                      </span>
+                      <div>
+                        {isSubscribe ? (
+                          <span className='content container__content'>
+                            Unsubscribe
+                          </span>
+                        ) : (
+                          <div className='content container__content'>
+                            <Subscribe width={'14'} height={'14'} />
+                            <span>Follow</span>
+                          </div>
+                        )}
+                      </div>
                     }
                   />
                 </div>
