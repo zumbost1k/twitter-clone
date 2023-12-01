@@ -53,7 +53,17 @@ const initialState = {
 export const AllPostsSlice = createSlice({
   name: 'allPosts',
   initialState,
-  reducers: {},
+  reducers: {
+    setTweets: (state, action) => {
+      // action.payload.forEach((tweet) => {
+      //   state.push(tweet)
+      // })
+      console.log(action.payload)
+    },
+  },
 });
 
+
+
 export default AllPostsSlice.reducer;
+export const { setTweets } = AllPostsSlice.actions;

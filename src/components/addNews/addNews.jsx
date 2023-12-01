@@ -20,13 +20,15 @@ const AddNews = () => {
     fetch(
         'https://twittercloneapiproductionenv.azurewebsites.net/Tweet/CreateTweet',
         {
-          method: 'PUT',
+          method: 'POST',
           body: formData,
           credentials: 'include',
           withCredentials: true,
           crossorigin: true,
         }
     );
+    setTextPost('');
+    setPostPhoto(null);
   };
   return (
     <section className='add-news'>
@@ -57,12 +59,8 @@ const AddNews = () => {
               <div>
                 <input
                   onChange={(e) => {
-                    if (e.target.files[0]) {
-                      const newImagedUrl = URL.createObjectURL(
-                          e.target.files[0]
-                      );
-                    setPostPhoto(newImagedUrl);
-                  }}}
+                    setPostPhoto(e.target.files[0]);
+                  }}
                   type='file'
                   id='file'
                   accept='image/,.png,.jpeg,.jpg'
