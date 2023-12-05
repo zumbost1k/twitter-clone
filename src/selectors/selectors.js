@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 export const selectallUserPage = (state) => state.allUsers.allUsers;
 export const selectallNews = (state) => state.allPosts.allPosts;
 export const selectCurrentUser = (state) => state.currentUser;
+export const selectPostAuthor = (state) => state.postAuthor;
 export const selectCurrentUserPage = (state) =>
   state.allUsers.currentUserPageId;
 

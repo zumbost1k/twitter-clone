@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectallNews} from '@/selectors/selectors';
 import HashtagFilter from '@/components/hashtagFilter/hashtagFilter';
 import UsersToFollow from '@/components/usersToFollow/usersToFollow';
-import {getAllTweets, setTweets} from "../../slices/allPostsSlice";
+import {setTweets} from "@/slices/allPostsSlice";
 
 const HomePage = () => {
     const homePageNews = useSelector(selectallNews);
@@ -19,8 +19,14 @@ const HomePage = () => {
             }
         )
             .then((response) => {
-                dispatch(setTweets(response.data))
-                console.log(response)
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                dispatch(setTweets(data.data))
+                console.log(data)
             })
             .catch((error) => {
                 console.error(

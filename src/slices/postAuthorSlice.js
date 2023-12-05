@@ -10,27 +10,26 @@ const initialState = {
     profileDescription: null,
     profileBackgroundImagePath: null,
     nickName: null,
-
 };
 
-export const CurrentUserSlice = createSlice({
-  name: 'currentUser',
+export const PostAuthorSlice = createSlice({
+  name: 'postAuthor',
   initialState,
   reducers: {
-    setCurrentUser: (state, action) => {
+    setPostAuthor: (state, action) => {
       state.userEmail = action.payload.userEmail;
-      state.userName = action.payload.userName;
+      state.userName = action.payload.fullName;
       state.profileAvatar = action.payload.profilePicture;
       state.userId = action.payload.userId;
       state.quantityOfFollowers = action.payload.quantityOfFollowers;
       state.quantityOfFollowing = action.payload.quantityOfFollowing;
       state.profileDescription = action.payload.profileDescription;
       state.profileBackgroundImagePath =
-        action.payload.profileBackgroundImagePath;
+          action.payload.backPicture;
       state.nickName = action.payload.nickName;
     },
   },
 });
 
-export const { setCurrentUser } = CurrentUserSlice.actions;
-export default CurrentUserSlice.reducer;
+export const { setPostAuthor } = PostAuthorSlice.actions;
+export default PostAuthorSlice.reducer;

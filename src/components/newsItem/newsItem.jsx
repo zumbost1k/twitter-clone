@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './newsItem.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectallUserPage, selectCurrentUser } from '@/selectors/selectors';
@@ -9,6 +9,8 @@ import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
+import {setPostAuthor} from "../../slices/postAuthorSlice";
+import {selectPostAuthor} from "../../selectors/selectors";
 const postButtons = [
   {
     name: 'Comment',
@@ -41,10 +43,31 @@ const NewsItem = ({ currentNews }) => {
   const allUsers = useSelector(selectallUserPage);
   const [answerText, setAnswerText] = useState('');
   const currentUserInfo = useSelector(selectCurrentUser);
-  const postAuthor = allUsers.find((currentUser) => {
-    return currentUser.userName === currentNews.authorName;
-  });
+  const postAuthor = useSelector(selectPostAuthor);
+  // const postAuthor = allUsers.find((currentUser) => {
+  //   return currentUser.userName === currentNews.authorName;
+  // });
   const dispatch = useDispatch();
+  const getPostAuthorById = useCallback (async () => {
+    const response = await fetch(
+        `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentNews.postedUserId}`,
+        {
+          credentials: 'include',
+          withCredentials: true,
+          crossorigin: true,
+        }
+    );
+    const responseData = await response.json();
+    dispatch(setPostAuthor(responseData.data))
+    console.log(responseData.data)
+  }, [dispatch])
+
+  useEffect(() => {
+    getPostAuthorById().catch(error => {
+      console.error(error)
+    });
+  }, []);
+
   const interactionToolClick = (buttonName) => {
     setActiveButtons((prevState) => ({
       ...prevState,
@@ -74,7 +97,7 @@ const NewsItem = ({ currentNews }) => {
       <div className='news-body container__news-body'>
         <img
           className='avatar news-body__avatar'
-          src={`./photos/usersAvatar/${postAuthor.profileAvatar}`}
+          src={postAuthor.profileAvatar}
           alt='avatar'
           width='40'
           height='40'
@@ -89,17 +112,17 @@ const NewsItem = ({ currentNews }) => {
           </Link>
           <time
             className='disabled-text post-author__disabled-text'
-            datatime={currentNews.creationDate}
+            datatime={currentNews.createdAt}
           >
-            {currentNews.creationDate}
+            {currentNews.createdAt}
           </time>
         </div>
-        <p className='text news-body__text'>{currentNews.postText}</p>
-        <img
-          className='post-picture news-body__post-picture'
-          src={`./photos/posts/${currentNews.postPhoto}`}
-          alt='post'
-        />
+        <p className='text news-body__text'>{currentNews.content}</p>
+        {currentNews.image && <img
+            className='post-picture news-body__post-picture'
+            src={currentNews.image}
+            alt='post'
+        />}
         <div className='media news-body__media'>
           <p className='disabled-text media__disabled-text'>
             {currentNews.quantityOfComments} Comments
@@ -149,7 +172,7 @@ const NewsItem = ({ currentNews }) => {
           <div className='comment-body news-body__comment-body'>
             <img
               className='avatar'
-              src={`${currentUserInfo.profileAvatar}`}
+              src={currentUserInfo.profileAvatar}
               alt='current user avatar'
               width='40'
               height='40'
