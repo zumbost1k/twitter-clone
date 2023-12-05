@@ -71,11 +71,9 @@ const NewsItem = ({ currentNews }) => {
     // console.log(responseData.data);
   }, [dispatch]);
 
-  useEffect(() => {
     getPostAuthorById().catch((error) => {
       console.error(error);
     });
-  }, []);
 
   const interactionToolClick = (buttonName) => {
     setActiveButtons((prevState) => ({
