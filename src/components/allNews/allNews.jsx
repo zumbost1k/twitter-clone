@@ -23,7 +23,7 @@ const AllNews = ({ isUserPage, allNews }) => {
       <div className='news-line all-news__news-line'>
         {allNews.map((currentNews) => {
           return (
-            <div key={currentNews.postId}>
+            <div key={currentNews.tweetId}>
               <NewsItem currentNews={currentNews} />
             </div>
           );

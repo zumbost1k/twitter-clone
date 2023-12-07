@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './newsItem.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectallUserPage, selectCurrentUser } from '@/selectors/selectors';
+import { selectCurrentUser } from '@/selectors/selectors';
 import Message from '@/icons/message';
 import Bookmark from '@/icons/bookmark';
 import Heart from '@/icons/heart';
@@ -9,8 +9,6 @@ import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
-import { setPostAuthor } from '../../slices/postAuthorSlice';
-import { selectPostAuthor } from '../../selectors/selectors';
 const postButtons = [
   {
     name: 'Comment',
@@ -40,40 +38,24 @@ const postButtons = [
 const NewsItem = ({ currentNews }) => {
   const [activeButtons, setActiveButtons] = useState({});
   const [activeComment, setActiveComment] = useState(false);
-  // const allUsers = useSelector(selectallUserPage);
   const [answerText, setAnswerText] = useState('');
   const currentUserInfo = useSelector(selectCurrentUser);
   const [postAuthor, setPostAuthor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  // const postAuthor = useSelector(selectPostAuthor);
-  // const postAuthor = allUsers.find((currentUser) => {
-  //   return currentUser.userName === currentNews.authorName;
-  // });
   const dispatch = useDispatch();
-  const getPostAuthorById = useCallback(async () => {
+  useEffect(() => {
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentNews.postedUserId}`,
-      {
-        credentials: 'include',
-        withCredentials: true,
-        crossorigin: true,
-      }
+      'https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById2',
+      { method: 'GET' }
     )
-      .then((json) => {
-        json.json();
+      .then((responce) => responce.json())
+      .then((data) => {
+        setPostAuthor(data.data);
       })
-      .then((data) => setPostAuthor(data))
-      .then(() => {
+      .finally(() => {
         setIsLoading(false);
       });
-    // const responseData = await response.json();
-    // dispatch(setPostAuthor(responseData.data));
-    // console.log(responseData.data);
-  }, [dispatch]);
-
-    getPostAuthorById().catch((error) => {
-      console.error(error);
-    });
+  }, []);
 
   const interactionToolClick = (buttonName) => {
     setActiveButtons((prevState) => ({
@@ -105,7 +87,7 @@ const NewsItem = ({ currentNews }) => {
         <div className='news-body container__news-body'>
           <img
             className='avatar news-body__avatar'
-            src={postAuthor.profileAvatar}
+            src={postAuthor.profilePicture}
             alt='avatar'
             width='40'
             height='40'
@@ -116,7 +98,7 @@ const NewsItem = ({ currentNews }) => {
               to={`/user/${postAuthor.userId}`}
               className='text post-author__text'
             >
-              {postAuthor.userName}
+              {postAuthor.fullName}
             </Link>
             <time
               className='disabled-text post-author__disabled-text'
@@ -135,13 +117,13 @@ const NewsItem = ({ currentNews }) => {
           )}
           <div className='media news-body__media'>
             <p className='disabled-text media__disabled-text'>
-              {currentNews.quantityOfComments} Comments
+              {currentNews.commentsCount} Comments
             </p>
             <p className='disabled-text media__disabled-text'>
-              {currentNews.quantityOfRetweets} Retweets
+              {currentNews.retweetCount} Retweets
             </p>
             <p className='disabled-text media__disabled-text'>
-              {currentNews.quantityOfSaved} Saved
+              {currentNews.saveCount} Saved
             </p>
           </div>
           <div className='buttons news-body__buttons'>

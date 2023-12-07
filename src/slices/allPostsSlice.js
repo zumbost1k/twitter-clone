@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  allPosts: []
+  allPosts: [],
 };
 
 export const AllPostsSlice = createSlice({
@@ -10,12 +10,9 @@ export const AllPostsSlice = createSlice({
   reducers: {
     setTweets: (state, action) => {
       state.allPosts = action.payload;
-      console.log(action.payload)
+      // console.log(action.payload);
     },
   },
 });
-
-
-
 export default AllPostsSlice.reducer;
 export const { setTweets } = AllPostsSlice.actions;
