@@ -10,7 +10,6 @@ export const AllPostsSlice = createSlice({
   reducers: {
     setTweets: (state, action) => {
       state.allPosts = action.payload;
-      // console.log(action.payload);
     },
   },
 });

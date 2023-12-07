@@ -45,7 +45,7 @@ const NewsItem = ({ currentNews }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     fetch(
-      'https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById2',
+      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentNews.postedUserId}`,
       { method: 'GET' }
     )
       .then((responce) => responce.json())
@@ -55,7 +55,7 @@ const NewsItem = ({ currentNews }) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [currentNews.postedUserId]);
 
   const interactionToolClick = (buttonName) => {
     setActiveButtons((prevState) => ({
