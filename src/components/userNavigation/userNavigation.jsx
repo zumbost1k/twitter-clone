@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UserProfile from '@/icons/userProfile';
 import GroupChat from '@/icons/groupChat';
 import Settings from '@/icons/settings';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
+
 
 const navLinks = [
   {
@@ -25,11 +26,6 @@ const navLinks = [
     title: 'Settings',
     path: '/userSettings',
   },
-  {
-    icon: <Logout width={'20'} height={'20'} />,
-    title: 'Logout',
-    path: '/logout',
-  },
 ];
 
 const UserNavigation = () => {
@@ -37,6 +33,28 @@ const UserNavigation = () => {
   const [activeButton, setActiveButton] = useState('My Profile');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsActiveMenu(false);
+    };
+
+    const handlePageChange = () => {
+      setIsActiveMenu(false);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('beforeunload', handlePageChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeunload', handlePageChange);
+    };
+  }, []);
+
   const interactionToolClick = (buttonName) => {
     setActiveButton(buttonName);
     setIsActiveMenu(!isActiveMenu);
@@ -45,21 +63,18 @@ const UserNavigation = () => {
     }
   };
 
+  const interactionToolClickLogOut = () => {
+    setActiveButton('Logout');
+    setIsActiveMenu(!isActiveMenu);
+    dispatch(deleteCurrentUser());
+  };
+
   const mappedLinks = navLinks.map((link) => {
     return (
-      <li
-        key={link.title}
-        className={
-          link.title === 'Logout' ? 'navigation-item_logout-element' : ''
-        }
-      >
+      <li key={link.title}>
         <UserNavElement
-          key={link.title}
           navigationElement={link}
           activeButtons={activeButton}
-          className={
-            link.title === 'Logout' ? 'navigation-item_logout-title' : ''
-          }
           interactionToolClick={interactionToolClick}
         />
       </li>
@@ -70,6 +85,7 @@ const UserNavigation = () => {
     <>
       <div
         className='currentUser__info'
+        ref={elementRef}
         onClick={() => setIsActiveMenu(!isActiveMenu)}
       >
         <img
@@ -82,6 +98,9 @@ const UserNavigation = () => {
         <span className='dark-text currentUser__dark-text'>
           {currentUser.userName}
         </span>
+        <span className={'currentUser__triangle'}>
+          <Triangle width={'7'} height={'5'} />
+        </span>
       </div>
       <nav
         className={
@@ -90,7 +109,20 @@ const UserNavigation = () => {
             : 'currentUser__menu'
         }
       >
-        <ul className={'currentUser__container'}>{mappedLinks}</ul>
+        <ul className={'currentUser__container'}>
+          {mappedLinks}
+          <div className={'navigation-item_logout-element'}>
+            <UserNavElement
+              navigationElement={{
+                icon: <Logout width={'20'} height={'20'} />,
+                title: 'Logout',
+              }}
+              activeButtons={activeButton}
+              className={'navigation-item_logout-title'}
+              interactionToolClick={interactionToolClickLogOut}
+            />
+          </div>
+        </ul>
       </nav>
     </>
   );

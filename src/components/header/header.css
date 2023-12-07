@@ -1,7 +1,6 @@
 .header {
     width: 100%;
     background: #fff;
-    margin-bottom: 15px;
     z-index: 3;
     position: relative;
 }
@@ -21,9 +20,13 @@
 }
 
 @media (min-width:1073px) {
+
+    .header__container {
+        padding: 0 80px;
+    }
     .navigate__container {
         height: 100%;
         display: flex;
-        width: 350px
+        width: 350px;
     }
 }
