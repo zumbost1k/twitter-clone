@@ -1,15 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  userEmail: null,
-  userName: null,
-  profileAvatar: null,
-  userId: null,
-  quantityOfFollowers: null,
-  quantityOfFollowing: null,
-  profileDescription: null,
-  profileBackgroundImagePath: null,
-  nickName: null,
+    userEmail: null,
+    userName: null,
+    profileAvatar: null,
+    userId: null,
+    quantityOfFollowers: null,
+    quantityOfFollowing: null,
+    profileDescription: null,
+    profileBackgroundImagePath: null,
+    nickName: null,
+
 };
 
 export const CurrentUserSlice = createSlice({
@@ -17,11 +18,17 @@ export const CurrentUserSlice = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      Object.assign(state, action.payload)
-    },
-    deleteCurrentUser: (state) => {
-      state.userEmail = null;
-      state.userToken = null;
+      state.userEmail = action.payload.userEmail;
+      state.userName = action.payload.userName;
+      state.profileAvatar = action.payload.profilePicture;
+      state.userId = action.payload.userId;
+      state.quantityOfFollowers = action.payload.quantityOfFollowers;
+      state.quantityOfFollowing = action.payload.quantityOfFollowing;
+      state.profileDescription = action.payload.profileDescription;
+      state.profileBackgroundImagePath =
+        action.payload.profileBackgroundImagePath;
+      state.nickName = action.payload.nickName;
+
     },
   },
 });

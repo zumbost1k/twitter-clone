@@ -44,6 +44,7 @@
 }
 
 .news-body__text {
+  width: 100%;
   order: 3;
 }
 
