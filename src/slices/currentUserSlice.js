@@ -28,9 +28,10 @@ export const CurrentUserSlice = createSlice({
       state.profileBackgroundImagePath =
         action.payload.profileBackgroundImagePath;
       state.nickName = action.payload.nickName;
+
     },
   },
 });
 
-export const { setCurrentUser } = CurrentUserSlice.actions;
+export const { setCurrentUser, deleteCurrentUser } = CurrentUserSlice.actions;
 export default CurrentUserSlice.reducer;

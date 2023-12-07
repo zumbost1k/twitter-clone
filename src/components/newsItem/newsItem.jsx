@@ -58,11 +58,12 @@ const NewsItem = ({ currentNews }) => {
   }, [currentNews.postedUserId]);
 
   const interactionToolClick = (buttonName) => {
+    console.log(buttonName);
     setActiveButtons((prevState) => ({
       ...prevState,
       [buttonName]: !prevState[buttonName],
     }));
-    if (buttonName === 'Comment') {
+    if (buttonName === 'Comment'+currentNews.postId) {
       setActiveComment(!activeComment);
     }
   };
@@ -159,6 +160,7 @@ const NewsItem = ({ currentNews }) => {
                 </label>
               );
             })}
+
           </div>
           {activeComment && (
             <div className='comment-body news-body__comment-body'>
