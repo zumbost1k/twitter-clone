@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
-
+import Triangle from '@/icons/triangle';
+import { deleteCurrentUser } from '@/slices/currentUserSlice';
 
 const navLinks = [
   {
@@ -33,7 +34,6 @@ const UserNavigation = () => {
   const [activeButton, setActiveButton] = useState('My Profile');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
-  const dispatch = useDispatch();
 
   const elementRef = useRef(null);
 

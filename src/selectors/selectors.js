@@ -13,7 +13,7 @@ export const selectCurentUSerById = createSelector(
       return currentUser;
     }
     const getUserById = await fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${38}`
+      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${1}`
     );
     const responseData = await getUserById.json();
     responseData.data.profileAvatar = !!responseData.data.profilePicture

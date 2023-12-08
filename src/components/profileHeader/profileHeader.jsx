@@ -9,10 +9,13 @@ import { format } from 'numerable';
 import { useSubscribe } from '@/hooks/use-subscribe';
 
 const ProfileHeader = () => {
-  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(38);
-  const [currentUser, setCurrentUser] = useState(null);
   const { id = 'currentUser' } = useParams();
   const isCurrentUserPage = id === 'currentUser';
+  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
+    isCurrentUserPage ? 1 : id
+  );
+  const [currentUser, setCurrentUser] = useState(null);
+
   useSelector(selectCurentUSerById).then((data) => {
     setCurrentUser(data);
   });
