@@ -19,13 +19,13 @@ export default function SetUserAuth() {
       }
     );
     const responseData = await response.json();
-    responseData.data.profileAvatar = !!responseData.data.profilePicture
+    responseData.data.profileAvatar = responseData.data.profilePicture
       ? responseData.data.profilePicture
       : './photos/usersAvatar/emptyAvatar.jpg';
 
     responseData.data.nickName = responseData.data.userName;
     responseData.data.userName = responseData.data.fullName;
-    responseData.data.profileBackgroundImagePath = !!responseData.data
+    responseData.data.profileBackgroundImagePath = responseData.data
       .backPicture
       ? responseData.data.backPicture
       : './photos/profileBackgrounds/mountain.jpg';
