@@ -9,6 +9,7 @@ import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
+import { useRetweet } from '../../hooks/use-retweet';
 const postButtons = [
   {
     name: 'Comment',
@@ -36,7 +37,13 @@ const postButtons = [
   },
 ];
 const NewsItem = ({ currentNews }) => {
-  const [activeButtons, setActiveButtons] = useState({});
+  const { isRetweeted, retweet, unRetweet } = useRetweet(currentNews.tweetId);
+  const [activeButtons, setActiveButtons] = useState({
+    [`Comment${currentNews.tweetId}`]: false,
+    [`Retweet${currentNews.tweetId}`]: isRetweeted,
+    [`Like${currentNews.tweetId}`]: false,
+    [`Save${currentNews.tweetId}`]: false,
+  });
   const [activeComment, setActiveComment] = useState(false);
   const [answerText, setAnswerText] = useState('');
   const currentUserInfo = useSelector(selectCurrentUser);
@@ -58,15 +65,22 @@ const NewsItem = ({ currentNews }) => {
   }, [currentNews.postedUserId]);
 
   const interactionToolClick = (buttonName) => {
-    console.log(buttonName);
     setActiveButtons((prevState) => ({
       ...prevState,
       [buttonName]: !prevState[buttonName],
     }));
-    if (buttonName === 'Comment'+currentNews.postId) {
+    if (buttonName === 'Comment' + currentNews.tweetId) {
       setActiveComment(!activeComment);
+    } else if (buttonName === 'Retweet' + currentNews.tweetId) {
+      isRetweeted ? retweet() : unRetweet();
     }
   };
+  // const sendRetweet = (e) => {
+  //   setActiveButtons((prevState) => ({
+  //     ...prevState,
+  //     [`Retweet${currentNews.tweetId}`]: false,
+  //   }));
+  // };
   const sendComment = (e) => {
     if (answerText.length !== 0) {
       e.preventDefault();
@@ -74,7 +88,7 @@ const NewsItem = ({ currentNews }) => {
       setActiveComment(false);
       setActiveButtons((prevState) => ({
         ...prevState,
-        Comment: false,
+        [`Comment${currentNews.tweetId}`]: false,
       }));
     }
   };
@@ -131,18 +145,22 @@ const NewsItem = ({ currentNews }) => {
             {postButtons.map((currentButton) => {
               return (
                 <label
-                  htmlFor={currentButton.name}
+                  htmlFor={currentButton.name + currentNews.tweetId}
                   key={currentButton.name}
                   className={
-                    activeButtons[currentButton.name]
+                    activeButtons[currentButton.name + currentNews.tweetId]
                       ? `interaction-tool buttons__interaction-tool ${currentButton.activeClass}`
                       : 'interaction-tool buttons__interaction-tool'
                   }
                 >
                   <button
                     className='send'
-                    id={currentButton.name}
-                    onClick={() => interactionToolClick(currentButton.name)}
+                    id={currentButton.name + currentNews.tweetId}
+                    onClick={() =>
+                      interactionToolClick(
+                        currentButton.name + currentNews.tweetId
+                      )
+                    }
                   >
                     {currentButton.icon}
                   </button>
@@ -160,7 +178,6 @@ const NewsItem = ({ currentNews }) => {
                 </label>
               );
             })}
-
           </div>
           {activeComment && (
             <div className='comment-body news-body__comment-body'>
