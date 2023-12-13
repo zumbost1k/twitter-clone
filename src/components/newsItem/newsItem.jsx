@@ -9,42 +9,14 @@ import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
-import { useRetweet } from '../../hooks/use-retweet';
-const postButtons = [
-  {
-    name: 'Comment',
-    icon: <Message width={'20'} height={'20'} />,
-    activeText: 'Comment',
-    activeClass: 'grey-text',
-  },
-  {
-    name: 'Retweet',
-    icon: <Reboot width={'20'} height={'20'} />,
-    activeText: 'Retweeted',
-    activeClass: 'green-text',
-  },
-  {
-    name: 'Like',
-    icon: <Heart width={'20'} height={'20'} />,
-    activeText: 'Liked',
-    activeClass: 'red-text',
-  },
-  {
-    name: 'Save',
-    icon: <Bookmark width={'20'} height={'20'} />,
-    activeText: 'Saved',
-    activeClass: 'blue-text',
-  },
-];
+import { useRetweet } from '@/hooks/use-retweet';
+import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
+
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(currentNews.tweetId);
-  const [activeButtons, setActiveButtons] = useState({
-    [`Comment${currentNews.tweetId}`]: false,
-    [`Retweet${currentNews.tweetId}`]: isRetweeted,
-    [`Like${currentNews.tweetId}`]: false,
-    [`Save${currentNews.tweetId}`]: false,
-  });
   const [activeComment, setActiveComment] = useState(false);
+  const [activeLike, setActiveLike] = useState(false);
+  const [activeSave, setActiveSave] = useState(false);
   const [answerText, setAnswerText] = useState('');
   const currentUserInfo = useSelector(selectCurrentUser);
   const [postAuthor, setPostAuthor] = useState(null);
@@ -64,32 +36,23 @@ const NewsItem = ({ currentNews }) => {
       });
   }, [currentNews.postedUserId]);
 
-  const interactionToolClick = (buttonName) => {
-    setActiveButtons((prevState) => ({
-      ...prevState,
-      [buttonName]: !prevState[buttonName],
-    }));
-    if (buttonName === 'Comment' + currentNews.tweetId) {
-      setActiveComment(!activeComment);
-    } else if (buttonName === 'Retweet' + currentNews.tweetId) {
-      isRetweeted ? retweet() : unRetweet();
-    }
+  const onClickCommentHandle = (tweetId) => {
+    setActiveComment(!activeComment);
   };
-  // const sendRetweet = (e) => {
-  //   setActiveButtons((prevState) => ({
-  //     ...prevState,
-  //     [`Retweet${currentNews.tweetId}`]: false,
-  //   }));
-  // };
+
+  const onClickLikeHandle = (tweetId) => {
+    setActiveLike(!activeLike);
+  };
+
+  const onClickSaveHandle = (tweetId) => {
+    setActiveSave(!activeSave);
+  };
+
   const sendComment = (e) => {
     if (answerText.length !== 0) {
       e.preventDefault();
       setAnswerText('');
       setActiveComment(false);
-      setActiveButtons((prevState) => ({
-        ...prevState,
-        [`Comment${currentNews.tweetId}`]: false,
-      }));
     }
   };
 
@@ -142,42 +105,43 @@ const NewsItem = ({ currentNews }) => {
             </p>
           </div>
           <div className='buttons news-body__buttons'>
-            {postButtons.map((currentButton) => {
-              return (
-                <label
-                  htmlFor={currentButton.name + currentNews.tweetId}
-                  key={currentButton.name}
-                  className={
-                    activeButtons[currentButton.name + currentNews.tweetId]
-                      ? `interaction-tool buttons__interaction-tool ${currentButton.activeClass}`
-                      : 'interaction-tool buttons__interaction-tool'
-                  }
-                >
-                  <button
-                    className='send'
-                    id={currentButton.name + currentNews.tweetId}
-                    onClick={() =>
-                      interactionToolClick(
-                        currentButton.name + currentNews.tweetId
-                      )
-                    }
-                  >
-                    {currentButton.icon}
-                  </button>
-                  <p
-                    className={
-                      activeButtons[currentButton.name]
-                        ? `text interaction-tool__text ${currentButton.activeClass}`
-                        : `text interaction-tool__text`
-                    }
-                  >
-                    {activeButtons[currentButton.name]
-                      ? currentButton.activeText
-                      : currentButton.name}
-                  </p>
-                </label>
-              );
-            })}
+            <NewsItemButton
+              icon={<Message width={'20'} height={'20'} />}
+              tweetId={currentNews.tweetId}
+              isChecked={activeComment}
+              onClickFunction={onClickCommentHandle}
+              buttonName={'comment' + currentNews.tweetId}
+              activeClass={'grey-text'}
+              Text={'Comment'}
+            />
+
+            <NewsItemButton
+              icon={<Reboot width={'20'} height={'20'} />}
+              tweetId={currentNews.tweetId}
+              isChecked={isRetweeted}
+              onClickFunction={isRetweeted ? unRetweet : retweet}
+              buttonName={'retweet' + currentNews.tweetId}
+              activeClass={'green-text'}
+              Text={isRetweeted ? 'Retweeted' : 'Retweet'}
+            />
+            <NewsItemButton
+              icon={<Heart width={'20'} height={'20'} />}
+              tweetId={currentNews.tweetId}
+              isChecked={activeLike}
+              onClickFunction={onClickLikeHandle}
+              buttonName={'like' + currentNews.tweetId}
+              activeClass={'red-text'}
+              Text={activeLike ? 'Liked' : 'Like'}
+            />
+            <NewsItemButton
+              icon={<Bookmark width={'20'} height={'20'} />}
+              tweetId={currentNews.tweetId}
+              isChecked={activeSave}
+              onClickFunction={onClickSaveHandle}
+              buttonName={'save' + currentNews.tweetId}
+              activeClass={'blue-text'}
+              Text={activeLike ? 'Saved' : 'Save'}
+            />
           </div>
           {activeComment && (
             <div className='comment-body news-body__comment-body'>
