@@ -18,7 +18,7 @@ const SettingsPage = () => {
   const [userName, setUserName] = useState(currentUsersProfile.userName);
   const [userNickName, setUserNickName] = useState(
     currentUsersProfile.nickName || ''
-  ); 
+  );
   const [userProfileDescription, setUserProfileDescription] = useState(
     currentUsersProfile.profileDescription || ''
   );
@@ -66,12 +66,14 @@ const SettingsPage = () => {
                   className='none'
                   accept='image/,.png,.jpeg,.jpg'
                   onChange={(e) => {
-                    if (e.target.files[0]) {
-                      const newAvatardUrl = URL.createObjectURL(
-                        e.target.files[0]
-                      );
-                      setCurrentUserAvatar(newAvatardUrl);
-                      setUserAvatar(e.target.files[0]);
+                    if (e.target.files[0].size > 1 * 1000 * 1024) {
+                      if (e.target.files[0]) {
+                        const newAvatardUrl = URL.createObjectURL(
+                          e.target.files[0]
+                        );
+                        setCurrentUserAvatar(newAvatardUrl);
+                        setUserAvatar(e.target.files[0]);
+                      }
                     }
                   }}
                 />
@@ -105,11 +107,13 @@ const SettingsPage = () => {
                 accept='image/,.png,.jpeg,.jpg'
                 onChange={(e) => {
                   if (e.target.files[0]) {
-                    const newBackgroundUrl = URL.createObjectURL(
-                      e.target.files[0]
-                    );
-                    setCurrentUserBackground(newBackgroundUrl);
-                    setBackground(e.target.files[0]);
+                    if (e.target.files[0].size > 1 * 1000 * 1024) {
+                      const newBackgroundUrl = URL.createObjectURL(
+                        e.target.files[0]
+                      );
+                      setCurrentUserBackground(newBackgroundUrl);
+                      setBackground(e.target.files[0]);
+                    }
                   }
                 }}
               />
