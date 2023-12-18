@@ -65,7 +65,10 @@ const NewsItem = ({ currentNews }) => {
         <div className='news-body container__news-body'>
           <img
             className='avatar news-body__avatar'
-            src={postAuthor.profilePicture}
+            src={
+              postAuthor.profilePicture ||
+              './photos/usersAvatar/emptyAvatar.jpg'
+            }
             alt='avatar'
             width='40'
             height='40'
