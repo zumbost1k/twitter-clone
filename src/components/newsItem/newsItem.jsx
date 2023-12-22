@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
+import TripletButton from '../tripletButton/tripletButton';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(currentNews.tweetId);
@@ -63,31 +64,38 @@ const NewsItem = ({ currentNews }) => {
     return (
       <div className='container news-container'>
         <div className='news-body container__news-body'>
-          <img
-            className='avatar news-body__avatar'
-            src={
-              postAuthor.profilePicture ||
-              './photos/usersAvatar/emptyAvatar.jpg'
-            }
-            alt='avatar'
-            width='40'
-            height='40'
-          />
-          <div className='post-author news-body__post-author'>
-            <Link
-              onClick={setCurrentUserHandle}
-              to={`/user/${postAuthor.userId}`}
-              className='text post-author__text'
-            >
-              {postAuthor.fullName}
-            </Link>
-            <time
-              className='disabled-text post-author__disabled-text'
-              datatime={currentNews.createdAt}
-            >
-              {currentNews.createdAt}
-            </time>
+          <div className='flex-between-center news-body__flex-between-center'>
+            <div className='flex-between-center'>
+              <img
+                className='avatar news-body__avatar'
+                src={
+                  postAuthor.profilePicture ||
+                  './photos/usersAvatar/emptyAvatar.jpg'
+                }
+                alt='avatar'
+                width='40'
+                height='40'
+              />
+              <div className='post-author news-body__post-author'>
+                <Link
+                  onClick={setCurrentUserHandle}
+                  to={`/user/${postAuthor.userId}`}
+                  className='text post-author__text'
+                >
+                  {postAuthor.fullName}
+                </Link>
+                <time
+                  className='disabled-text post-author__disabled-text'
+                  datatime={currentNews.createdAt}
+                >
+                  {currentNews.createdAt}
+                </time>
+              </div>
+            </div>
+
+            <TripletButton tweetId={currentNews.tweetId} />
           </div>
+
           <p className='text news-body__text'>{currentNews.content}</p>
           {currentNews.image && (
             <img

@@ -128,3 +128,14 @@ table {
 body {
   background: #F2F2F2;
 }
+
+.flex-between-center {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
