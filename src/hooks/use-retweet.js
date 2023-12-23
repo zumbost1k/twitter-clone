@@ -5,7 +5,7 @@ export const useRetweet = (postId) => {
   const [isRetweeted, setIsRetweeted] = useState(false);
   const unRetweet = useCallback(async () => {
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Retweet/DeleteTweetFromSaved${postId}`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Retweet/DeleteTweetFromRetweet${postId}`,
       {
         method: 'DELETE',
         credentials: 'include',

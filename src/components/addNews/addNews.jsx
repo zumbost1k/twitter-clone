@@ -18,14 +18,14 @@ const AddNews = () => {
     formData.append('IsPublic', isReplyAbility);
 
     fetch(
-        'https://twittercloneapiproductionenv.azurewebsites.net/Tweet/CreateTweet',
-        {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-          withCredentials: true,
-          crossorigin: true,
-        }
+      'https://twittercloneapiproductionenv.azurewebsites.net/Tweet/CreateTweet',
+      {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
     );
     setTextPost('');
     setPostPhoto(null);
@@ -59,7 +59,9 @@ const AddNews = () => {
               <div>
                 <input
                   onChange={(e) => {
-                    setPostPhoto(e.target.files[0]);
+                    if (e.target.files[0].size > 1 * 1000 * 1024) {
+                      setPostPhoto(e.target.files[0]);
+                    }
                   }}
                   type='file'
                   id='file'
