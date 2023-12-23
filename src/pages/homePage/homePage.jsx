@@ -4,25 +4,20 @@ import AllNews from '@/components/allNews/allNews';
 import AddNews from '@/components/addNews/addNews';
 import HashtagFilter from '@/components/hashtagFilter/hashtagFilter';
 import UsersToFollow from '@/components/usersToFollow/usersToFollow';
-import { setTweets } from '../../slices/allPostsSlice';
-import { useDispatch } from 'react-redux';
+import { useAllTweets } from '@/hooks/use-allTweets';
 
 const HomePage = () => {
   const [homePageNews, setHomePageNews] = useState(null);
-  const dispatch = useDispatch();
+  const fetchAndSetTweets = useAllTweets();
   useEffect(() => {
-    fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetAllTweets`,
-      {
-        method: 'GET',
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(setTweets(data.data));
-        setHomePageNews(data.data);
+    fetchAndSetTweets()
+      .then((reversedData) => {
+        setHomePageNews(reversedData);
+      })
+      .catch((error) => {
+        console.error('Failed to load tweets:', error);
       });
-  }, [dispatch]);
+   }, [fetchAndSetTweets]);
 
   if (homePageNews) {
     return (

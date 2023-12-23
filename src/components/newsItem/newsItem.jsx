@@ -151,7 +151,7 @@ const NewsItem = ({ currentNews }) => {
               onClickFunction={onClickSaveHandle}
               buttonName={'save' + currentNews.tweetId}
               activeClass={'blue-text'}
-              Text={activeLike ? 'Saved' : 'Save'}
+              Text={activeSave ? 'Saved' : 'Save'}
             />
           </div>
           {activeComment && (
