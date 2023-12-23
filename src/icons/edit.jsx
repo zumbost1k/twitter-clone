@@ -14,6 +14,6 @@ const Edit = ({ width, height }) => {
         fill='currentColor'
       />
     </svg>
-  );
+  )
 };
 export default Edit;
