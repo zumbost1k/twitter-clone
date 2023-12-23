@@ -45,7 +45,7 @@
 
 .news-body__text {
   width: 100%;
-  order: 3;
+  order: 4;
 }
 
 .post-picture {
@@ -53,7 +53,7 @@
 }
 
 .news-body__post-picture {
-  order: 4;
+  order: 5;
 }
 
 .media {
@@ -62,7 +62,7 @@
 }
 
 .news-body__media {
-  order: 5;
+  order: 6;
   margin: 0px 0px 0px auto;
 }
 
@@ -76,4 +76,6 @@
   font-weight: 500;
 }
 
-
+.news-body__flex-between-center {
+  width: 100%;
+}

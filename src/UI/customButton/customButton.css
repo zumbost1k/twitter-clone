@@ -8,6 +8,15 @@
     transition: #2F80ED 0.3s ease;
 }
 
+.white {
+    background: none;
+    color: #4F4F4F;
+}
+
+.white:hover {
+    background: #f2f2f2;
+}
+
 .button__subscribee-grey {
     background: rgb(126, 125, 125);
     transition: rgb(126, 125, 125) 0.3s ease;
@@ -18,11 +27,11 @@
 }
 
 .standard {
-    padding: 9px 24px;
+    padding: 6px 18px;
 }
 
 .small {
-    padding: 4px 13px;
+    padding: 2px 8px;
 }
 
 .content {
@@ -39,4 +48,14 @@
 .button:disabled {
     background: #577baa;
     color: rgb(197, 196, 196);
+}
+
+@media (min-width:600px) {
+    .small {
+        padding: 4px 13px;
+    }
+
+    .standard {
+        padding: 9px 24px;
+    }
 }
