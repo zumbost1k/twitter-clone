@@ -59,7 +59,7 @@ const AddNews = () => {
               <div>
                 <input
                   onChange={(e) => {
-                    if (e.target.files[0].size > 1 * 1000 * 1024) {
+                    if (e.target.files[0].size < 1 * 1000 * 1024) {
                       setPostPhoto(e.target.files[0]);
                     }
                   }}

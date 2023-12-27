@@ -35,7 +35,7 @@ const initialState = {
       profileAvatar: '/photos/usersAvatar/skyler.jpeg',
     },
   ],
-  currentUserPageId: '',
+  currentUserPageId: 'currentUser',
 };
 
 export const AllUsersSlice = createSlice({
