@@ -40,7 +40,6 @@ const Authorization = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data)
         dispatch(
           setCurrentUser({
             userEmail: data.userEmail,

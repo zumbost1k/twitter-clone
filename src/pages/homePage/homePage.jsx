@@ -8,16 +8,20 @@ import { useAllTweets } from '@/hooks/use-allTweets';
 
 const HomePage = () => {
   const [homePageNews, setHomePageNews] = useState(null);
+  const [isShouldFetch, setIsShouldFetch] = useState(true);
   const fetchAndSetTweets = useAllTweets();
   useEffect(() => {
-    fetchAndSetTweets()
-      .then((reversedData) => {
-        setHomePageNews(reversedData);
-      })
-      .catch((error) => {
-        console.error('Failed to load tweets:', error);
-      });
-   }, [fetchAndSetTweets]);
+    if (isShouldFetch) {
+      fetchAndSetTweets()
+        .then((reversedData) => {
+          setIsShouldFetch(false);
+          setHomePageNews(reversedData);
+        })
+        .catch((error) => {
+          console.error('Failed to load tweets:', error);
+        });
+    }
+  }, [fetchAndSetTweets, isShouldFetch]);
 
   if (homePageNews) {
     return (
