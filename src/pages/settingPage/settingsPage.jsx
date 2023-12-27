@@ -66,13 +66,18 @@ const SettingsPage = () => {
                   className='none'
                   accept='image/,.png,.jpeg,.jpg'
                   onChange={(e) => {
-                    if (e.target.files[0].size > 1 * 1000 * 1024) {
-                      if (e.target.files[0]) {
+                    console.log(e.target.files);
+                    if (e.target.files[0]) {
+                      if (e.target.files[0].size < 1 * 1000 * 1024) {
                         const newAvatardUrl = URL.createObjectURL(
                           e.target.files[0]
                         );
                         setCurrentUserAvatar(newAvatardUrl);
                         setUserAvatar(e.target.files[0]);
+                      } else {
+                        console.log(
+                          'the photo should weigh no more than a megabyte.'
+                        );
                       }
                     }
                   }}
@@ -107,12 +112,14 @@ const SettingsPage = () => {
                 accept='image/,.png,.jpeg,.jpg'
                 onChange={(e) => {
                   if (e.target.files[0]) {
-                    if (e.target.files[0].size > 1 * 1000 * 1024) {
+                    if (e.target.files[0].size < 1 * 1000 * 1024) {
                       const newBackgroundUrl = URL.createObjectURL(
                         e.target.files[0]
                       );
                       setCurrentUserBackground(newBackgroundUrl);
                       setBackground(e.target.files[0]);
+                    } else {
+                      console.log('the photo should weigh no more than a megabyte.');
                     }
                   }
                 }}
