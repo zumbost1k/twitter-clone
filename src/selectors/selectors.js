@@ -13,9 +13,16 @@ export const selectCurentUSerById = createSelector(
       return currentUser;
     }
     const getUserById = await fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${1}`
+      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentUserPageId}`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
     );
     const responseData = await getUserById.json();
+    console.log(responseData);
     responseData.data.profileAvatar = !!responseData.data.profilePicture
       ? responseData.data.profilePicture
       : './photos/usersAvatar/emptyAvatar.jpg';

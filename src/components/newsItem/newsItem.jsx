@@ -12,9 +12,11 @@ import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
 import TripletButton from '../tripletButton/tripletButton';
+import { useAuth } from '../../hooks/use-auth';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(currentNews.tweetId);
+  const { userId } = useAuth();
   const [activeComment, setActiveComment] = useState(false);
   const [activeLike, setActiveLike] = useState(false);
   const [activeSave, setActiveSave] = useState(false);
@@ -79,7 +81,11 @@ const NewsItem = ({ currentNews }) => {
               <div className='post-author news-body__post-author'>
                 <Link
                   onClick={setCurrentUserHandle}
-                  to={`/user/${postAuthor.userId}`}
+                  to={`/user/${
+                    userId === postAuthor.userId
+                      ? 'currentUser'
+                      : postAuthor.userId
+                  }`}
                   className='text post-author__text'
                 >
                   {postAuthor.fullName}

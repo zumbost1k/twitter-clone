@@ -11,6 +11,7 @@ import { useSubscribe } from '@/hooks/use-subscribe';
 const ProfileHeader = () => {
   const { id = 'currentUser' } = useParams();
   const isCurrentUserPage = id === 'currentUser';
+  console.log(isCurrentUserPage)
   const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
     isCurrentUserPage ? 1 : id
   );
