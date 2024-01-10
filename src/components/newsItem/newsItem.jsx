@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './newsItem.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/selectors/selectors';
 import Message from '@/icons/message';
 import Bookmark from '@/icons/bookmark';
@@ -8,11 +8,11 @@ import Heart from '@/icons/heart';
 import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
-import { changeCurrentUserPage } from '@/slices/allUsersSlice';
+
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
 import TripletButton from '../tripletButton/tripletButton';
-import { useAuth } from '../../hooks/use-auth';
+import { useAuth } from '@/hooks/use-auth';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(currentNews.tweetId);
@@ -24,7 +24,7 @@ const NewsItem = ({ currentNews }) => {
   const currentUserInfo = useSelector(selectCurrentUser);
   const [postAuthor, setPostAuthor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentNews.postedUserId}`,
@@ -59,9 +59,6 @@ const NewsItem = ({ currentNews }) => {
     }
   };
 
-  const setCurrentUserHandle = () => {
-    dispatch(changeCurrentUserPage(postAuthor.userId));
-  };
   if (!isLoading) {
     return (
       <div className='container news-container'>
@@ -71,7 +68,7 @@ const NewsItem = ({ currentNews }) => {
               <img
                 className='avatar news-body__avatar'
                 src={
-                  postAuthor.profilePicture ||
+                  postAuthor.profileAvatar ||
                   './photos/usersAvatar/emptyAvatar.jpg'
                 }
                 alt='avatar'
@@ -80,7 +77,6 @@ const NewsItem = ({ currentNews }) => {
               />
               <div className='post-author news-body__post-author'>
                 <Link
-                  onClick={setCurrentUserHandle}
                   to={`/user/${
                     userId === postAuthor.userId
                       ? 'currentUser'
@@ -88,7 +84,9 @@ const NewsItem = ({ currentNews }) => {
                   }`}
                   className='text post-author__text'
                 >
-                  {postAuthor.fullName}
+                  {postAuthor.fullName
+                    ? postAuthor.fullName
+                    : postAuthor.userName}
                 </Link>
                 <time
                   className='disabled-text post-author__disabled-text'

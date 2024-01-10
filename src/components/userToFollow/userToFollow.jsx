@@ -2,16 +2,10 @@ import React from 'react';
 import './userToFollow.css';
 import CustomButton from '@/UI/customButton/cistomButton';
 import { format } from 'numerable';
-import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 import { Link } from 'react-router-dom';
 import { useSubscribe } from '@/hooks/use-subscribe';
-import { useDispatch } from 'react-redux';
 import Subscribe from '@/icons/subscribe';
 const UserToFollow = ({ currentTopUserByFollowers }) => {
-  const dispatch = useDispatch();
-  const setCurrentUserHandle = (userId) => {
-    dispatch(changeCurrentUserPage(userId));
-  };
   const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
     currentTopUserByFollowers.userId
   );
@@ -22,7 +16,11 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
     >
       <div className='top-user__avatar'>
         <img
-          src={`${currentTopUserByFollowers.profileAvatar}`}
+          src={
+            currentTopUserByFollowers.profilePicture
+              ? currentTopUserByFollowers.profilePicture
+              : './photos/usersAvatar/emptyAvatar.jpg'
+          }
           alt='avatar'
           width='40'
           height='40'
@@ -31,14 +29,10 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
       </div>
 
       <div className='name-followers-block top-user__name-followers-block'>
-        <Link
-          onClick={() => {
-            setCurrentUserHandle(currentTopUserByFollowers.userId);
-          }}
-          to={`/user/${38}`}
-          className='name name-followers-block__name'
-        >
-          {currentTopUserByFollowers.userName}
+        <Link to={`/user/${38}`} className='name name-followers-block__name'>
+          {currentTopUserByFollowers.fullName
+            ? currentTopUserByFollowers.fullName
+            : currentTopUserByFollowers.userName}
         </Link>
         <p className='common-text name-followers-block__common-text'>
           {format(currentTopUserByFollowers.quantityOfFollowers, '0a')}
@@ -69,7 +63,11 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
         {currentTopUserByFollowers.profileDescription}
       </p>
       <img
-        src={`./photos/profileBackgrounds/${currentTopUserByFollowers.profileBackgroundImagePath}`}
+        src={
+          currentTopUserByFollowers.backPicture
+            ? currentTopUserByFollowers.backPicture
+            : './photos/profileBackgrounds/mountain.jpg'
+        }
         alt='background'
         className='background top-user__background'
         width='263'

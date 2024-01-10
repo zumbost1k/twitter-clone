@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './usersToFollow.css';
-import { useSelector } from 'react-redux';
-import { selectTopTwoUsersByFollowers } from '@/selectors/selectors';
 import UserToFollow from '../userToFollow/userToFollow';
 
 const UsersToFollow = () => {
-  const topUsersByFollowers = useSelector(selectTopTwoUsersByFollowers);
+  const [topUsersByFollowers, setTopUsersByFollowers] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetTwoPopularProfiles`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then((json) => {
+        return json.json();
+      })
+      .then((data) => {
+        setTopUsersByFollowers(data.data);
+      });
+  }, []);
+  if (!topUsersByFollowers) {
+    return;
+  }
   return (
     <section className='users-to-follow-section'>
       <div className='container users-to-follow-section__container'>
