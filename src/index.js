@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { store } from './store/store';
-import { Provider } from 'react-redux';
+import { Provider } from 'react-redux'; 
 import UserPage from './pages/userPage/userPage';
 import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
