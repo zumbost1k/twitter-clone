@@ -15,7 +15,10 @@ import TripletButton from '../tripletButton/tripletButton';
 import { useAuth } from '@/hooks/use-auth';
 
 const NewsItem = ({ currentNews }) => {
-  const { isRetweeted, retweet, unRetweet } = useRetweet(currentNews.tweetId);
+  const { isRetweeted, retweet, unRetweet } = useRetweet(
+    currentNews.tweetId,
+    currentNews.isRetweeted
+  );
   const { userId } = useAuth();
   const [activeComment, setActiveComment] = useState(false);
   const [activeLike, setActiveLike] = useState(false);
@@ -68,7 +71,7 @@ const NewsItem = ({ currentNews }) => {
               <img
                 className='avatar news-body__avatar'
                 src={
-                  postAuthor.profileAvatar ||
+                  postAuthor.profilePicture ||
                   './photos/usersAvatar/emptyAvatar.jpg'
                 }
                 alt='avatar'
