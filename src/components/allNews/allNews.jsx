@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Reboot from '@/icons/reboot';
 import { v4 } from 'uuid';
 import { useGetUserById } from '@/hooks/use-getUserById';
+import Loader from '@/UI/loader/loader';
 const AllNews = ({ isUserPage, allNews }) => {
   const { id = 'currentUser' } = useParams();
   const isCurrentUserPage = id === 'currentUser';
@@ -24,7 +25,7 @@ const AllNews = ({ isUserPage, allNews }) => {
     }
   }, [id, user, shouldFetch]);
   if (!currentUser) {
-    return;
+    return <Loader />;
   }
   return (
     <section className='all-news'>

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { format } from 'numerable';
 import { useSubscribe } from '@/hooks/use-subscribe';
 import { useGetUserById } from '@/hooks/use-getUserById';
+import Loader from '@/UI/loader/loader';
 
 const ProfileHeader = () => {
   const { id = 'currentUser' } = useParams();
@@ -30,9 +31,8 @@ const ProfileHeader = () => {
   }, [id, user, shouldFetch]);
 
   if (!currentUser) {
-    return;
+    return <Loader />;
   }
-  console.log(currentUser);
   return (
     <section
       className='profile-header-container'

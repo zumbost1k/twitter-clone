@@ -5,6 +5,7 @@ import AddNews from '@/components/addNews/addNews';
 import HashtagFilter from '@/components/hashtagFilter/hashtagFilter';
 import UsersToFollow from '@/components/usersToFollow/usersToFollow';
 import { useAllTweets } from '@/hooks/use-allTweets';
+import Loader from '@/UI/loader/loader';
 
 const HomePage = () => {
   const [homePageNews, setHomePageNews] = useState(null);
@@ -23,20 +24,21 @@ const HomePage = () => {
     }
   }, [fetchAndSetTweets, isShouldFetch]);
 
-  if (homePageNews) {
-    return (
-      <section className='home-page'>
-        <div>
-          <AddNews />
-          <AllNews isUserPage={false} allNews={homePageNews} />
-        </div>
-        <div className='trends'>
-          <HashtagFilter />
-          <UsersToFollow />
-        </div>
-      </section>
-    );
+  if (!homePageNews) {
+    return <Loader />;
   }
+  return (
+    <section className='home-page'>
+      <div>
+        <AddNews />
+        <AllNews isUserPage={false} allNews={homePageNews} />
+      </div>
+      <div className='trends'>
+        <HashtagFilter />
+        <UsersToFollow />
+      </div>
+    </section>
+  );
 };
 
 export default HomePage;
