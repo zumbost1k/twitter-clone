@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Authorization = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isAuthDataOk, setIsAuthDataOk] = useState(true);
   const isPasswordValid = useValid(password, ['lengthCheck']);
   const isEmailValid = useValid(email, ['isEmpty']);
   const disabledState = isPasswordValid && isEmailValid;
@@ -35,8 +36,10 @@ const Authorization = () => {
     )
       .then((response) => {
         if (!response.ok) {
+          setIsAuthDataOk(false);
           throw new Error('Network response was not ok');
         }
+
         return response.json();
       })
       .then((data) => {
@@ -66,9 +69,9 @@ const Authorization = () => {
           'There has been a problem with your fetch operation:',
           error
         );
+        return;
       });
 
-    navigate('/home');
   };
   return (
     <section className='registration-section'>
@@ -121,7 +124,13 @@ const Authorization = () => {
               type='password'
             />
           </div>
-
+          {isAuthDataOk ? (
+            ''
+          ) : (
+            <p className='text registration-input__input-caption_red'>
+              The data you have entered is incorrect
+            </p>
+          )}
           <CustomButton
             disabledState={!disabledState}
             content={<span>Sign in</span>}

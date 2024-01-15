@@ -9,6 +9,9 @@ export const useAllTweets = () => {
       `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetAllTweets`,
       {
         method: 'GET',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
       }
     );
     const data = await response.json();

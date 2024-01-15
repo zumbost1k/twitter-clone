@@ -7,7 +7,6 @@ import UserNavElement from '@/UI/userNav/UserNav';
 import { useDispatch, useSelector } from 'react-redux';
 import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
-import { changeCurrentUserPage } from '@/slices/allUsersSlice';
 import Triangle from '@/icons/triangle';
 import { deleteCurrentUser } from '@/slices/currentUserSlice';
 
@@ -58,9 +57,6 @@ const UserNavigation = () => {
   const interactionToolClick = (buttonName) => {
     setActiveButton(buttonName);
     setIsActiveMenu(!isActiveMenu);
-    if (buttonName === 'My Profile') {
-      dispatch(changeCurrentUserPage('currentUser'));
-    }
   };
 
   const interactionToolClickLogOut = () => {

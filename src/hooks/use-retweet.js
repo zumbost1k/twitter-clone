@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState } from 'react';
 
-export const useRetweet = (postId) => {
-  const [shouldFetch, setShouldFetch] = useState(true);
-  const [isRetweeted, setIsRetweeted] = useState(false);
-  const unRetweet = useCallback(async () => {
-    fetch(
+export const useRetweet = (postId, isRetweetedInitianally) => {
+  const [isRetweeted, setIsRetweeted] = useState(isRetweetedInitianally);
+ 
+  const unRetweet = async () => {
+    const responce = await fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Retweet/DeleteTweetFromRetweet${postId}`,
       {
         method: 'DELETE',
@@ -12,13 +12,13 @@ export const useRetweet = (postId) => {
         withCredentials: true,
         crossorigin: true,
       }
-    ).then((responce) => {
-      if (responce.ok) {
-        setIsRetweeted(false);
-      }
-    });
-  }, [postId]);
-  const retweet = useCallback(async () => {
+    );
+
+    if (responce.ok) {
+      setIsRetweeted(false);
+    }
+  };
+  const retweet = async () => {
     const response = await fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Retweet/AddTweetInRetweets${postId}`,
       {
@@ -28,22 +28,10 @@ export const useRetweet = (postId) => {
         crossorigin: true,
       }
     );
-    if (!response.ok) {
-      setIsRetweeted(true);
-      setShouldFetch(false);
-    } else if (response.ok && shouldFetch) {
-      unRetweet();
-      setShouldFetch(false);
-    } else if (response.ok && !shouldFetch) {
+    if (response.ok) {
       setIsRetweeted(true);
     }
-  }, [shouldFetch, postId, unRetweet]);
-
-  useEffect(() => {
-    if (shouldFetch) {
-      retweet();
-    }
-  }, [retweet, shouldFetch]);
+  };
 
   return { isRetweeted, retweet, unRetweet };
 };
