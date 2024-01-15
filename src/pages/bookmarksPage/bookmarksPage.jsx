@@ -25,7 +25,7 @@ const BookmarksPage = () => {
     return <Loader />;
   }
   return (
-    <section>
+    <section className='bookmarks-page-section'>
       <div className='filtered-news'>
         <ContentFilter
           filterLinks={[
@@ -47,7 +47,11 @@ const BookmarksPage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={false} allNews={bookMaksNews} />
+        {!bookMaksNews.length ? (
+          <p className='common-text bookmarks-page-section__common-text'>No posts have been saved</p>
+        ) : (
+          <AllNews isUserPage={false} allNews={bookMaksNews} />
+        )}
       </div>
     </section>
   );

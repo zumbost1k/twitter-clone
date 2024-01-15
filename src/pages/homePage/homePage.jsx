@@ -31,7 +31,13 @@ const HomePage = () => {
     <section className='home-page'>
       <div>
         <AddNews />
-        <AllNews isUserPage={false} allNews={homePageNews} />
+        {!homePageNews.length ? (
+          <p className='common-text bookmarks-page-section__common-text'>
+            No posts have been written yet
+          </p>
+        ) : (
+          <AllNews isUserPage={false} allNews={homePageNews} />
+        )}
       </div>
       <div className='trends'>
         <HashtagFilter />

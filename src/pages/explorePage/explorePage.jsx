@@ -54,9 +54,15 @@ const ExplorePage = () => {
         <div className='explore-search-panel'>
           <SearchPanel />
         </div>
-        <div className='explore-all-news'>
-          <AllNews isUserPage={false} allNews={exploreNews} />
-        </div>
+        {!exploreNews.length ? (
+          <p className='common-text bookmarks-page-section__common-text'>
+            No posts have been written  yet
+          </p>
+        ) : (
+          <div className='explore-all-news'>
+            <AllNews isUserPage={false} allNews={exploreNews} />
+          </div>
+        )}
       </div>
     </section>
   );
