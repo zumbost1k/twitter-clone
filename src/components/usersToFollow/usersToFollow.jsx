@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './usersToFollow.css';
 import UserToFollow from '../userToFollow/userToFollow';
+import Loader from '@/UI/loader/loader';
 
 const UsersToFollow = () => {
   const [topUsersByFollowers, setTopUsersByFollowers] = useState(null);
@@ -23,7 +24,7 @@ const UsersToFollow = () => {
       });
   }, []);
   if (!topUsersByFollowers) {
-    return;
+    return <Loader />;
   }
   return (
     <section className='users-to-follow-section'>

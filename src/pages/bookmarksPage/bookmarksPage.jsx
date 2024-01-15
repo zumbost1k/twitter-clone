@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './bookmarksPage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
-// import { useSelector } from 'react-redux';
-// import { selectallNews } from '@/selectors/selectors';
 import { useSavedTweets } from '@/hooks/use-savedTweets';
+import Loader from '@/UI/loader/loader';
 
 const BookmarksPage = () => {
   const [bookMaksNews, setbookMaksNews] = useState(null);
@@ -23,7 +22,7 @@ const BookmarksPage = () => {
     }
   }, [fetchAndSetTweets, isShouldFetch]);
   if (!bookMaksNews) {
-    return;
+    return <Loader />;
   }
   return (
     <section>
