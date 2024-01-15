@@ -5,10 +5,13 @@ import { format } from 'numerable';
 import { Link } from 'react-router-dom';
 import { useSubscribe } from '@/hooks/use-subscribe';
 import Subscribe from '@/icons/subscribe';
+import { useAuth } from '@/hooks/use-auth';
 const UserToFollow = ({ currentTopUserByFollowers }) => {
   const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
     currentTopUserByFollowers.userId
   );
+  const { userId } = useAuth();
+  const isCurrentUser = userId === currentTopUserByFollowers.userId;
   return (
     <div
       key={currentTopUserByFollowers.userId}
@@ -29,7 +32,14 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
       </div>
 
       <div className='name-followers-block top-user__name-followers-block'>
-        <Link to={`/user/${38}`} className='name name-followers-block__name'>
+        <Link
+          to={
+            isCurrentUser
+              ? '/user/currentUser'
+              : `/user/${currentTopUserByFollowers.userId}`
+          }
+          className='name name-followers-block__name'
+        >
           {currentTopUserByFollowers.fullName
             ? currentTopUserByFollowers.fullName
             : currentTopUserByFollowers.userName}
@@ -39,24 +49,30 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
         </p>
       </div>
       <div className='top-user__button'>
-        <CustomButton
-          type={'button'}
-          size={'small'}
-          onClickfunction={isSubscribe ? unsubscribe : subscribe}
-          activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
-          content={
-            <div>
-              {isSubscribe ? (
-                <span className='content container__content'>Unsubscribe</span>
-              ) : (
-                <div className='content container__content'>
-                  <Subscribe width={'14'} height={'14'} />
-                  <span>Follow</span>
-                </div>
-              )}
-            </div>
-          }
-        />
+        {isCurrentUser ? (
+          ''
+        ) : (
+          <CustomButton
+            type={'button'}
+            size={'small'}
+            onClickfunction={isSubscribe ? unsubscribe : subscribe}
+            activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
+            content={
+              <div>
+                {isSubscribe ? (
+                  <span className='content container__content'>
+                    Unsubscribe
+                  </span>
+                ) : (
+                  <div className='content container__content'>
+                    <Subscribe width={'14'} height={'14'} />
+                    <span>Follow</span>
+                  </div>
+                )}
+              </div>
+            }
+          />
+        )}
       </div>
 
       <p className='common-text top-user__common-text'>

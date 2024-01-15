@@ -8,25 +8,30 @@ import Heart from '@/icons/heart';
 import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
-
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
 import TripletButton from '../tripletButton/tripletButton';
 import { useAuth } from '@/hooks/use-auth';
+import { useLike } from '@/hooks/use-like';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
     currentNews.tweetId,
     currentNews.isRetweeted
   );
+  const { isLiked, like, unLike } = useLike(
+    currentNews.tweetId,
+    currentNews.isLiked
+  );
   const { userId } = useAuth();
   const [activeComment, setActiveComment] = useState(false);
-  const [activeLike, setActiveLike] = useState(false);
   const [activeSave, setActiveSave] = useState(false);
   const [answerText, setAnswerText] = useState('');
   const currentUserInfo = useSelector(selectCurrentUser);
   const [postAuthor, setPostAuthor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const postCreatedAt = new Date(currentNews.createdAt);
 
   useEffect(() => {
     fetch(
@@ -44,10 +49,6 @@ const NewsItem = ({ currentNews }) => {
 
   const onClickCommentHandle = (tweetId) => {
     setActiveComment(!activeComment);
-  };
-
-  const onClickLikeHandle = (tweetId) => {
-    setActiveLike(!activeLike);
   };
 
   const onClickSaveHandle = (tweetId) => {
@@ -95,7 +96,7 @@ const NewsItem = ({ currentNews }) => {
                   className='disabled-text post-author__disabled-text'
                   datatime={currentNews.createdAt}
                 >
-                  {currentNews.createdAt}
+                  {postCreatedAt.toLocaleString()}
                 </time>
               </div>
             </div>
@@ -145,11 +146,11 @@ const NewsItem = ({ currentNews }) => {
             <NewsItemButton
               icon={<Heart width={'20'} height={'20'} />}
               tweetId={currentNews.tweetId}
-              isChecked={activeLike}
-              onClickFunction={onClickLikeHandle}
+              isChecked={isLiked}
+              onClickFunction={isLiked ? unLike : like}
               buttonName={'like' + currentNews.tweetId}
               activeClass={'red-text'}
-              Text={activeLike ? 'Liked' : 'Like'}
+              Text={isLiked ? 'Liked' : 'Like'}
             />
             <NewsItemButton
               icon={<Bookmark width={'20'} height={'20'} />}
