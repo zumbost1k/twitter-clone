@@ -5,10 +5,13 @@ import { format } from 'numerable';
 import { Link } from 'react-router-dom';
 import { useSubscribe } from '@/hooks/use-subscribe';
 import Subscribe from '@/icons/subscribe';
+import { useAuth } from '@/hooks/use-auth';
 const UserToFollow = ({ currentTopUserByFollowers }) => {
   const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
     currentTopUserByFollowers.userId
   );
+  const { userId } = useAuth();
+  console.log(userId, currentTopUserByFollowers.userId);
   return (
     <div
       key={currentTopUserByFollowers.userId}
@@ -29,7 +32,14 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
       </div>
 
       <div className='name-followers-block top-user__name-followers-block'>
-        <Link to={`/user/${38}`} className='name name-followers-block__name'>
+        <Link
+          to={
+            userId === currentTopUserByFollowers.userId
+              ? '/user/currentUser'
+              : `/user/${currentTopUserByFollowers.userId}`
+          }
+          className='name name-followers-block__name'
+        >
           {currentTopUserByFollowers.fullName
             ? currentTopUserByFollowers.fullName
             : currentTopUserByFollowers.userName}

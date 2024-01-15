@@ -31,6 +31,8 @@ const NewsItem = ({ currentNews }) => {
   const [postAuthor, setPostAuthor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const postCreatedAt = new Date(currentNews.createdAt);
+
   useEffect(() => {
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentNews.postedUserId}`,
@@ -94,7 +96,7 @@ const NewsItem = ({ currentNews }) => {
                   className='disabled-text post-author__disabled-text'
                   datatime={currentNews.createdAt}
                 >
-                  {currentNews.createdAt}
+                  {postCreatedAt.toLocaleString()}
                 </time>
               </div>
             </div>
