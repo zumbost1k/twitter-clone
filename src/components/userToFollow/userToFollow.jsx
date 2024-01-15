@@ -12,7 +12,6 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
   );
   const { userId } = useAuth();
   const isCurrentUser = userId === currentTopUserByFollowers.userId;
-  console.log(userId, currentTopUserByFollowers.userId);
   return (
     <div
       key={currentTopUserByFollowers.userId}
