@@ -13,6 +13,7 @@ import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
 import TripletButton from '../tripletButton/tripletButton';
 import { useAuth } from '@/hooks/use-auth';
 import { useLike } from '@/hooks/use-like';
+import { useSave } from '@/hooks/use-save';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -23,9 +24,12 @@ const NewsItem = ({ currentNews }) => {
     currentNews.tweetId,
     currentNews.isLiked
   );
+  const { isSaved, save, unSave } = useSave(
+    currentNews.tweetId,
+    currentNews.isSaved
+  );
   const { userId } = useAuth();
   const [activeComment, setActiveComment] = useState(false);
-  const [activeSave, setActiveSave] = useState(false);
   const [answerText, setAnswerText] = useState('');
   const currentUserInfo = useSelector(selectCurrentUser);
   const [postAuthor, setPostAuthor] = useState(null);
@@ -49,10 +53,6 @@ const NewsItem = ({ currentNews }) => {
 
   const onClickCommentHandle = (tweetId) => {
     setActiveComment(!activeComment);
-  };
-
-  const onClickSaveHandle = (tweetId) => {
-    setActiveSave(!activeSave);
   };
 
   const sendComment = (e) => {
@@ -155,11 +155,11 @@ const NewsItem = ({ currentNews }) => {
             <NewsItemButton
               icon={<Bookmark width={'20'} height={'20'} />}
               tweetId={currentNews.tweetId}
-              isChecked={activeSave}
-              onClickFunction={onClickSaveHandle}
+              isChecked={isSaved}
+              onClickFunction={isSaved ? unSave : save}
               buttonName={'save' + currentNews.tweetId}
               activeClass={'blue-text'}
-              Text={activeSave ? 'Saved' : 'Save'}
+              Text={isSaved ? 'Saved' : 'Save'}
             />
           </div>
           {activeComment && (
