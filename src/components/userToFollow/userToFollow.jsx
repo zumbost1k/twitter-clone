@@ -11,6 +11,7 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
     currentTopUserByFollowers.userId
   );
   const { userId } = useAuth();
+  const isCurrentUser = userId === currentTopUserByFollowers.userId;
   console.log(userId, currentTopUserByFollowers.userId);
   return (
     <div
@@ -34,7 +35,7 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
       <div className='name-followers-block top-user__name-followers-block'>
         <Link
           to={
-            userId === currentTopUserByFollowers.userId
+            isCurrentUser
               ? '/user/currentUser'
               : `/user/${currentTopUserByFollowers.userId}`
           }
@@ -49,24 +50,30 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
         </p>
       </div>
       <div className='top-user__button'>
-        <CustomButton
-          type={'button'}
-          size={'small'}
-          onClickfunction={isSubscribe ? unsubscribe : subscribe}
-          activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
-          content={
-            <div>
-              {isSubscribe ? (
-                <span className='content container__content'>Unsubscribe</span>
-              ) : (
-                <div className='content container__content'>
-                  <Subscribe width={'14'} height={'14'} />
-                  <span>Follow</span>
-                </div>
-              )}
-            </div>
-          }
-        />
+        {isCurrentUser ? (
+          ''
+        ) : (
+          <CustomButton
+            type={'button'}
+            size={'small'}
+            onClickfunction={isSubscribe ? unsubscribe : subscribe}
+            activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
+            content={
+              <div>
+                {isSubscribe ? (
+                  <span className='content container__content'>
+                    Unsubscribe
+                  </span>
+                ) : (
+                  <div className='content container__content'>
+                    <Subscribe width={'14'} height={'14'} />
+                    <span>Follow</span>
+                  </div>
+                )}
+              </div>
+            }
+          />
+        )}
       </div>
 
       <p className='common-text top-user__common-text'>
