@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './explorePage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import SearchPanel from '@/components/searchPanel/searchPanel';
-import { useSelector } from 'react-redux';
-import { selectallNews } from '@/selectors/selectors';
+import Loader from '@/UI/loader/loader';
+import { useExploreTweets } from '@/hooks/use-exploreTweets';
+
 const ExplorePage = () => {
-  const allNews = useSelector(selectallNews);
+  const [exploreNews, setexploreNews] = useState(null);
+  const [isShouldFetch, setIsShouldFetch] = useState(true);
+  const fetchAndSetTweets = useExploreTweets();
+  useEffect(() => {
+    if (isShouldFetch) {
+      fetchAndSetTweets()
+        .then((reversedData) => {
+          setIsShouldFetch(false);
+          setexploreNews(reversedData);
+        })
+        .catch((error) => {
+          console.error('Failed to load tweets:', error);
+        });
+    }
+  }, [fetchAndSetTweets, isShouldFetch]);
+  if (!exploreNews) {
+    return <Loader />;
+  }
 
   return (
     <section className='explore-page'>
@@ -36,9 +54,15 @@ const ExplorePage = () => {
         <div className='explore-search-panel'>
           <SearchPanel />
         </div>
-        <div className='explore-all-news'>
-          <AllNews isUserPage={false} allNews={allNews} />
-        </div>
+        {!exploreNews.length ? (
+          <p className='common-text bookmarks-page-section__common-text'>
+            No posts have been written  yet
+          </p>
+        ) : (
+          <div className='explore-all-news'>
+            <AllNews isUserPage={false} allNews={exploreNews} />
+          </div>
+        )}
       </div>
     </section>
   );

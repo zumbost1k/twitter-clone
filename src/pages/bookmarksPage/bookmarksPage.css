@@ -1,0 +1,10 @@
+.bookmarks-page-section__common-text {
+    font-size: 22px;
+    padding-top: 22px;
+}
+
+@media (min-width: 1070px) {
+    .bookmarks-page-section__common-text {
+        padding: 87px 40px;
+    }
+}

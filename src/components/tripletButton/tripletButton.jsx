@@ -7,7 +7,15 @@ import Edit from '@/icons/edit';
 
 const tripletFunctions = {
   delete: (tweetId) => {
-    console.log('hello delete ' + tweetId);
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    );
   },
   update: (tweetId) => {
     console.log('hello update ' + tweetId);

@@ -1,7 +1,7 @@
-export const useAllTweets = () => {
+export const useExploreTweets = () => {
   const fetchAndSetTweets = async () => {
     const response = await fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetAllTweets`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Follower/GetFollowersTweets`,
       {
         method: 'GET',
         credentials: 'include',
