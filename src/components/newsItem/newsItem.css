@@ -79,3 +79,36 @@
 .news-body__flex-between-center {
   width: 100%;
 }
+
+.news-body__comments-section {
+  width: 100%;
+  order: 7;
+}
+
+.comments-section__show-comments:hover {
+  background: rgb(247, 247, 247);
+}
+
+.comments-section__show-comments {
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.form_send {
+  display: flex;
+  align-items: center;
+  color: #828282;
+}
+
+.show-comments__arrow {
+  height: 28px;
+  color: #828282;
+}
+
+.form__send-photo {
+  color: #828282;
+  display: flex;
+  margin-right: 6px;
+}

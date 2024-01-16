@@ -15,6 +15,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { useLike } from '@/hooks/use-like';
 import { useSave } from '@/hooks/use-save';
 import Loader from '@/UI/loader/loader';
+import Arrow from '@/icons/arrow';
+import PhotoUpload from '@/icons/photo';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -30,11 +32,13 @@ const NewsItem = ({ currentNews }) => {
     currentNews.isSaved
   );
   const { userId } = useAuth();
+  const currentUserInfo = useSelector(selectCurrentUser);
   const [activeComment, setActiveComment] = useState(false);
   const [answerText, setAnswerText] = useState('');
-  const currentUserInfo = useSelector(selectCurrentUser);
   const [postAuthor, setPostAuthor] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCommentsShowing, setIsCommentsShowing] = useState(false);
+  const [commentPhoto, setcommentPhoto] = useState(null);
 
   const postCreatedAt = new Date(currentNews.createdAt);
 
@@ -57,11 +61,27 @@ const NewsItem = ({ currentNews }) => {
   };
 
   const sendComment = (e) => {
-    if (answerText.length !== 0) {
-      e.preventDefault();
-      setAnswerText('');
-      setActiveComment(false);
-    }
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('Content', answerText);
+    formData.append('Image', commentPhoto);
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/CreateComment${currentNews.tweetId}`,
+      {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then((data) => {
+        setAnswerText('');
+        setActiveComment(false);
+      })
+      .catch((error) => {
+        console.log('create comment error');
+      });
   };
   if (isLoading) {
     return <Loader />;
@@ -186,12 +206,56 @@ const NewsItem = ({ currentNews }) => {
                 placeholder='Tweet your reply'
                 className='input form__input'
               />
-              <button onClick={sendComment} type='sumbit' className='send'>
+              <label htmlFor='file' className='send-photo form__send-photo'>
+                <input
+                  onChange={(e) => {
+                    if (e.target.files[0].size < 1 * 1000 * 1024) {
+                      setcommentPhoto(e.target.files[0]);
+                    }
+                  }}
+                  type='file'
+                  id='file'
+                  accept='image/,.png,.jpeg,.jpg'
+                  style={{ display: 'none' }}
+                />
+
+                <PhotoUpload width={'20'} height={'20'} />
+              </label>
+
+              <button
+                onClick={sendComment}
+                type='sumbit'
+                className='send form_send'
+              >
                 <Send width={'20'} height={'20'} />
               </button>
             </form>
           </div>
         )}
+        <div className='comments-section news-body__comments-section'>
+          <div
+            onClick={() => {
+              setIsCommentsShowing(!isCommentsShowing);
+            }}
+            className='show-comments comments-section__show-comments'
+          >
+            {isCommentsShowing ? (
+              <p className='common-text'>Hide comments</p>
+            ) : (
+              <p className='common-text'>Show comments</p>
+            )}
+            <div
+              style={{
+                transform: isCommentsShowing
+                  ? 'rotate(180deg)'
+                  : 'rotate(0deg)',
+              }}
+              className='arrow show-comments__arrow'
+            >
+              <Arrow width={'24'} height={'28'} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
