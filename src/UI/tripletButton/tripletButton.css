@@ -3,6 +3,7 @@
 }
 
 .news-body__triplet {
+    height: 24px;
     order: 3;
     color: #9c9898;
     display: flex;

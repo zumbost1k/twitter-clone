@@ -404,7 +404,7 @@ const NewsItem = ({ currentNews }) => {
                           <img
                             src={currentComment.image}
                             alt='comment'
-                            width='500'
+                            width='400'
                             height='200'
                             className='post-picture content__post-picture'
                           />
