@@ -4,12 +4,19 @@ import ProfileHeader from '@/components/profileHeader/profileHeader';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import Loader from '@/UI/loader/loader';
+import { useParams } from 'react-router-dom';
+import { useAuth } from '@/hooks/use-auth';
 
 const UserPage = () => {
   const [userPageNews, setUserPageNews] = useState(null);
+  const { id = 'currentUser' } = useParams();
+  const { userId } = useAuth();
+
   useEffect(() => {
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetCurrentUserTweetsAndRetweets`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetUserTweetsAndRetweets${
+        id === 'currentUser' ? userId : id
+      }`,
       {
         method: 'GET',
         credentials: 'include',
@@ -21,7 +28,7 @@ const UserPage = () => {
       .then((data) => {
         setUserPageNews(data.data);
       });
-  }, []);
+  }, [id, userId]);
 
   if (!userPageNews) {
     return <Loader />;
@@ -50,7 +57,16 @@ const UserPage = () => {
             },
           ]}
         />
-        <AllNews isUserPage={true} allNews={userPageNews} />
+         {!userPageNews.length ? (
+          <p className='common-text bookmarks-page-section__common-text'>
+            No posts have been written  yet
+          </p>
+        ) : (
+          <div className='explore-all-news'>
+             <AllNews isUserPage={true} allNews={userPageNews} />
+          </div>
+        )}
+       
       </div>
     </section>
   );
