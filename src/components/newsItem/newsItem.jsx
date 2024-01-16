@@ -10,13 +10,80 @@ import Send from '@/icons/send';
 import { Link } from 'react-router-dom';
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
-import TripletButton from '../tripletButton/tripletButton';
+import TripletButton from '@/UI/tripletButton/tripletButton';
 import { useAuth } from '@/hooks/use-auth';
 import { useLike } from '@/hooks/use-like';
 import { useSave } from '@/hooks/use-save';
 import Loader from '@/UI/loader/loader';
 import Arrow from '@/icons/arrow';
 import PhotoUpload from '@/icons/photo';
+import Trash from '@/icons/trash';
+import Edit from '@/icons/edit';
+
+const Likebutton = ({ commentId, isLikedInitianally }) => {
+  const [isLiked, setIsLiked] = useState(isLikedInitianally);
+  const LikedCommentHandler = () => {
+    setIsLiked(!isLiked);
+  };
+  return (
+    <button
+      onClick={LikedCommentHandler}
+      className={`like-btn ${
+        isLiked ? 'like-btn_active' : 'like-btn_disabled'
+      }`}
+    >
+      <Heart width={'16'} height={'16'} />
+      <span>{isLiked ? 'Liked' : 'Like'}</span>
+    </button>
+  );
+};
+
+const comments = [
+  {
+    commentId: 8,
+    posterUserId: 3,
+    content: 'this is a test comment',
+    image:
+      'https://twittercloneapiproductionenv.azurewebsites.net/3/16.01.2024.12.12.24.575331.png',
+    createdAt: '2024-01-16T12:12:24.5925043',
+    updatedAt: '2024-01-16T12:12:24.5925055',
+    isOwner: true,
+    profilePicture:
+      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
+    quantityOfLikes: 8,
+    fullName: 'misha',
+    isLiked: false,
+  },
+  {
+    commentId: 9,
+    posterUserId: 3,
+    content: 'this is a test comment for checking',
+    image:
+      'https://twittercloneapiproductionenv.azurewebsites.net/3/16.01.2024.12.22.12.081435.png',
+    createdAt: '2024-01-16T12:22:12.093417',
+    updatedAt: '2024-01-16T12:22:12.0934184',
+    isOwner: true,
+    profilePicture:
+      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
+    quantityOfLikes: 0,
+    fullName: 'misha',
+    isLiked: false,
+  },
+  {
+    commentId: 10,
+    posterUserId: 3,
+    content: 'this is a comment without photo',
+    image: '',
+    createdAt: '2024-01-16T12:23:10.255165',
+    updatedAt: '2024-01-16T12:23:10.255168',
+    isOwner: false,
+    profilePicture:
+      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
+    quantityOfLikes: 2,
+    fullName: 'misha',
+    isLiked: true,
+  },
+];
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -65,6 +132,7 @@ const NewsItem = ({ currentNews }) => {
     const formData = new FormData();
     formData.append('Content', answerText);
     formData.append('Image', commentPhoto);
+
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Comment/CreateComment${currentNews.tweetId}`,
       {
@@ -78,6 +146,7 @@ const NewsItem = ({ currentNews }) => {
       .then((data) => {
         setAnswerText('');
         setActiveComment(false);
+        setcommentPhoto(null);
       })
       .catch((error) => {
         console.log('create comment error');
@@ -124,7 +193,37 @@ const NewsItem = ({ currentNews }) => {
             </div>
           </div>
 
-          <TripletButton tweetId={currentNews.tweetId} />
+          <TripletButton
+            tweetId={currentNews.tweetId}
+            tripletButtons={[
+              {
+                text: 'Delete post',
+                icon: <Trash width={'16'} height={'16'} />,
+                functionKey: 'delete',
+              },
+              {
+                text: 'Edit post',
+                icon: <Edit width={'16'} height={'16'} />,
+                functionKey: 'update',
+              },
+            ]}
+            tripletFunctions={{
+              delete: (tweetId) => {
+                fetch(
+                  `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
+                  {
+                    method: 'DELETE',
+                    credentials: 'include',
+                    withCredentials: true,
+                    crossorigin: true,
+                  }
+                );
+              },
+              update: (tweetId) => {
+                console.log('hello update ' + tweetId);
+              },
+            }}
+          />
         </div>
 
         <p className='text news-body__text'>{currentNews.content}</p>
@@ -206,7 +305,10 @@ const NewsItem = ({ currentNews }) => {
                 placeholder='Tweet your reply'
                 className='input form__input'
               />
-              <label htmlFor='file' className='send-photo form__send-photo'>
+              <label
+                htmlFor='comment-photo'
+                className='send-photo form__send-photo'
+              >
                 <input
                   onChange={(e) => {
                     if (e.target.files[0].size < 1 * 1000 * 1024) {
@@ -214,7 +316,7 @@ const NewsItem = ({ currentNews }) => {
                     }
                   }}
                   type='file'
-                  id='file'
+                  id='comment-photo'
                   accept='image/,.png,.jpeg,.jpg'
                   style={{ display: 'none' }}
                 />
@@ -233,6 +335,98 @@ const NewsItem = ({ currentNews }) => {
           </div>
         )}
         <div className='comments-section news-body__comments-section'>
+          {isCommentsShowing ? (
+            <div className='comments comments-section__comments'>
+              {comments.map((currentComment) => {
+                const postCreatedAt = new Date(currentComment.createdAt);
+                return (
+                  <div className='comment' key={currentComment.id}>
+                    <img
+                      src={currentComment.profilePicture}
+                      alt='avatar'
+                      width='40'
+                      height='40'
+                      className='avatar'
+                    />
+                    <div className='content comment__content'>
+                      <div className='comment__first-line'>
+                        <div className='comment-author'>
+                          <p className='text post-author__text'>
+                            {currentComment.fullName}
+                          </p>
+                          <time
+                            className='disabled-text post-author__disabled-text'
+                            datatime={currentComment.createdAt}
+                          >
+                            {postCreatedAt.toLocaleString()}
+                          </time>
+                        </div>
+
+                        {currentComment.isOwner && (
+                          <TripletButton
+                            tweetId={currentComment.commentId}
+                            tripletButtons={[
+                              {
+                                text: 'Delete',
+                                icon: <Trash width={'16'} height={'16'} />,
+                                functionKey: 'delete',
+                              },
+                              {
+                                text: 'Edit',
+                                icon: <Edit width={'16'} height={'16'} />,
+                                functionKey: 'update',
+                              },
+                            ]}
+                            tripletFunctions={{
+                              delete: (commentId) => {
+                                fetch(
+                                  `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
+                                  {
+                                    method: 'DELETE',
+                                    credentials: 'include',
+                                    withCredentials: true,
+                                    crossorigin: true,
+                                  }
+                                );
+                              },
+                              update: (commentId) => {
+                                console.log('hello update ' + commentId);
+                              },
+                            }}
+                          />
+                        )}
+                      </div>
+                      <p className='text comment__text'>
+                        {currentComment.content}
+                      </p>
+                      {currentComment.image && (
+                        <div>
+                          <img
+                            src={currentComment.image}
+                            alt='comment'
+                            width='500'
+                            height='200'
+                            className='post-picture content__post-picture'
+                          />
+                        </div>
+                      )}
+                      <div className='comment-likes content-comment__likes'>
+                        <Likebutton
+                          commentId={currentComment.commentId}
+                          isLikedInitianally={currentComment.isLiked}
+                        />
+                        <p className='common-text comment-likes__commont-text'>
+                          {currentComment.quantityOfLikes} Likes
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            ''
+          )}
           <div
             onClick={() => {
               setIsCommentsShowing(!isCommentsShowing);
