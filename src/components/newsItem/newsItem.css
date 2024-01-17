@@ -186,7 +186,7 @@
 }
 
 .comments-section__comments {
-  padding-left: 15px;
+  padding-left: 35px;
   margin: 0px 20px 20px 0px;
-  border-left: 3px solid rgb(234, 234, 234);
+  /* border-left: 3px solid rgb(234, 234, 234); */
 }
