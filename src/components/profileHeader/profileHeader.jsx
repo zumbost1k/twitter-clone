@@ -20,6 +20,10 @@ const ProfileHeader = () => {
   const user = useGetUserById(id);
 
   useEffect(() => {
+    setShouldFetch(true);
+  }, [id]);
+
+  useEffect(() => {
     if (shouldFetch) {
       const fetchUser = async () => {
         setCurrentUser(await user);

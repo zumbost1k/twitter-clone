@@ -28,6 +28,7 @@ const BookmarksPage = () => {
     <section className='bookmarks-page-section'>
       <div className='filtered-news'>
         <ContentFilter
+          filterInitial={'tweets'}
           filterLinks={[
             {
               labelText: 'Tweets',
@@ -48,7 +49,9 @@ const BookmarksPage = () => {
           ]}
         />
         {!bookMaksNews.length ? (
-          <p className='common-text bookmarks-page-section__common-text'>No posts have been saved</p>
+          <p className='common-text bookmarks-page-section__common-text'>
+            No posts have been saved
+          </p>
         ) : (
           <AllNews isUserPage={false} allNews={bookMaksNews} />
         )}

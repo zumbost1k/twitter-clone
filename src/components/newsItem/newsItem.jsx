@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './newsItem.css';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/selectors/selectors';
@@ -14,7 +14,6 @@ import TripletButton from '@/UI/tripletButton/tripletButton';
 import { useAuth } from '@/hooks/use-auth';
 import { useLike } from '@/hooks/use-like';
 import { useSave } from '@/hooks/use-save';
-import Loader from '@/UI/loader/loader';
 import Arrow from '@/icons/arrow';
 import PhotoUpload from '@/icons/photo';
 import Trash from '@/icons/trash';
@@ -102,26 +101,10 @@ const NewsItem = ({ currentNews }) => {
   const currentUserInfo = useSelector(selectCurrentUser);
   const [activeComment, setActiveComment] = useState(false);
   const [answerText, setAnswerText] = useState('');
-  const [postAuthor, setPostAuthor] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [isCommentsShowing, setIsCommentsShowing] = useState(false);
   const [commentPhoto, setcommentPhoto] = useState(null);
 
   const postCreatedAt = new Date(currentNews.createdAt);
-
-  useEffect(() => {
-    fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${currentNews.postedUserId}`,
-      { method: 'GET' }
-    )
-      .then((responce) => responce.json())
-      .then((data) => {
-        setPostAuthor(data.data);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [currentNews.postedUserId]);
 
   const onClickCommentHandle = (tweetId) => {
     setActiveComment(!activeComment);
@@ -152,9 +135,6 @@ const NewsItem = ({ currentNews }) => {
         console.log('create comment error');
       });
   };
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <div className='container news-container'>
@@ -164,7 +144,7 @@ const NewsItem = ({ currentNews }) => {
             <img
               className='avatar news-body__avatar'
               src={
-                postAuthor.profilePicture ||
+                currentNews.postedUserImage ||
                 './photos/usersAvatar/emptyAvatar.jpg'
               }
               alt='avatar'
@@ -174,15 +154,13 @@ const NewsItem = ({ currentNews }) => {
             <div className='post-author news-body__post-author'>
               <Link
                 to={`/user/${
-                  userId === postAuthor.userId
+                  userId === currentNews.postedUserId
                     ? 'currentUser'
-                    : postAuthor.userId
+                    : currentNews.postedUserId
                 }`}
                 className='text post-author__text'
               >
-                {postAuthor.fullName
-                  ? postAuthor.fullName
-                  : postAuthor.userName}
+                {currentNews.postedUserName}
               </Link>
               <time
                 className='disabled-text post-author__disabled-text'
@@ -371,11 +349,6 @@ const NewsItem = ({ currentNews }) => {
                                 icon: <Trash width={'16'} height={'16'} />,
                                 functionKey: 'delete',
                               },
-                              {
-                                text: 'Edit',
-                                icon: <Edit width={'16'} height={'16'} />,
-                                functionKey: 'update',
-                              },
                             ]}
                             tripletFunctions={{
                               delete: (commentId) => {
@@ -389,9 +362,6 @@ const NewsItem = ({ currentNews }) => {
                                   }
                                 );
                               },
-                              update: (commentId) => {
-                                console.log('hello update ' + commentId);
-                              },
                             }}
                           />
                         )}
@@ -404,7 +374,7 @@ const NewsItem = ({ currentNews }) => {
                           <img
                             src={currentComment.image}
                             alt='comment'
-                            width='500'
+                            width='400'
                             height='200'
                             className='post-picture content__post-picture'
                           />
