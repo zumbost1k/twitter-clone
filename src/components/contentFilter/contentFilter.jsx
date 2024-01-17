@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './contentFilter.css';
 import { useNavigate } from 'react-router-dom';
 
-const ContentFilter = ({filterLinks}) => {
-  const [filter, setFilter] = useState('tweets');
+const ContentFilter = ({filterLinks,filterInitial}) => {
+  const [filter, setFilter] = useState(filterInitial);
   const navigate = useNavigate();
   useEffect(() => {
     navigate(`?filter=${filter}`);
