@@ -349,11 +349,6 @@ const NewsItem = ({ currentNews }) => {
                                 icon: <Trash width={'16'} height={'16'} />,
                                 functionKey: 'delete',
                               },
-                              {
-                                text: 'Edit',
-                                icon: <Edit width={'16'} height={'16'} />,
-                                functionKey: 'update',
-                              },
                             ]}
                             tripletFunctions={{
                               delete: (commentId) => {
@@ -366,9 +361,6 @@ const NewsItem = ({ currentNews }) => {
                                     crossorigin: true,
                                   }
                                 );
-                              },
-                              update: (commentId) => {
-                                console.log('hello update ' + commentId);
                               },
                             }}
                           />
