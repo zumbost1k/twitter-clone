@@ -19,8 +19,8 @@ import PhotoUpload from '@/icons/photo';
 import Trash from '@/icons/trash';
 import Edit from '@/icons/edit';
 import Likebutton from '@/UI/likeButton/likeButton';
-import Tick from '../../icons/tick';
-import CustomButton from '../../UI/customButton/cistomButton';
+import Tick from '@/icons/tick';
+import CustomButton from '@/UI/customButton/cistomButton';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -36,6 +36,12 @@ const NewsItem = ({ currentNews }) => {
     currentNews.isSaved
   );
   const { userId } = useAuth();
+  const [currentPostText, setCurrentPostText] = useState(
+    currentNews.content || ''
+  );
+  const [currentPostPhoto, setCurrentPostPhoto] = useState(
+    currentNews.image || ''
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(null);
   const currentUserInfo = useSelector(selectCurrentUser);
@@ -96,7 +102,22 @@ const NewsItem = ({ currentNews }) => {
   };
 
   const saveTweetChanges = () => {
-    setIsEditing(false);
+    const formData = new FormData();
+    formData.append('Content', currentPostText);
+    formData.append('TweetImage', currentPostPhoto);
+    formData.append('IsPublic', currentNews.isPublic);
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentNews.tweetId}`,
+      {
+        method: 'PUT',
+        body: formData,
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    ).then(() => {
+      setIsEditing(false);
+    });
   };
   return (
     <div className='container news-container'>
@@ -179,13 +200,40 @@ const NewsItem = ({ currentNews }) => {
           )}
         </div>
 
-        <p className='text news-body__text'>{currentNews.content}</p>
-        {currentNews.image && (
-          <img
-            className='post-picture news-body__post-picture'
-            src={currentNews.image}
-            alt='post'
+        {isEditing ? (
+          <textarea
+            value={currentPostText}
+            onChange={(e) => {
+              setCurrentPostText(e.target.value);
+            }}
+            className='text news-body__text news-body__text_textarea'
           />
+        ) : (
+          <p className='text news-body__text'>{currentNews.content}</p>
+        )}
+        {currentPostPhoto && (
+          <div className='news-body__post-picture'>
+            {isEditing ? (
+              <div className='post-picture-btn news-body__post-picture-btn'>
+                <CustomButton
+                  content={
+                    <span className='content'>
+                      <Trash width={'40'} height={'40'} />
+                    </span>
+                  }
+                  size={'small'}
+                  type={'button'}
+                  activeClass={'transparent'}
+                  onClickfunction={(e) => {
+                    setCurrentPostPhoto('');
+                  }}
+                />
+              </div>
+            ) : (
+              ''
+            )}
+            <img className='post-picture' src={currentPostPhoto} alt='post' />
+          </div>
         )}
         <div className='media news-body__media'>
           <p className='disabled-text media__disabled-text'>

@@ -53,6 +53,7 @@
 }
 
 .news-body__post-picture {
+  position: relative;
   order: 5;
 }
 
@@ -87,7 +88,7 @@
 
 .comments-section__show-comments:hover {
   background: rgb(235, 235, 235);
-  border-radius: 0px 0px 12px 12px
+  border-radius: 0px 0px 12px 12px;
 }
 
 .comments-section__show-comments {
@@ -114,7 +115,6 @@
   display: flex;
   margin-right: 6px;
 }
-
 
 .comment__first-line {
   justify-content: space-between;
@@ -145,8 +145,6 @@
   gap: 6px;
 }
 
-
-
 .content-comment__likes {
   display: flex;
   gap: 22px;
@@ -172,3 +170,23 @@
   border-left: 3px solid rgb(234, 234, 234);
 }
 
+.news-body__text_textarea {
+  border: 1px solid #2f80ed;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.news-body__text_textarea:focus {
+  outline: none !important;
+  border: 1px solid #2f80ed;
+  box-shadow: 0 0 10px #2f80ed;
+}
+
+.post-picture-btn {
+  position: absolute;
+}
+
+.news-body__post-picture-btn {
+  margin-top: 15px;
+  right: 0px;
+}

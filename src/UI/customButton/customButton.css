@@ -1,61 +1,70 @@
 .button {
-    border-radius: 4px;
-    color: white;
+  border-radius: 4px;
+  color: white;
 }
 
 .blue {
-    background: #2F80ED;
-    transition: #2F80ED 0.3s ease;
+  background: #2f80ed;
+  transition: #2f80ed 0.3s ease;
 }
 
 .white {
-    background: none;
-    color: #4F4F4F;
+  background: none;
+  color: #4f4f4f;
 }
 
 .white:hover {
-    background: #f2f2f2;
+  background: #f2f2f2;
+}
+
+.transparent {
+  background: none;
+  color: rgb(251 47 47);
+}
+
+.transparent:hover {
+    color: rgb(227, 44, 44);
 }
 
 .button__subscribee-grey {
-    background: rgb(126, 125, 125);
-    transition: rgb(126, 125, 125) 0.3s ease;
+  background: rgb(126, 125, 125);
+  transition: rgb(126, 125, 125) 0.3s ease;
 }
 
 .button__subscribee-grey:hover {
-    background: rgb(100, 100, 100);
+  background: rgb(100, 100, 100);
 }
 
 .standard {
-    padding: 6px 18px;
+  padding: 6px 18px;
 }
 
 .small {
-    padding: 2px 8px;
+  padding: 2px 8px;
 }
 
 .content {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
 }
 
 .blue:hover {
-    background: #2b76d8;
+  background: #2b76d8;
 }
 
 .button:disabled {
-    background: #577baa;
-    color: rgb(197, 196, 196);
+  background: #577baa;
+  color: rgb(197, 196, 196);
 }
 
-@media (min-width:600px) {
-    .small {
-        padding: 4px 13px;
-    }
+@media (min-width: 600px) {
+  .small {
+    padding: 4px 13px;
+  }
 
-    .standard {
-        padding: 9px 24px;
-    }
+  .standard {
+    padding: 9px 24px;
+  }
 }
