@@ -40,7 +40,7 @@ const NewsItem = ({ currentNews }) => {
     currentNews.content || ''
   );
   const [currentPostPhoto, setCurrentPostPhoto] = useState(
-    currentNews.image || ''
+    currentNews.image || null
   );
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(null);
@@ -104,7 +104,10 @@ const NewsItem = ({ currentNews }) => {
   const saveTweetChanges = () => {
     const formData = new FormData();
     formData.append('Content', currentPostText);
-    formData.append('TweetImage', currentPostPhoto);
+    formData.append('OldTweetImage', currentNews.image);
+    console.log(currentPostPhoto, ' new');
+    console.log(currentNews.image, ' old');
+    formData.append('NewTweetImage', currentPostPhoto);
     formData.append('IsPublic', currentNews.isPublic);
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentNews.tweetId}`,
@@ -225,7 +228,7 @@ const NewsItem = ({ currentNews }) => {
                   type={'button'}
                   activeClass={'transparent'}
                   onClickfunction={(e) => {
-                    setCurrentPostPhoto('');
+                    setCurrentPostPhoto(null);
                   }}
                 />
               </div>
