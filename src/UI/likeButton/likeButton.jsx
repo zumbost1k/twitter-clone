@@ -5,24 +5,11 @@ import './likeButton.css';
 const Likebutton = ({ commentId, isLikedInitianally }) => {
   const [isLiked, setIsLiked] = useState(isLikedInitianally);
   const LikedCommentHandler = () => {
-    const likeComment = () => {
+    const likeComment = async () => {
       fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Like/AddTweetInLiked${commentId}`,
+        `https://twittercloneapiproductionenv.azurewebsites.net/CommentLike/AddLikeOnComment${commentId}`,
         {
-          method: 'GET',
-          credentials: 'include',
-          withCredentials: true,
-          crossorigin: true,
-        }
-      ).then(() => {
-        setIsLiked(false);
-      });
-    };
-    const unlikeComment = () => {
-      fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Like/DeleteTweetFromLiked${commentId}`,
-        {
-          method: 'DELETE',
+          method: 'POST',
           credentials: 'include',
           withCredentials: true,
           crossorigin: true,
@@ -31,6 +18,21 @@ const Likebutton = ({ commentId, isLikedInitianally }) => {
         setIsLiked(true);
       });
     };
+
+    const unlikeComment = async () => {
+      fetch(
+        `https://twittercloneapiproductionenv.azurewebsites.net/CommentLike/DeleteLikeFromComment${commentId}`,
+        {
+          method: 'DELETE',
+          credentials: 'include',
+          withCredentials: true,
+          crossorigin: true,
+        }
+      ).then(() => {
+        setIsLiked(false);
+      });
+    };
+
     isLiked ? unlikeComment() : likeComment();
   };
   return (
