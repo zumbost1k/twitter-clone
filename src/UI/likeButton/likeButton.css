@@ -1,0 +1,20 @@
+.like-btn {
+    display: flex;
+    align-items: center;
+  }
+  
+  .like-btn_disabled {
+    color: #bdbdbd;
+  }
+  
+  .like-btn_disabled:hover {
+    color: #929292;
+  }
+  
+  .like-btn_active {
+    color: #eb5757;
+  }
+  
+  .like-btn_active:hover {
+    color: #a23b3b;
+  }

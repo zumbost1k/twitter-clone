@@ -30,15 +30,17 @@ const ExplorePage = () => {
     <section className='explore-page'>
       <div className='explore-filter'>
         <ContentFilter
+          filterInitial={'latest'}
           filterLinks={[
+            {
+              labelText: 'Latest',
+              id: 'latest',
+            },
             {
               labelText: 'Top',
               id: 'top',
             },
-            {
-              labelText: 'Lastest',
-              id: 'lastest',
-            },
+
             {
               labelText: 'People',
               id: 'people',
@@ -56,7 +58,7 @@ const ExplorePage = () => {
         </div>
         {!exploreNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
-            No posts have been written  yet
+            No posts have been written yet
           </p>
         ) : (
           <div className='explore-all-news'>

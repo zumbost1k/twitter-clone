@@ -66,7 +66,6 @@ const SettingsPage = () => {
                   className='none'
                   accept='image/,.png,.jpeg,.jpg'
                   onChange={(e) => {
-                    console.log(e.target.files);
                     if (e.target.files[0]) {
                       if (e.target.files[0].size < 1 * 1000 * 1024) {
                         const newAvatardUrl = URL.createObjectURL(

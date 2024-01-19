@@ -67,7 +67,6 @@ const AddNews = () => {
                   id='file'
                   accept='image/,.png,.jpeg,.jpg'
                   style={{ display: 'none' }}
-                  ///required
                 />
                 <label htmlFor='file' className='icon'>
                   <PhotoUpload width={'20'} height={'20'} />

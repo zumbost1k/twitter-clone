@@ -1,40 +1,9 @@
 import React, { useState } from 'react';
 import './tripletButton.css';
 import Triplet from '@/icons/triplet';
-import Trash from '@/icons/trash';
 import CustomButton from '@/UI/customButton/cistomButton';
-import Edit from '@/icons/edit';
 
-const tripletFunctions = {
-  delete: (tweetId) => {
-    fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
-      {
-        method: 'DELETE',
-        credentials: 'include',
-        withCredentials: true,
-        crossorigin: true,
-      }
-    );
-  },
-  update: (tweetId) => {
-    console.log('hello update ' + tweetId);
-  },
-};
-
-const tripletButtons = [
-  {
-    text: 'Delete post',
-    icon: <Trash width={'16'} height={'16'} />,
-    functionKey: 'delete',
-  },
-  {
-    text: 'Edit post',
-    icon: <Edit width={'16'} height={'16'} />,
-    functionKey: 'update',
-  },
-];
-const TripletButton = ({ tweetId }) => {
+const TripletButton = ({ tweetId, tripletButtons, tripletFunctions }) => {
   const [isActiveMenu, setIsActiveMenu] = useState(false);
 
   const interactionToolClick = (buttonName) => {
