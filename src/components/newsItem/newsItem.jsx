@@ -19,6 +19,8 @@ import PhotoUpload from '@/icons/photo';
 import Trash from '@/icons/trash';
 import Edit from '@/icons/edit';
 import Likebutton from '@/UI/likeButton/likeButton';
+import Tick from '../../icons/tick';
+import CustomButton from '../../UI/customButton/cistomButton';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -34,6 +36,7 @@ const NewsItem = ({ currentNews }) => {
     currentNews.isSaved
   );
   const { userId } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(null);
   const currentUserInfo = useSelector(selectCurrentUser);
   const [activeComment, setActiveComment] = useState(false);
@@ -92,6 +95,9 @@ const NewsItem = ({ currentNews }) => {
       });
   };
 
+  const saveTweetChanges = () => {
+    setIsEditing(false);
+  };
   return (
     <div className='container news-container'>
       <div className='news-body container__news-body'>
@@ -127,7 +133,7 @@ const NewsItem = ({ currentNews }) => {
             </div>
           </div>
 
-          {currentNews.isOwner ? (
+          {currentNews.isOwner && !isEditing ? (
             <TripletButton
               tweetId={currentNews.tweetId}
               tripletButtons={[
@@ -155,12 +161,21 @@ const NewsItem = ({ currentNews }) => {
                   );
                 },
                 update: (tweetId) => {
-                  console.log('hello update ' + tweetId);
+                  setIsEditing(true);
                 },
               }}
             />
           ) : (
-            ''
+            <CustomButton
+              content={
+                <span className='content'>
+                  <Tick width={'14'} height={'14'} /> Save
+                </span>
+              }
+              onClickfunction={saveTweetChanges}
+              size={'small'}
+              type={'button'}
+            />
           )}
         </div>
 
