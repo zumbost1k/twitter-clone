@@ -18,71 +18,8 @@ import Arrow from '@/icons/arrow';
 import PhotoUpload from '@/icons/photo';
 import Trash from '@/icons/trash';
 import Edit from '@/icons/edit';
+import Likebutton from '@/UI/likeButton/likeButton';
 
-const Likebutton = ({ commentId, isLikedInitianally }) => {
-  const [isLiked, setIsLiked] = useState(isLikedInitianally);
-  const LikedCommentHandler = () => {
-    setIsLiked(!isLiked);
-  };
-  return (
-    <button
-      onClick={LikedCommentHandler}
-      className={`like-btn ${
-        isLiked ? 'like-btn_active' : 'like-btn_disabled'
-      }`}
-    >
-      <Heart width={'16'} height={'16'} />
-      <span>{isLiked ? 'Liked' : 'Like'}</span>
-    </button>
-  );
-};
-
-const comments = [
-  {
-    commentId: 8,
-    posterUserId: 3,
-    content: 'this is a test comment',
-    image:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/16.01.2024.12.12.24.575331.png',
-    createdAt: '2024-01-16T12:12:24.5925043',
-    updatedAt: '2024-01-16T12:12:24.5925055',
-    isOwner: true,
-    profilePicture:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    quantityOfLikes: 8,
-    fullName: 'misha',
-    isLiked: false,
-  },
-  {
-    commentId: 9,
-    posterUserId: 3,
-    content: 'this is a test comment for checking',
-    image:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/16.01.2024.12.22.12.081435.png',
-    createdAt: '2024-01-16T12:22:12.093417',
-    updatedAt: '2024-01-16T12:22:12.0934184',
-    isOwner: true,
-    profilePicture:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    quantityOfLikes: 0,
-    fullName: 'misha',
-    isLiked: false,
-  },
-  {
-    commentId: 10,
-    posterUserId: 3,
-    content: 'this is a comment without photo',
-    image: '',
-    createdAt: '2024-01-16T12:23:10.255165',
-    updatedAt: '2024-01-16T12:23:10.255168',
-    isOwner: false,
-    profilePicture:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    quantityOfLikes: 2,
-    fullName: 'misha',
-    isLiked: true,
-  },
-];
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -98,6 +35,7 @@ const NewsItem = ({ currentNews }) => {
     currentNews.isSaved
   );
   const { userId } = useAuth();
+  const [comment, setComment] = useState(null);
   const currentUserInfo = useSelector(selectCurrentUser);
   const [activeComment, setActiveComment] = useState(false);
   const [answerText, setAnswerText] = useState('');
@@ -108,6 +46,25 @@ const NewsItem = ({ currentNews }) => {
 
   const onClickCommentHandle = (tweetId) => {
     setActiveComment(!activeComment);
+  };
+
+  const getCommentsHandler = () => {
+    setIsCommentsShowing(!isCommentsShowing);
+    if (!comment) {
+      fetch(
+        `https://twittercloneapiproductionenv.azurewebsites.net/Comment/GetTweetComments${currentNews.tweetId}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          withCredentials: true,
+          crossorigin: true,
+        }
+      )
+        .then((responce) => responce.json())
+        .then((data) => {
+          setComment(data.data);
+        });
+    }
   };
 
   const sendComment = (e) => {
@@ -313,14 +270,18 @@ const NewsItem = ({ currentNews }) => {
           </div>
         )}
         <div className='comments-section news-body__comments-section'>
-          {isCommentsShowing ? (
+          {comment && isCommentsShowing ? (
             <div className='comments comments-section__comments'>
-              {comments.map((currentComment) => {
+              {comment.map((currentComment) => {
                 const postCreatedAt = new Date(currentComment.createdAt);
                 return (
-                  <div className='comment' key={currentComment.id}>
+                  <div className='comment' key={currentComment.commentId}>
                     <img
-                      src={currentComment.profilePicture}
+                      src={
+                        currentComment.postedUserImage
+                          ? currentComment.postedUserImage
+                          : './photos/usersAvatar/emptyAvatar.jpg'
+                      }
                       alt='avatar'
                       width='40'
                       height='40'
@@ -330,7 +291,7 @@ const NewsItem = ({ currentNews }) => {
                       <div className='comment__first-line'>
                         <div className='comment-author'>
                           <p className='text post-author__text'>
-                            {currentComment.fullName}
+                            {currentComment.postedUserName}
                           </p>
                           <time
                             className='disabled-text post-author__disabled-text'
@@ -386,7 +347,7 @@ const NewsItem = ({ currentNews }) => {
                           isLikedInitianally={currentComment.isLiked}
                         />
                         <p className='common-text comment-likes__commont-text'>
-                          {currentComment.quantityOfLikes} Likes
+                          {currentComment.likesCount} Likes
                         </p>
                       </div>
                     </div>
@@ -398,9 +359,7 @@ const NewsItem = ({ currentNews }) => {
             ''
           )}
           <div
-            onClick={() => {
-              setIsCommentsShowing(!isCommentsShowing);
-            }}
+            onClick={getCommentsHandler}
             className='show-comments comments-section__show-comments'
           >
             {isCommentsShowing ? (
