@@ -38,6 +38,7 @@ const UserPage = () => {
       <ProfileHeader />
       <div className='filtered-news'>
         <ContentFilter
+          filterInitial={'tweets'}
           filterLinks={[
             {
               labelText: 'Tweets',
@@ -57,16 +58,15 @@ const UserPage = () => {
             },
           ]}
         />
-         {!userPageNews.length ? (
+        {!userPageNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
-            No posts have been written  yet
+            No posts have been written yet
           </p>
         ) : (
           <div className='explore-all-news'>
-             <AllNews isUserPage={true} allNews={userPageNews} />
+            <AllNews isUserPage={true} allNews={userPageNews} />
           </div>
         )}
-       
       </div>
     </section>
   );

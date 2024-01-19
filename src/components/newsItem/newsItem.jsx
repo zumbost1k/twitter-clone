@@ -293,9 +293,17 @@ const NewsItem = ({ currentNews }) => {
                     <div className='content comment__content'>
                       <div className='comment__first-line'>
                         <div className='comment-author'>
-                          <p className='text post-author__text'>
+                          <Link
+                            to={
+                              currentUserInfo.userId ===
+                              currentComment.posterUserId
+                                ? '/user/currentUser'
+                                : `/user/${currentComment.posterUserId}`
+                            }
+                            className='text post-author__text'
+                          >
                             {currentComment.postedUserName}
-                          </p>
+                          </Link>
                           <time
                             className='disabled-text post-author__disabled-text'
                             datatime={currentComment.createdAt}
