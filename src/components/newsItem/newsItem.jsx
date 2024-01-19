@@ -20,7 +20,6 @@ import Trash from '@/icons/trash';
 import Edit from '@/icons/edit';
 import Likebutton from '@/UI/likeButton/likeButton';
 
-
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
     currentNews.tweetId,
@@ -128,37 +127,41 @@ const NewsItem = ({ currentNews }) => {
             </div>
           </div>
 
-          <TripletButton
-            tweetId={currentNews.tweetId}
-            tripletButtons={[
-              {
-                text: 'Delete post',
-                icon: <Trash width={'16'} height={'16'} />,
-                functionKey: 'delete',
-              },
-              {
-                text: 'Edit post',
-                icon: <Edit width={'16'} height={'16'} />,
-                functionKey: 'update',
-              },
-            ]}
-            tripletFunctions={{
-              delete: (tweetId) => {
-                fetch(
-                  `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
-                  {
-                    method: 'DELETE',
-                    credentials: 'include',
-                    withCredentials: true,
-                    crossorigin: true,
-                  }
-                );
-              },
-              update: (tweetId) => {
-                console.log('hello update ' + tweetId);
-              },
-            }}
-          />
+          {currentNews.isOwner ? (
+            <TripletButton
+              tweetId={currentNews.tweetId}
+              tripletButtons={[
+                {
+                  text: 'Delete post',
+                  icon: <Trash width={'16'} height={'16'} />,
+                  functionKey: 'delete',
+                },
+                {
+                  text: 'Edit post',
+                  icon: <Edit width={'16'} height={'16'} />,
+                  functionKey: 'update',
+                },
+              ]}
+              tripletFunctions={{
+                delete: (tweetId) => {
+                  fetch(
+                    `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
+                    {
+                      method: 'DELETE',
+                      credentials: 'include',
+                      withCredentials: true,
+                      crossorigin: true,
+                    }
+                  );
+                },
+                update: (tweetId) => {
+                  console.log('hello update ' + tweetId);
+                },
+              }}
+            />
+          ) : (
+            ''
+          )}
         </div>
 
         <p className='text news-body__text'>{currentNews.content}</p>
