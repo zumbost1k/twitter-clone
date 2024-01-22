@@ -21,6 +21,7 @@ import Edit from '@/icons/edit';
 import Likebutton from '@/UI/likeButton/likeButton';
 import Tick from '@/icons/tick';
 import CustomButton from '@/UI/customButton/cistomButton';
+import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
 const NewsItem = ({ currentNews }) => {
   const { isRetweeted, retweet, unRetweet } = useRetweet(
@@ -40,6 +41,9 @@ const NewsItem = ({ currentNews }) => {
     currentNews.content || ''
   );
   const [currentPostPhoto, setCurrentPostPhoto] = useState(
+    currentNews.image || null
+  );
+  const [currentPostPhotoURL, setCurrentPostPhotoURL] = useState(
     currentNews.image || null
   );
   const [isEditing, setIsEditing] = useState(false);
@@ -101,12 +105,35 @@ const NewsItem = ({ currentNews }) => {
       });
   };
 
+  const changeCurrentPostPhoto = (e) => {
+    let file;
+
+    if (e.dataTransfer) {
+      file = e.dataTransfer.files[0];
+    } else if (e.target.files) {
+      file = e.target.files[0];
+    }
+    if (file && file.size < 1 * 1000 * 1024) {
+      if (
+        file.type === 'image/png' ||
+        file.type === 'image/jpeg' ||
+        file.type === 'image/jpg'
+      ) {
+        setCurrentPostPhoto(file);
+        setCurrentPostPhotoURL(URL.createObjectURL(file));
+      } else {
+        alert('The file must be in PNG, JPEG, JPG format.');
+      }
+    }
+  };
+
   const saveTweetChanges = () => {
+    console.log(currentPostPhoto, ' new');
+    console.log(currentNews.image, ' old');
     const formData = new FormData();
     formData.append('Content', currentPostText);
     formData.append('OldTweetImage', currentNews.image);
-    console.log(currentPostPhoto, ' new');
-    console.log(currentNews.image, ' old');
+
     formData.append('NewTweetImage', currentPostPhoto);
     formData.append('IsPublic', currentNews.isPublic);
     fetch(
@@ -214,30 +241,45 @@ const NewsItem = ({ currentNews }) => {
         ) : (
           <p className='text news-body__text'>{currentNews.content}</p>
         )}
-        {currentPostPhoto && (
-          <div className='news-body__post-picture'>
-            {isEditing ? (
-              <div className='post-picture-btn news-body__post-picture-btn'>
-                <CustomButton
-                  content={
-                    <span className='content'>
-                      <Trash width={'40'} height={'40'} />
-                    </span>
-                  }
-                  size={'small'}
-                  type={'button'}
-                  activeClass={'transparent'}
-                  onClickfunction={(e) => {
-                    setCurrentPostPhoto(null);
-                  }}
-                />
-              </div>
-            ) : (
-              ''
-            )}
-            <img className='post-picture' src={currentPostPhoto} alt='post' />
-          </div>
-        )}
+
+        <div className='news-body__post-picture'>
+          {isEditing ? (
+            <div className='relative flex-end'>
+              {currentPostPhotoURL ? (
+                <div className='post-picture-btn news-body__post-picture-btn'>
+                  <CustomButton
+                    content={
+                      <span className='content'>
+                        <Trash width={'40'} height={'40'} />
+                      </span>
+                    }
+                    size={'small'}
+                    type={'button'}
+                    activeClass={'transparent'}
+                    onClickfunction={(e) => {
+                      setCurrentPostPhotoURL('');
+                      setCurrentPostPhoto(null);
+                    }}
+                  />
+                </div>
+              ) : (
+                <DragAndDrop changeImg={changeCurrentPostPhoto} />
+              )}
+            </div>
+          ) : (
+            ''
+          )}
+          {currentPostPhotoURL && (
+            <img
+              className='post-picture'
+              src={currentPostPhotoURL}
+              alt='post'
+              width='713'
+              height='400'
+            />
+          )}
+        </div>
+
         <div className='media news-body__media'>
           <p className='disabled-text media__disabled-text'>
             {currentNews.commentsCount} Comments

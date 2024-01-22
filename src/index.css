@@ -140,3 +140,13 @@ body {
   display: flex;
   align-items: center;
 }
+
+.relative {
+  position: relative;
+}
+
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
