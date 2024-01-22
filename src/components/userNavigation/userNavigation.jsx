@@ -9,6 +9,7 @@ import './userNavigation.css';
 import { selectCurrentUser } from '@/selectors/selectors';
 import Triangle from '@/icons/triangle';
 import { deleteCurrentUser } from '@/slices/currentUserSlice';
+import { useNavigate } from 'react-router-dom';
 
 const navLinks = [
   {
@@ -29,11 +30,11 @@ const navLinks = [
 ];
 
 const UserNavigation = () => {
-  const dispatch = useDispatch();
   const [activeButton, setActiveButton] = useState('My Profile');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const elementRef = useRef(null);
 
   useEffect(() => {
@@ -61,8 +62,23 @@ const UserNavigation = () => {
 
   const interactionToolClickLogOut = () => {
     setActiveButton('Logout');
-    setIsActiveMenu(!isActiveMenu);
-    dispatch(deleteCurrentUser());
+
+    fetch(
+      'https://twittercloneapiproductionenv.azurewebsites.net/Authentication/LogOut',
+      {
+        method: 'POST',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then(() => {
+        setIsActiveMenu(!isActiveMenu);
+        dispatch(deleteCurrentUser());
+      })
+      .finally(() => {
+        navigate('/authorization');
+      });
   };
 
   const mappedLinks = navLinks.map((link) => {

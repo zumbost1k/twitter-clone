@@ -128,12 +128,9 @@ const NewsItem = ({ currentNews }) => {
   };
 
   const saveTweetChanges = () => {
-    console.log(currentPostPhoto, ' new');
-    console.log(currentNews.image, ' old');
     const formData = new FormData();
     formData.append('Content', currentPostText);
     formData.append('OldTweetImage', currentNews.image);
-
     formData.append('NewTweetImage', currentPostPhoto);
     formData.append('IsPublic', currentNews.isPublic);
     fetch(
