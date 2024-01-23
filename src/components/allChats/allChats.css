@@ -1,0 +1,12 @@
+.all-chats__title {
+  font-size: 20px;
+}
+
+.all-chats {
+  margin-top: 25px;
+  max-width: 745px;
+  width: 100%;
+  min-width: 375px;
+  padding: 20px;
+  border-radius: 8px;
+}

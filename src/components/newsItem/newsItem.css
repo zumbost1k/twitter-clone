@@ -10,11 +10,9 @@
 
 .text {
   color: #000;
-  /* font-family: 'Poppins', sans-serif; */
   font-family: 'Montserrat', sans-serif;
   line-height: 22px;
   letter-spacing: .3px;
-  /* font-family: 'Century Gothic Paneuropean', sans-serif; */
 }
 
 .news-body__avatar {

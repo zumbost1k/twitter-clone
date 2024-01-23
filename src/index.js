@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { store } from './store/store';
-import { Provider } from 'react-redux'; 
+import { Provider } from 'react-redux';
 import UserPage from './pages/userPage/userPage';
 import Navigation from './components/navigation/navigation';
 import ScrollToTop from './components/scroll_to_top';
@@ -15,6 +15,7 @@ import Authorization from './pages/authorization/authorization';
 import Header from './components/header/header';
 import SettingsPage from './pages/settingPage/settingsPage';
 import SetUserAuth from './components/SetUserAuth';
+import Chat from './pages/chat/chat';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,13 +28,14 @@ root.render(
         <Routes>
           <Route path='/registration' element={<Registration />} />
           <Route path='/authorization' element={<Authorization />} />
-          <Route path='/*' element={<Navigate to='/registration' />} />
+          <Route path='/*' element={<Navigate to='/home' />} />
           <Route path='user/currentUser' element={<UserPage />} />
           <Route path='/userSettings' element={<SettingsPage />} />
           <Route path='/user/:id' element={<UserPage />} />
           <Route path='/home' element={<HomePage />} />
           <Route path='/explore' element={<ExplorePage />} />
           <Route path='/bookmarks' element={<BookmarksPage />} />
+          <Route path='/chat' element={<Chat />} />
         </Routes>
 
         <Navigation />
