@@ -1,0 +1,48 @@
+.uplouder-section__uplouder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.uplouder__subtitle {
+    padding-top: 16px
+}
+
+.drag {
+    border-radius: 12px;
+    border: 2px dashed #97BEF4;
+    background: #F6F8FB;
+    padding: 45px;
+}
+
+.uplouder__drag_active-drag {
+    border: 2px dashed #5495f1
+}
+
+.drag__text {
+    font-size: 20px;
+    padding-top: 38px
+}
+
+.uplouder__text {
+    padding-top: 28px;
+}
+
+.drag__photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uplouder__button {
+    margin-top: 32px;
+    padding: 18px 26px;
+    font-size: 22px;
+}
+
+.drag__common-text {
+    padding-top: 5px;
+    font-size: 16px;
+}

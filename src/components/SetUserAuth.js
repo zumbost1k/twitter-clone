@@ -25,8 +25,7 @@ export default function SetUserAuth() {
 
     responseData.data.nickName = responseData.data.userName;
     responseData.data.userName = responseData.data.fullName;
-    responseData.data.profileBackgroundImagePath = responseData.data
-      .backPicture
+    responseData.data.profileBackgroundImagePath = responseData.data.backPicture
       ? responseData.data.backPicture
       : './photos/profileBackgrounds/mountain.jpg';
     dispatch(setCurrentUser(responseData.data));
@@ -51,9 +50,17 @@ export default function SetUserAuth() {
 
   useEffect(() => {
     if (!isAuth && shouldFetch) {
-      fetchData().catch((error) => {
-        fetchRefreshToken().catch(() => {});
+      fetchData().catch(() => {
+        setShouldFetch(false);
+        navigate('/registration');
       });
     }
   }, [fetchData, fetchRefreshToken, navigate, isAuth, shouldFetch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchRefreshToken();
+    }, 600000);
+    return () => clearInterval(interval);
+  }, [fetchRefreshToken]);
 }
