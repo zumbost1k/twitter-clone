@@ -1,4 +1,16 @@
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './use-auth';
+import { useEffect } from 'react';
+
 export const useGetUserById = async (userId) => {
+  const { id } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!id) {
+      navigate('/authorization');
+    }
+  }, [id, navigate]);
+
   const getUserById = async () => {
     return fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/UserProfile/GetUserProfileById${userId}`,
