@@ -108,7 +108,7 @@ const UserNavigation = () => {
           alt='user-avatar'
         />
         <span className='dark-text currentUser__dark-text'>
-          {currentUser.userName}
+          {currentUser.userName ? currentUser.userName : currentUser.nickName}
         </span>
         <span className={'currentUser__triangle'}>
           <Triangle width={'7'} height={'5'} />

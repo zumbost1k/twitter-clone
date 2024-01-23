@@ -24,6 +24,7 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
 const NewsItem = ({ currentNews }) => {
+  
   const { isRetweeted, retweet, unRetweet } = useRetweet(
     currentNews.tweetId,
     currentNews.isRetweeted
@@ -180,51 +181,51 @@ const NewsItem = ({ currentNews }) => {
               </time>
             </div>
           </div>
-
-          {currentNews.isOwner && !isEditing ? (
-            <TripletButton
-              tweetId={currentNews.tweetId}
-              tripletButtons={[
-                {
-                  text: 'Delete post',
-                  icon: <Trash width={'16'} height={'16'} />,
-                  functionKey: 'delete',
-                },
-                {
-                  text: 'Edit post',
-                  icon: <Edit width={'16'} height={'16'} />,
-                  functionKey: 'update',
-                },
-              ]}
-              tripletFunctions={{
-                delete: (tweetId) => {
-                  fetch(
-                    `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
-                    {
-                      method: 'DELETE',
-                      credentials: 'include',
-                      withCredentials: true,
-                      crossorigin: true,
-                    }
-                  );
-                },
-                update: (tweetId) => {
-                  setIsEditing(true);
-                },
-              }}
-            />
-          ) : (
-            <CustomButton
-              content={
-                <span className='content'>
-                  <Tick width={'14'} height={'14'} /> Save
-                </span>
-              }
-              onClickfunction={saveTweetChanges}
-              size={'small'}
-              type={'button'}
-            />
-          )}
+          {currentNews.isOwner &&
+            (!isEditing ? (
+              <TripletButton
+                tweetId={currentNews.tweetId}
+                tripletButtons={[
+                  {
+                    text: 'Delete post',
+                    icon: <Trash width={'16'} height={'16'} />,
+                    functionKey: 'delete',
+                  },
+                  {
+                    text: 'Edit post',
+                    icon: <Edit width={'16'} height={'16'} />,
+                    functionKey: 'update',
+                  },
+                ]}
+                tripletFunctions={{
+                  delete: (tweetId) => {
+                    fetch(
+                      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/DeleteTweetById${tweetId}`,
+                      {
+                        method: 'DELETE',
+                        credentials: 'include',
+                        withCredentials: true,
+                        crossorigin: true,
+                      }
+                    );
+                  },
+                  update: (tweetId) => {
+                    setIsEditing(true);
+                  },
+                }}
+              />
+            ) : (
+              <CustomButton
+                content={
+                  <span className='content'>
+                    <Tick width={'14'} height={'14'} /> Save
+                  </span>
+                }
+                onClickfunction={saveTweetChanges}
+                size={'small'}
+                type={'button'}
+              />
+            ))}
         </div>
 
         {isEditing ? (
