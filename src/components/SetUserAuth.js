@@ -50,7 +50,10 @@ export default function SetUserAuth() {
 
   useEffect(() => {
     if (!isAuth && shouldFetch) {
-      fetchData();
+      fetchData().catch(() => {
+        setShouldFetch(false);
+        navigate('/registration');
+      });
     }
   }, [fetchData, fetchRefreshToken, navigate, isAuth, shouldFetch]);
 
