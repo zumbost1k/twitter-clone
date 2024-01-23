@@ -10,7 +10,11 @@
 
 .text {
   color: #000;
-  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: 'Montserrat', sans-serif;
+  line-height: 22px;
+  letter-spacing: .3px;
+  /* font-family: 'Century Gothic Paneuropean', sans-serif; */
 }
 
 .news-body__avatar {
@@ -46,11 +50,9 @@
 .news-body__text {
   width: 100%;
   order: 4;
+  font-weight: 450;
 }
 
-.post-picture {
-  /* border-radius: 8px; */
-}
 
 .news-body__post-picture {
   max-width: max-content;

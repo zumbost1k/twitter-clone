@@ -24,7 +24,6 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
 const NewsItem = ({ currentNews }) => {
-  
   const { isRetweeted, retweet, unRetweet } = useRetweet(
     currentNews.tweetId,
     currentNews.isRetweeted
@@ -290,25 +289,30 @@ const NewsItem = ({ currentNews }) => {
           </p>
         </div>
         <div className='buttons news-body__buttons'>
-          <NewsItemButton
-            icon={<Message width={'20'} height={'20'} />}
-            tweetId={currentNews.tweetId}
-            isChecked={activeComment}
-            onClickFunction={onClickCommentHandle}
-            buttonName={'comment' + currentNews.tweetId}
-            activeClass={'grey-text'}
-            Text={'Comment'}
-          />
+          {currentNews.isPublic && (
+            <NewsItemButton
+              icon={<Message width={'20'} height={'20'} />}
+              tweetId={currentNews.tweetId}
+              isChecked={activeComment}
+              onClickFunction={onClickCommentHandle}
+              buttonName={'comment' + currentNews.tweetId}
+              activeClass={'grey-text'}
+              Text={'Comment'}
+            />
+          )}
 
-          <NewsItemButton
-            icon={<Reboot width={'20'} height={'20'} />}
-            tweetId={currentNews.tweetId}
-            isChecked={isRetweeted}
-            onClickFunction={isRetweeted ? unRetweet : retweet}
-            buttonName={'retweet' + currentNews.tweetId}
-            activeClass={'green-text'}
-            Text={isRetweeted ? 'Retweeted' : 'Retweet'}
-          />
+          {!currentNews.isOwner && (
+            <NewsItemButton
+              icon={<Reboot width={'20'} height={'20'} />}
+              tweetId={currentNews.tweetId}
+              isChecked={isRetweeted}
+              onClickFunction={isRetweeted ? unRetweet : retweet}
+              buttonName={'retweet' + currentNews.tweetId}
+              activeClass={'green-text'}
+              Text={isRetweeted ? 'Retweeted' : 'Retweet'}
+            />
+          )}
+
           <NewsItemButton
             icon={<Heart width={'20'} height={'20'} />}
             tweetId={currentNews.tweetId}
@@ -378,124 +382,126 @@ const NewsItem = ({ currentNews }) => {
             </form>
           </div>
         )}
-        <div className='comments-section news-body__comments-section'>
-          {comment && isCommentsShowing ? (
-            <div className='comments comments-section__comments'>
-              {comment.map((currentComment) => {
-                const postCreatedAt = new Date(currentComment.createdAt);
-                return (
-                  <div className='comment' key={currentComment.commentId}>
-                    <img
-                      src={
-                        currentComment.postedUserImage
-                          ? currentComment.postedUserImage
-                          : './photos/usersAvatar/emptyAvatar.jpg'
-                      }
-                      alt='avatar'
-                      width='40'
-                      height='40'
-                      className='avatar'
-                    />
-                    <div className='content comment__content'>
-                      <div className='comment__first-line'>
-                        <div className='comment-author'>
-                          <Link
-                            to={
-                              currentUserInfo.userId ===
-                              currentComment.posterUserId
-                                ? '/user/currentUser'
-                                : `/user/${currentComment.posterUserId}`
-                            }
-                            className='text post-author__text'
-                          >
-                            {currentComment.postedUserName}
-                          </Link>
-                          <time
-                            className='disabled-text post-author__disabled-text'
-                            datatime={currentComment.createdAt}
-                          >
-                            {postCreatedAt.toLocaleString()}
-                          </time>
-                        </div>
+        {currentNews.isPublic && (
+          <div className='comments-section news-body__comments-section'>
+            {comment && isCommentsShowing ? (
+              <div className='comments comments-section__comments'>
+                {comment.map((currentComment) => {
+                  const postCreatedAt = new Date(currentComment.createdAt);
+                  return (
+                    <div className='comment' key={currentComment.commentId}>
+                      <img
+                        src={
+                          currentComment.postedUserImage
+                            ? currentComment.postedUserImage
+                            : './photos/usersAvatar/emptyAvatar.jpg'
+                        }
+                        alt='avatar'
+                        width='40'
+                        height='40'
+                        className='avatar'
+                      />
+                      <div className='content comment__content'>
+                        <div className='comment__first-line'>
+                          <div className='comment-author'>
+                            <Link
+                              to={
+                                currentUserInfo.userId ===
+                                currentComment.posterUserId
+                                  ? '/user/currentUser'
+                                  : `/user/${currentComment.posterUserId}`
+                              }
+                              className='text post-author__text'
+                            >
+                              {currentComment.postedUserName}
+                            </Link>
+                            <time
+                              className='disabled-text post-author__disabled-text'
+                              datatime={currentComment.createdAt}
+                            >
+                              {postCreatedAt.toLocaleString()}
+                            </time>
+                          </div>
 
-                        {currentComment.isOwner && (
-                          <TripletButton
-                            tweetId={currentComment.commentId}
-                            tripletButtons={[
-                              {
-                                text: 'Delete',
-                                icon: <Trash width={'16'} height={'16'} />,
-                                functionKey: 'delete',
-                              },
-                            ]}
-                            tripletFunctions={{
-                              delete: (commentId) => {
-                                fetch(
-                                  `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
-                                  {
-                                    method: 'DELETE',
-                                    credentials: 'include',
-                                    withCredentials: true,
-                                    crossorigin: true,
-                                  }
-                                );
-                              },
-                            }}
-                          />
-                        )}
-                      </div>
-                      <p className='text comment__text'>
-                        {currentComment.content}
-                      </p>
-                      {currentComment.image && (
-                        <div>
-                          <img
-                            src={currentComment.image}
-                            alt='comment'
-                            width='400'
-                            height='200'
-                            className='post-picture content__post-picture'
-                          />
+                          {currentComment.isOwner && (
+                            <TripletButton
+                              tweetId={currentComment.commentId}
+                              tripletButtons={[
+                                {
+                                  text: 'Delete',
+                                  icon: <Trash width={'16'} height={'16'} />,
+                                  functionKey: 'delete',
+                                },
+                              ]}
+                              tripletFunctions={{
+                                delete: (commentId) => {
+                                  fetch(
+                                    `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
+                                    {
+                                      method: 'DELETE',
+                                      credentials: 'include',
+                                      withCredentials: true,
+                                      crossorigin: true,
+                                    }
+                                  );
+                                },
+                              }}
+                            />
+                          )}
                         </div>
-                      )}
-                      <div className='comment-likes content-comment__likes'>
-                        <Likebutton
-                          commentId={currentComment.commentId}
-                          isLikedInitianally={currentComment.isLiked}
-                        />
-                        <p className='common-text comment-likes__commont-text'>
-                          {currentComment.likesCount} Likes
+                        <p className='text comment__text'>
+                          {currentComment.content}
                         </p>
+                        {currentComment.image && (
+                          <div>
+                            <img
+                              src={currentComment.image}
+                              alt='comment'
+                              width='400'
+                              height='200'
+                              className='post-picture content__post-picture'
+                            />
+                          </div>
+                        )}
+                        <div className='comment-likes content-comment__likes'>
+                          <Likebutton
+                            commentId={currentComment.commentId}
+                            isLikedInitianally={currentComment.isLiked}
+                          />
+                          <p className='common-text comment-likes__commont-text'>
+                            {currentComment.likesCount} Likes
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            ''
-          )}
-          <div
-            onClick={getCommentsHandler}
-            className='show-comments comments-section__show-comments'
-          >
-            {isCommentsShowing ? (
-              <p className='common-text'>Hide comments</p>
+                  );
+                })}
+              </div>
             ) : (
-              <p className='common-text'>Show comments</p>
+              ''
             )}
             <div
-              style={{
-                transform: isCommentsShowing
-                  ? 'rotate(180deg)'
-                  : 'rotate(0deg)',
-              }}
-              className='arrow show-comments__arrow'
+              onClick={getCommentsHandler}
+              className='show-comments comments-section__show-comments'
             >
-              <Arrow width={'24'} height={'28'} />
+              {isCommentsShowing ? (
+                <p className='common-text'>Hide comments</p>
+              ) : (
+                <p className='common-text'>Show comments</p>
+              )}
+              <div
+                style={{
+                  transform: isCommentsShowing
+                    ? 'rotate(180deg)'
+                    : 'rotate(0deg)',
+                }}
+                className='arrow show-comments__arrow'
+              >
+                <Arrow width={'24'} height={'28'} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
