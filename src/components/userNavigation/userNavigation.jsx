@@ -30,7 +30,7 @@ const navLinks = [
 ];
 
 const UserNavigation = () => {
-  const [activeButton, setActiveButton] = useState('My Profile');
+  const [activeButton, setActiveButton] = useState('');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();

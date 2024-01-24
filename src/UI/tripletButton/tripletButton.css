@@ -17,17 +17,20 @@
 
 .modal {
   background: white;
-  font-size: 14px;
   position: absolute;
+  animation: fadeIn 1000ms;
+  z-index: 2;
+}
+
+.triplet__modal {
+  font-size: 14px;
   padding: 6px 3px;
   margin: 25px 8px 0px 0px;
   border: 1px solid rgb(221, 221, 221);
   border-radius: 8px;
-  animation: fadeIn 1000ms;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  z-index: 2;
 }
 
 .triplet-btn {
@@ -46,7 +49,7 @@
 }
 
 @media (min-width: 600px) {
-  .modal {
+  .triplet__modal {
     padding: 8px 5px;
     margin: 25px 8px 0px 0px;
   }

@@ -42,10 +42,6 @@ const ExplorePage = () => {
             },
 
             {
-              labelText: 'People',
-              id: 'people',
-            },
-            {
               labelText: 'Media',
               id: 'media',
             },

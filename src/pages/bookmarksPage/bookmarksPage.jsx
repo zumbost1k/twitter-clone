@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './bookmarksPage.css';
-import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import { useSavedTweets } from '@/hooks/use-savedTweets';
 import Loader from '@/UI/loader/loader';
@@ -27,27 +26,6 @@ const BookmarksPage = () => {
   return (
     <section className='bookmarks-page-section'>
       <div className='filtered-news'>
-        <ContentFilter
-          filterInitial={'tweets'}
-          filterLinks={[
-            {
-              labelText: 'Tweets',
-              id: 'tweets',
-            },
-            {
-              labelText: 'Tweets & replies',
-              id: 'replies',
-            },
-            {
-              labelText: 'Media',
-              id: 'media',
-            },
-            {
-              labelText: 'Likes',
-              id: 'likes',
-            },
-          ]}
-        />
         {!bookMaksNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
             No posts have been saved
