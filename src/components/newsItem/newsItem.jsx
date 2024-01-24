@@ -386,96 +386,102 @@ const NewsItem = ({ currentNews }) => {
           <div className='comments-section news-body__comments-section'>
             {comment && isCommentsShowing ? (
               <div className='comments comments-section__comments'>
-                {comment.map((currentComment) => {
-                  const postCreatedAt = new Date(currentComment.createdAt);
-                  return (
-                    <div className='comment' key={currentComment.commentId}>
-                      <img
-                        src={
-                          currentComment.postedUserImage
-                            ? currentComment.postedUserImage
-                            : './photos/usersAvatar/emptyAvatar.jpg'
-                        }
-                        alt='avatar'
-                        width='40'
-                        height='40'
-                        className='avatar'
-                      />
-                      <div className='content comment__content'>
-                        <div className='comment__first-line'>
-                          <div className='comment-author'>
-                            <Link
-                              to={
-                                currentUserInfo.userId ===
-                                currentComment.posterUserId
-                                  ? '/user/currentUser'
-                                  : `/user/${currentComment.posterUserId}`
-                              }
-                              className='text post-author__text'
-                            >
-                              {currentComment.postedUserName}
-                            </Link>
-                            <time
-                              className='disabled-text post-author__disabled-text'
-                              datatime={currentComment.createdAt}
-                            >
-                              {postCreatedAt.toLocaleString()}
-                            </time>
-                          </div>
+                {comment.length ? (
+                  comment.map((currentComment) => {
+                    const postCreatedAt = new Date(currentComment.createdAt);
+                    return (
+                      <div className='comment' key={currentComment.commentId}>
+                        <img
+                          src={
+                            currentComment.postedUserImage
+                              ? currentComment.postedUserImage
+                              : './photos/usersAvatar/emptyAvatar.jpg'
+                          }
+                          alt='avatar'
+                          width='40'
+                          height='40'
+                          className='avatar'
+                        />
+                        <div className='content comment__content'>
+                          <div className='comment__first-line'>
+                            <div className='comment-author'>
+                              <Link
+                                to={
+                                  currentUserInfo.userId ===
+                                  currentComment.posterUserId
+                                    ? '/user/currentUser'
+                                    : `/user/${currentComment.posterUserId}`
+                                }
+                                className='text post-author__text'
+                              >
+                                {currentComment.postedUserName}
+                              </Link>
+                              <time
+                                className='disabled-text post-author__disabled-text'
+                                datatime={currentComment.createdAt}
+                              >
+                                {postCreatedAt.toLocaleString()}
+                              </time>
+                            </div>
 
-                          {currentComment.isOwner && (
-                            <TripletButton
-                              tweetId={currentComment.commentId}
-                              tripletButtons={[
-                                {
-                                  text: 'Delete',
-                                  icon: <Trash width={'16'} height={'16'} />,
-                                  functionKey: 'delete',
-                                },
-                              ]}
-                              tripletFunctions={{
-                                delete: (commentId) => {
-                                  fetch(
-                                    `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
-                                    {
-                                      method: 'DELETE',
-                                      credentials: 'include',
-                                      withCredentials: true,
-                                      crossorigin: true,
-                                    }
-                                  );
-                                },
-                              }}
-                            />
-                          )}
-                        </div>
-                        <p className='text comment__text'>
-                          {currentComment.content}
-                        </p>
-                        {currentComment.image && (
-                          <div>
-                            <img
-                              src={currentComment.image}
-                              alt='comment'
-                              width='400'
-                              height='200'
-                              className='post-picture content__post-picture'
-                            />
+                            {currentComment.isOwner && (
+                              <TripletButton
+                                tweetId={currentComment.commentId}
+                                tripletButtons={[
+                                  {
+                                    text: 'Delete',
+                                    icon: <Trash width={'16'} height={'16'} />,
+                                    functionKey: 'delete',
+                                  },
+                                ]}
+                                tripletFunctions={{
+                                  delete: (commentId) => {
+                                    fetch(
+                                      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
+                                      {
+                                        method: 'DELETE',
+                                        credentials: 'include',
+                                        withCredentials: true,
+                                        crossorigin: true,
+                                      }
+                                    );
+                                  },
+                                }}
+                              />
+                            )}
                           </div>
-                        )}
-                        <div className='comment-likes content-comment__likes'>
-                          <Likebutton
-                            commentId={currentComment.commentId}
-                            isLikedInitianally={currentComment.isLiked}
-                          />
-                          <p className='common-text comment-likes__commont-text'>
-                            {currentComment.likesCount} Likes
+                          <p className='text comment__text'>
+                            {currentComment.content}
                           </p>
+                          {currentComment.image && (
+                            <div>
+                              <img
+                                src={currentComment.image}
+                                alt='comment'
+                                width='400'
+                                height='200'
+                                className='post-picture content__post-picture'
+                              />
+                            </div>
+                          )}
+                          <div className='comment-likes content-comment__likes'>
+                            <Likebutton
+                              commentId={currentComment.commentId}
+                              isLikedInitianally={currentComment.isLiked}
+                            />
+                            <p className='common-text comment-likes__commont-text'>
+                              {currentComment.likesCount} Likes
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <p className='common-text comment-not-written comments__comment-not-written'>
+                    Comments have not yet been written
+                  </p>
+                )}
               </div>
             ) : (
               ''

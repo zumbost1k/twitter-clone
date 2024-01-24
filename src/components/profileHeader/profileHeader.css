@@ -28,6 +28,8 @@
 }
 
 .profile-header__avatar {
+  overflow: hidden;
+  height: auto;
   margin-top: 62px;
 }
 

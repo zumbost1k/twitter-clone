@@ -213,3 +213,7 @@
 .add-post-photo:hover {
   color: rgb(5, 158, 5);
 }
+
+.comments__comment-not-written{
+  padding: 0px 10px 10px;
+}
