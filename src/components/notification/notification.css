@@ -3,11 +3,7 @@
 }
 
 .notification {
-    padding-top: 5px;
-}
-
-.notification__bell {
-    margin-right: 10px;
+    margin: 5px 10px 0px 0px;
 }
 
 .notification__modal {
@@ -36,6 +32,7 @@
     align-items: flex-start;
 }
 
+.notification:hover,
 .current-notification:hover {
     background: rgb(245, 245, 245);
 }

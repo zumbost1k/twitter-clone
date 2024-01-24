@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './notification.css';
 import Bell from '@/icons/bell';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
 
 const notifications = [
@@ -72,6 +72,12 @@ const Notification = () => {
   const [currentNotifications, setCurrentNotification] = useState(null);
   const [isAllNotificationShow, setIsAllNotificationShow] = useState(false);
   const modalRef = useRef();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(`Page changed to ${location.pathname}`);
+   }, [location.pathname]);
+   
 
   const getLastNotification = () => {
     setCurrentNotification(notifications);
