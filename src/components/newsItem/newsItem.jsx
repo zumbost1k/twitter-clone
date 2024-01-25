@@ -24,27 +24,28 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
 const NewsItem = ({ currentNews }) => {
+  const [currentStateNews, setcurrentStateNews] = useState(currentNews);
   const { isRetweeted, retweet, unRetweet } = useRetweet(
-    currentNews.tweetId,
-    currentNews.isRetweeted
+    currentStateNews.tweetId,
+    currentStateNews.isRetweeted
   );
   const { isLiked, like, unLike } = useLike(
-    currentNews.tweetId,
-    currentNews.isLiked
+    currentStateNews.tweetId,
+    currentStateNews.isLiked
   );
   const { isSaved, save, unSave } = useSave(
-    currentNews.tweetId,
-    currentNews.isSaved
+    currentStateNews.tweetId,
+    currentStateNews.isSaved
   );
   const { userId } = useAuth();
   const [currentPostText, setCurrentPostText] = useState(
-    currentNews.content || ''
+    currentStateNews.content || ''
   );
   const [currentPostPhoto, setCurrentPostPhoto] = useState(
-    currentNews.image || null
+    currentStateNews.image || null
   );
   const [currentPostPhotoURL, setCurrentPostPhotoURL] = useState(
-    currentNews.image || null
+    currentStateNews.image || null
   );
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(null);
@@ -54,7 +55,7 @@ const NewsItem = ({ currentNews }) => {
   const [isCommentsShowing, setIsCommentsShowing] = useState(false);
   const [commentPhoto, setcommentPhoto] = useState(null);
 
-  const postCreatedAt = new Date(currentNews.createdAt);
+  const postCreatedAt = new Date(currentStateNews.createdAt);
 
   const onClickCommentHandle = (tweetId) => {
     setActiveComment(!activeComment);
@@ -64,7 +65,7 @@ const NewsItem = ({ currentNews }) => {
     setIsCommentsShowing(!isCommentsShowing);
     if (!comment) {
       fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Comment/GetTweetComments${currentNews.tweetId}`,
+        `https://twittercloneapiproductionenv.azurewebsites.net/Comment/GetTweetComments${currentStateNews.tweetId}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -86,7 +87,7 @@ const NewsItem = ({ currentNews }) => {
     formData.append('Image', commentPhoto);
 
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/CreateComment${currentNews.tweetId}`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/CreateComment${currentStateNews.tweetId}`,
       {
         method: 'POST',
         body: formData,
@@ -132,9 +133,9 @@ const NewsItem = ({ currentNews }) => {
     formData.append('Content', currentPostText);
     formData.append('OldTweetImage', currentPostPhoto);
     formData.append('NewTweetImage', currentPostPhoto);
-    formData.append('IsPublic', currentNews.isPublic);
+    formData.append('IsPublic', currentStateNews.isPublic);
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentNews.tweetId}`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentStateNews.tweetId}`,
       {
         method: 'PUT',
         body: formData,
@@ -142,9 +143,14 @@ const NewsItem = ({ currentNews }) => {
         withCredentials: true,
         crossorigin: true,
       }
-    ).then(() => {
-      setIsEditing(false);
-    });
+    )
+      .then((responce) => responce.json())
+      .then((data) => {
+        setcurrentStateNews(data.data);
+      })
+      .then(() => {
+        setIsEditing(false);
+      });
   };
   return (
     <div className='container news-container'>
@@ -154,7 +160,7 @@ const NewsItem = ({ currentNews }) => {
             <img
               className='avatar news-body__avatar'
               src={
-                currentNews.postedUserImage ||
+                currentStateNews.postedUserImage ||
                 './photos/usersAvatar/emptyAvatar.jpg'
               }
               alt='avatar'
@@ -164,26 +170,26 @@ const NewsItem = ({ currentNews }) => {
             <div className='post-author news-body__post-author'>
               <Link
                 to={`/user/${
-                  userId === currentNews.postedUserId
+                  userId === currentStateNews.postedUserId
                     ? 'currentUser'
-                    : currentNews.postedUserId
+                    : currentStateNews.postedUserId
                 }`}
                 className='text post-author__text'
               >
-                {currentNews.postedUserName}
+                {currentStateNews.postedUserName}
               </Link>
               <time
                 className='disabled-text post-author__disabled-text'
-                datatime={currentNews.createdAt}
+                datatime={currentStateNews.createdAt}
               >
                 {postCreatedAt.toLocaleString()}
               </time>
             </div>
           </div>
-          {currentNews.isOwner &&
+          {currentStateNews.isOwner &&
             (!isEditing ? (
               <TripletButton
-                tweetId={currentNews.tweetId}
+                tweetId={currentStateNews.tweetId}
                 tripletButtons={[
                   {
                     text: 'Delete post',
@@ -236,7 +242,7 @@ const NewsItem = ({ currentNews }) => {
             className='text news-body__text news-body__text_textarea'
           />
         ) : (
-          <p className='text news-body__text'>{currentNews.content}</p>
+          <p className='text news-body__text'>{currentStateNews.content}</p>
         )}
 
         <div className='news-body__post-picture'>
@@ -279,35 +285,35 @@ const NewsItem = ({ currentNews }) => {
 
         <div className='media news-body__media'>
           <p className='disabled-text media__disabled-text'>
-            {currentNews.commentsCount} Comments
+            {currentStateNews.commentsCount} Comments
           </p>
           <p className='disabled-text media__disabled-text'>
-            {currentNews.retweetCount} Retweets
+            {currentStateNews.retweetCount} Retweets
           </p>
           <p className='disabled-text media__disabled-text'>
-            {currentNews.saveCount} Saved
+            {currentStateNews.saveCount} Saved
           </p>
         </div>
         <div className='buttons news-body__buttons'>
-          {currentNews.isPublic && (
+          {currentStateNews.isPublic && (
             <NewsItemButton
               icon={<Message width={'20'} height={'20'} />}
-              tweetId={currentNews.tweetId}
+              tweetId={currentStateNews.tweetId}
               isChecked={activeComment}
               onClickFunction={onClickCommentHandle}
-              buttonName={'comment' + currentNews.tweetId}
+              buttonName={'comment' + currentStateNews.tweetId}
               activeClass={'grey-text'}
               Text={'Comment'}
             />
           )}
 
-          {!currentNews.isOwner && (
+          {!currentStateNews.isOwner && (
             <NewsItemButton
               icon={<Reboot width={'20'} height={'20'} />}
-              tweetId={currentNews.tweetId}
+              tweetId={currentStateNews.tweetId}
               isChecked={isRetweeted}
               onClickFunction={isRetweeted ? unRetweet : retweet}
-              buttonName={'retweet' + currentNews.tweetId}
+              buttonName={'retweet' + currentStateNews.tweetId}
               activeClass={'green-text'}
               Text={isRetweeted ? 'Retweeted' : 'Retweet'}
             />
@@ -315,19 +321,19 @@ const NewsItem = ({ currentNews }) => {
 
           <NewsItemButton
             icon={<Heart width={'20'} height={'20'} />}
-            tweetId={currentNews.tweetId}
+            tweetId={currentStateNews.tweetId}
             isChecked={isLiked}
             onClickFunction={isLiked ? unLike : like}
-            buttonName={'like' + currentNews.tweetId}
+            buttonName={'like' + currentStateNews.tweetId}
             activeClass={'red-text'}
             Text={isLiked ? 'Liked' : 'Like'}
           />
           <NewsItemButton
             icon={<Bookmark width={'20'} height={'20'} />}
-            tweetId={currentNews.tweetId}
+            tweetId={currentStateNews.tweetId}
             isChecked={isSaved}
             onClickFunction={isSaved ? unSave : save}
-            buttonName={'save' + currentNews.tweetId}
+            buttonName={'save' + currentStateNews.tweetId}
             activeClass={'blue-text'}
             Text={isSaved ? 'Saved' : 'Save'}
           />
@@ -382,7 +388,7 @@ const NewsItem = ({ currentNews }) => {
             </form>
           </div>
         )}
-        {currentNews.isPublic && (
+        {currentStateNews.isPublic && (
           <div className='comments-section news-body__comments-section'>
             {comment && isCommentsShowing ? (
               <div className='comments comments-section__comments'>

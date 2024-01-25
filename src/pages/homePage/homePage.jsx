@@ -6,11 +6,14 @@ import HashtagFilter from '@/components/hashtagFilter/hashtagFilter';
 import UsersToFollow from '@/components/usersToFollow/usersToFollow';
 import { useAllTweets } from '@/hooks/use-allTweets';
 import Loader from '@/UI/loader/loader';
+import { useTopHashtags } from '@/hooks/use-topHashtags';
 
 const HomePage = () => {
   const [homePageNews, setHomePageNews] = useState(null);
   const [isShouldFetch, setIsShouldFetch] = useState(true);
+  const [hashtags, setHashtags] = useState(null);
   const fetchAndSetTweets = useAllTweets();
+  const fetchHashtags = useTopHashtags();
   useEffect(() => {
     if (isShouldFetch) {
       fetchAndSetTweets()
@@ -21,10 +24,13 @@ const HomePage = () => {
         .catch((error) => {
           console.error('Failed to load tweets:', error);
         });
+      fetchHashtags().then((data) => {
+        setHashtags(data);
+      });
     }
-  }, [fetchAndSetTweets, isShouldFetch]);
+  }, [fetchAndSetTweets, isShouldFetch, fetchHashtags]);
 
-  if (!homePageNews) {
+  if (!homePageNews && !hashtags) {
     return <Loader />;
   }
   return (
@@ -40,7 +46,7 @@ const HomePage = () => {
         )}
       </div>
       <div className='trends'>
-        <HashtagFilter />
+        <HashtagFilter hashtags={hashtags} />
         <UsersToFollow />
       </div>
     </section>

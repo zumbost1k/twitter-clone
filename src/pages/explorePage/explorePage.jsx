@@ -12,11 +12,10 @@ const ExplorePage = () => {
   const [exploreNews, setexploreNews] = useState(null);
   const dispatch = useDispatch();
   const currentExploreNews = useSelector(selectExplorePageNews);
-
   const getExplorePageNews = useCallback(
     async (filter) => {
       fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetTweetsByParams?page=${filter}`,
+        `https://twittercloneapiproductionenv.azurewebsites.net/Follower/GetFollowersTweetsByParams?page=${filter}`,
         {
           method: 'GET',
           credentials: 'include',

@@ -13,9 +13,14 @@ const AddNews = () => {
   const [postPhoto, setPostPhoto] = useState(null);
   const sendNewComment = (e) => {
     const formData = new FormData();
+    const hashtags = postText.match(/[#]\w+/g) || null;
+
     formData.append('Content', postText);
     formData.append('TweetImage', postPhoto);
     formData.append('IsPublic', isReplyAbility);
+    hashtags.forEach((currentHashtag) => {
+      formData.append('Hashtags', currentHashtag);
+    });
 
     fetch(
       'https://twittercloneapiproductionenv.azurewebsites.net/Tweet/CreateTweet',
