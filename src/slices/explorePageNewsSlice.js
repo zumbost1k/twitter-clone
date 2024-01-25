@@ -9,7 +9,7 @@ export const ExplorePageNewsSlice = createSlice({
   initialState,
   reducers: {
     setExplorePageNews: (state, action) => {
-      state.explorePageNews = state.explorePageNews.concat(action.payload);
+      state.explorePageNews = action.payload;
     },
   },
 });

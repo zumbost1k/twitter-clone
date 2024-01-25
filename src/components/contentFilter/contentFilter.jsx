@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import './contentFilter.css';
 import { useNavigate } from 'react-router-dom';
 
-const ContentFilter = ({filterLinks,filterInitial}) => {
+const ContentFilter = ({ filterLinks, filterInitial, getNewsByFilter }) => {
   const [filter, setFilter] = useState(filterInitial);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   navigate(`?filter=${filter}`);
+  // }, [filter, navigate]);
+
   useEffect(() => {
-    navigate(`?filter=${filter}`);
-  }, [filter, navigate]);
+    getNewsByFilter(filter);
+  }, [filter, getNewsByFilter]);
 
   return (
     <section className='content-filter'>
