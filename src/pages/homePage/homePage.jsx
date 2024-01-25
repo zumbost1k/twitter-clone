@@ -30,7 +30,7 @@ const HomePage = () => {
     }
   }, [fetchAndSetTweets, isShouldFetch, fetchHashtags]);
 
-  if (!homePageNews && !hashtags) {
+  if (!homePageNews || !hashtags) {
     return <Loader />;
   }
   return (

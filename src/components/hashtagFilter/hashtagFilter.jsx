@@ -19,7 +19,7 @@ const HashtagFilter = ({ hashtags }) => {
           {hashtags.map((currentHashtag) => {
             return (
               <div
-                key={currentHashtag.hashtagName}
+                key={currentHashtag.hashtagId}
                 onClick={() => {
                   setHashtag(currentHashtag.hashtagName);
                 }}
@@ -29,7 +29,7 @@ const HashtagFilter = ({ hashtags }) => {
                   {currentHashtag.hashtagName}
                 </h4>
                 <p className='common-text hashtag__common-text'>
-                  {format(currentHashtag.tweetsQuantity, '0a')} Tweets
+                  {format(currentHashtag.tweetsCount, '0a')} Tweets
                 </p>
               </div>
             );
