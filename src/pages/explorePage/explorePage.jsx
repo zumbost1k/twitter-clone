@@ -22,9 +22,6 @@ const ExplorePage = () => {
         });
     }
   }, [fetchAndSetTweets, isShouldFetch]);
-  if (!exploreNews) {
-    return <Loader />;
-  }
 
   return (
     <section className='explore-page'>
@@ -52,7 +49,9 @@ const ExplorePage = () => {
         <div className='explore-search-panel'>
           <SearchPanel />
         </div>
-        {!exploreNews.length ? (
+        {!exploreNews ? (
+          <Loader />
+        ) : !exploreNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
             No posts have been written yet
           </p>
