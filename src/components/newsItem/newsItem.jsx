@@ -62,8 +62,7 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
   };
 
   const getCommentsHandler = () => {
-    setIsCommentsShowing(!isCommentsShowing);
-    if (!comment) {
+    if (!isCommentsShowing) {
       fetch(
         `https://twittercloneapiproductionenv.azurewebsites.net/Comment/GetTweetComments${currentStateNews.tweetId}`,
         {
@@ -76,7 +75,12 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
         .then((responce) => responce.json())
         .then((data) => {
           setComment(data.data);
+        })
+        .then(() => {
+          setIsCommentsShowing(!isCommentsShowing);
         });
+    } else {
+      setIsCommentsShowing(!isCommentsShowing);
     }
   };
 
