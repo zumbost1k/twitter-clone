@@ -106,8 +106,14 @@ const UserNavigation = () => {
         <span className='dark-text currentUser__dark-text'>
           {currentUser.userName ? currentUser.userName : currentUser.nickName}
         </span>
-        <span className={'currentUser__triangle'}>
-          <Triangle width={'7'} height={'5'} />
+        <span
+          style={{
+            transform: `rotate(${isActiveMenu ? 90 : 0}deg)`,
+            transition: 'all 0.5s ease-out',
+          }}
+          className={'currentUser__triangle'}
+        >
+          <Triangle width={'10'} height={'8'} />
         </span>
       </div>
       <nav
