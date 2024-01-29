@@ -1,44 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './explorePage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import SearchPanel from '@/components/searchPanel/searchPanel';
 import Loader from '@/UI/loader/loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { setExplorePageNews } from '@/slices/explorePageNewsSlice';
-import { selectExplorePageNews } from '@/selectors/selectors';
 
 const ExplorePage = () => {
   const [exploreNews, setexploreNews] = useState(null);
-  const dispatch = useDispatch();
-  const currentExploreNews = useSelector(selectExplorePageNews);
-  const getExplorePageNews = useCallback(
-    async (filter) => {
-      fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Follower/GetFollowersTweetsByParams?page=${filter}`,
-        {
-          method: 'GET',
-          credentials: 'include',
-          withCredentials: true,
-          crossorigin: true,
-        }
-      )
-        .then((responce) => {
-          return responce.json();
-        })
-        .then((data) => {
-          dispatch(setExplorePageNews(data.data));
-        })
-        .catch((error) => {
-          console.error('Failed to load tweets:', error);
-        });
-    },
-    [dispatch]
-  );
-
-  useEffect(() => {
-    setexploreNews(currentExploreNews);
-  }, [currentExploreNews]);
+  const getExplorePageNews = useCallback(async (filter) => {
+    fetch(
+      `https://twittercloneapiproductionenv.azurewebsites.net/Follower/GetFollowersTweetsByParams?page=${filter}`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then((responce) => {
+        return responce.json();
+      })
+      .then((data) => {
+        setexploreNews(data.data);
+      })
+      .catch((error) => {
+        console.error('Failed to load tweets:', error);
+      });
+  }, []);
 
   return (
     <section className='explore-page'>

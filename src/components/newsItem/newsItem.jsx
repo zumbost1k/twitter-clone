@@ -23,7 +23,7 @@ import Tick from '@/icons/tick';
 import CustomButton from '@/UI/customButton/cistomButton';
 import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
-const NewsItem = ({ currentNews }) => {
+const NewsItem = ({ currentNews, onDeleteFunction }) => {
   const [currentStateNews, setcurrentStateNews] = useState(currentNews);
   const { isRetweeted, retweet, unRetweet } = useRetweet(
     currentStateNews.tweetId,
@@ -212,7 +212,9 @@ const NewsItem = ({ currentNews }) => {
                         withCredentials: true,
                         crossorigin: true,
                       }
-                    );
+                    ).then(() => {
+                      onDeleteFunction(tweetId);
+                    });
                   },
                   update: (tweetId) => {
                     setIsEditing(true);
