@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './userPage.css';
 import ProfileHeader from '@/components/profileHeader/profileHeader';
-import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import Loader from '@/UI/loader/loader';
 import { useParams } from 'react-router-dom';
