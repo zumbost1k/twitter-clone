@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './settingsPage.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/selectors/selectors';
 import SettingBlock from '@/UI/settingBlock/settingBlock';
 import CustomButton from '@/UI/customButton/cistomButton';
+import { setCurrentUser } from '../../slices/currentUserSlice';
 
 const SettingsPage = () => {
   const currentUsersProfile = useSelector(selectCurrentUser);
@@ -22,6 +23,8 @@ const SettingsPage = () => {
   const [userProfileDescription, setUserProfileDescription] = useState(
     currentUsersProfile.profileDescription || ''
   );
+
+  const dispatch = useDispatch();
   const SendNewUserDate = (e) => {
     const formData = new FormData();
     formData.append('UserName', userNickName);
@@ -39,7 +42,22 @@ const SettingsPage = () => {
         withCredentials: true,
         crossorigin: true,
       }
-    );
+    )
+      .then((responce) => responce.json())
+      .then((data) => {
+        const responseData = data;
+        responseData.data.profileAvatar = responseData.data.profilePicture
+          ? responseData.data.profilePicture
+          : './photos/usersAvatar/emptyAvatar.jpg';
+
+        responseData.data.nickName = responseData.data.userName;
+        responseData.data.userName = responseData.data.fullName;
+        responseData.data.profileBackgroundImagePath = responseData.data
+          .backPicture
+          ? responseData.data.backPicture
+          : './photos/profileBackgrounds/mountain.jpg';
+        dispatch(setCurrentUser(responseData.data));
+      });
   };
 
   return (
@@ -118,7 +136,9 @@ const SettingsPage = () => {
                       setCurrentUserBackground(newBackgroundUrl);
                       setBackground(e.target.files[0]);
                     } else {
-                      console.log('the photo should weigh no more than a megabyte.');
+                      console.log(
+                        'the photo should weigh no more than a megabyte.'
+                      );
                     }
                   }
                 }}

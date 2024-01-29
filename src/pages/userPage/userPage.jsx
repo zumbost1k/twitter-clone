@@ -37,27 +37,6 @@ const UserPage = () => {
     <section>
       <ProfileHeader />
       <div className='filtered-news'>
-        <ContentFilter
-          filterInitial={'tweets'}
-          filterLinks={[
-            {
-              labelText: 'Tweets',
-              id: 'tweets',
-            },
-            {
-              labelText: 'Tweets & replies',
-              id: 'replies',
-            },
-            {
-              labelText: 'Media',
-              id: 'media',
-            },
-            {
-              labelText: 'Likes',
-              id: 'likes',
-            },
-          ]}
-        />
         {!userPageNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
             No posts have been written yet

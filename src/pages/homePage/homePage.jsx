@@ -14,6 +14,11 @@ const HomePage = () => {
   const [hashtags, setHashtags] = useState(null);
   const fetchAndSetTweets = useAllTweets();
   const fetchHashtags = useTopHashtags();
+  const addHomePageNewsHandler = (post) => {
+    const newHomePageNews = [post, ...homePageNews];
+    setHomePageNews(newHomePageNews);
+  };
+
   useEffect(() => {
     if (isShouldFetch) {
       fetchAndSetTweets()
@@ -36,7 +41,7 @@ const HomePage = () => {
   return (
     <section className='home-page'>
       <div>
-        <AddNews />
+        <AddNews addHomePageNewsHandler={addHomePageNewsHandler} />
         {!homePageNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
             No posts have been written yet

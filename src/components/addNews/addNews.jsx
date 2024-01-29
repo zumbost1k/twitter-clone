@@ -6,14 +6,15 @@ import PhotoUpload from '@/icons/photo';
 import Planet from '@/icons/planet';
 import CustomButton from '@/UI/customButton/cistomButton';
 
-const AddNews = () => {
+const AddNews = ({ addHomePageNewsHandler }) => {
   const currentUser = useSelector(selectCurrentUser);
   const [isReplyAbility, setIsReplyAbility] = useState(true);
   const [postText, setTextPost] = useState('');
   const [postPhoto, setPostPhoto] = useState(null);
   const sendNewComment = (e) => {
+    e.preventDefault();
     const formData = new FormData();
-    const hashtags = postText.match(/[#]\w+/g) || null;
+    const hashtags = postText.match(/[#]\w+/g) || [];
 
     formData.append('Content', postText);
     formData.append('TweetImage', postPhoto);
@@ -31,7 +32,11 @@ const AddNews = () => {
         withCredentials: true,
         crossorigin: true,
       }
-    );
+    )
+      .then((responce) => responce.json())
+      .then((data) => {
+        addHomePageNewsHandler(data.data);
+      });
     setTextPost('');
     setPostPhoto(null);
   };

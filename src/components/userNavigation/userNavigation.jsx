@@ -35,23 +35,19 @@ const UserNavigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const elementRef = useRef(null);
+  const modalRef = useRef();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsActiveMenu(false);
+    const checkIfClickedOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        setIsActiveMenu(false);
+      }
     };
-
-    const handlePageChange = () => {
-      setIsActiveMenu(false);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('beforeunload', handlePageChange);
-
+    document.addEventListener('click', checkIfClickedOutside);
+    document.addEventListener('scroll', checkIfClickedOutside);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handlePageChange);
+      document.removeEventListener('click', checkIfClickedOutside);
+      document.removeEventListener('scroll', checkIfClickedOutside);
     };
   }, []);
 
@@ -97,7 +93,7 @@ const UserNavigation = () => {
     <>
       <div
         className='currentUser__info'
-        ref={elementRef}
+        ref={modalRef}
         onClick={() => setIsActiveMenu(!isActiveMenu)}
       >
         <img

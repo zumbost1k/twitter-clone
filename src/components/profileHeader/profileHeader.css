@@ -49,10 +49,16 @@
 }
 
 .profile-header__name {
-  padding-top: 44px;
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.84px;
+  white-space: nowrap;
+}
+
+.profile-header__user-names {
+  padding-top: 44px;
+  display: flex;
+  flex-direction: column;
 }
 
 .name {
@@ -97,7 +103,7 @@
   padding: 26px 0px 0px;
 }
 
-@media (min-width: 1073px) {
+@media (min-width: 900px) {
   .profile-header-container {
     background-size: 100% 298px;
   }
@@ -119,9 +125,10 @@
     margin-top: 192px;
   }
 
-  .profile-header__name {
+  .profile-header__user-names {
     order: 1;
-    padding: 0px 0px 0px 154px;
+    align-items: flex-start;
+    padding: 0px 0px 0px 170px;
     width: 33%;
   }
 

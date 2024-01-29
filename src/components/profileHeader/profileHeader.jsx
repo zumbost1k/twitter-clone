@@ -53,9 +53,15 @@ const ProfileHeader = () => {
           height='116'
         />
         <div className='container profile-header__container'>
-          <h2 className='name profile-header__name'>
-            {currentUser.fullName ? currentUser.fullName : currentUser.nickName}
-          </h2>
+          <div className='user-names profile-header__user-names'>
+            <h2 className='name profile-header__name'>
+              {currentUser.fullName
+                ? currentUser.fullName
+                : currentUser.nickName}
+            </h2>{' '}
+            <span className='common-text'>@{currentUser.nickName}</span>
+          </div>
+
           <div className='followers container__followers'>
             <p className='common-text followers__common-text'>
               <span className='followers__common-text_bold'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './allNews.css';
 import NewsItem from '@/components/newsItem/newsItem.jsx';
 import { v4 } from 'uuid';
@@ -10,6 +10,10 @@ const AllNews = ({ allNews }) => {
     );
     setCurrentAllNews(filteredAllNews);
   };
+
+  useEffect(() => {
+    setCurrentAllNews(allNews);
+  }, [allNews]);
 
   return (
     <section className='all-news'>
