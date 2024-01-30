@@ -104,7 +104,7 @@ const Authorization = () => {
               }}
               id='login'
               className='registration-input'
-              placeholder='Enter your login...'
+              placeholder='example@gmail.com'
               type='email'
             />
           </div>

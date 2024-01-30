@@ -20,7 +20,7 @@ const Registration = () => {
   const HandleRegistration = (e) => {
     e.preventDefault();
     fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Registration`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Registration`,
       {
         method: 'POST',
         headers: {
@@ -64,6 +64,7 @@ const Registration = () => {
           </Link>
           !
         </p>
+
         <form
           onSubmit={HandleRegistration}
           className='registration-form registration-section__form'
@@ -80,16 +81,18 @@ const Registration = () => {
               }}
               id='login'
               className='registration-input'
-              placeholder='Enter your email...'
+              placeholder='example@gmail.com'
               type='email'
             />
-            {isEmailValid ? '' : (
-                <label
-                    htmlFor='login'
-                    className='text registration-input__input-caption_red'
-                >
-                  Please insert a valid email address
-                </label>
+            {isEmailValid ? (
+              ''
+            ) : (
+              <label
+                htmlFor='login'
+                className='text registration-input__input-caption_red'
+              >
+                Please insert a valid email address
+              </label>
             )}
           </div>
           <div className='form__registration-input'>
@@ -107,6 +110,9 @@ const Registration = () => {
               placeholder='Enter your password...'
               type='password'
             />
+            <p className='common-text registration-input__commoon-text'>
+              Password must be longer than 7 characters.
+            </p>
           </div>
           <div className='form__registration-input'>
             <label htmlFor='confirm-password' className='text'>
