@@ -12,10 +12,11 @@
 }
 
 .registration-input__input-caption_red {
+    font-size: 14px;
     color: red;
 }
 
-.registration-input__commoon-text{
+.registration-input__commoon-text {
     font-size: 14px;
     padding-top: 5px;
 }
