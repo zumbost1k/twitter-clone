@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './newsItem.css';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/selectors/selectors';
@@ -55,9 +55,12 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
   const [isCommentsShowing, setIsCommentsShowing] = useState(false);
   const [commentPhoto, setcommentPhoto] = useState(null);
 
-  const postCreatedAt = new Date(currentStateNews.createdAt);
+  const postCreatedAt = useMemo(
+    () => new Date(currentStateNews.createdAt),
+    [currentStateNews.createdAt]
+  );
 
-  const onClickCommentHandle = (tweetId) => {
+  const onClickCommentHandle = () => {
     setActiveComment(!activeComment);
   };
 
