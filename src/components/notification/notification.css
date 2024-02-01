@@ -1,67 +1,79 @@
 .bell {
-    color: rgb(126, 125, 125);
+  color: rgb(126, 125, 125);
 }
 
 .notification {
-    margin: 5px 10px 0px 0px;
+  margin: 5px 10px 0px 0px;
 }
 
 .notification__modal {
-    right: -46px;
-    margin-top: 10px;
-    border-radius: 8px;
-    min-width: 373px;
-    box-shadow: 2px 2px 2px 2px #cfcfcf;
+  right: -57px;
+  margin-top: 10px;
+  border-radius: 8px;
+  min-width: 373px;
+  box-shadow: 2px 2px 2px 2px #cfcfcf;
 }
 
 .subtitle {
-    font-family: 'Popins', sans-serif;
-    letter-spacing: .3px;
-    color: #828282;
+  font-family: 'Popins', sans-serif;
+  letter-spacing: 0.3px;
+  color: #828282;
 }
 
 .subtitle__modal {
-    font-size: 14px;
-    padding: 10px 15px;
-    border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-bottom: 1px solid #f2f2f2;
 }
 
 .current-notification {
-    display: flex;
-    gap: 5px;
-    align-items: flex-start;
+  display: flex;
+  gap: 5px;
+  align-items: flex-start;
 }
 
 .notification:hover,
 .current-notification:hover {
-    background: rgb(245, 245, 245);
+  background: rgb(245, 245, 245);
 }
 
 .modal__current-notification {
-    padding: 8px;
-    border-bottom: 1px solid #f2f2f2;
+  padding: 8px;
+  border-bottom: 1px solid #f2f2f2;
 }
 
 .current-notification__text {
-    padding-top: 5px;
-    font-size: 14px;
+  padding-top: 5px;
+  font-size: 14px;
 }
 
-
 .show-all:hover {
-    background: rgb(245, 245, 245);
-    border-radius: 0px 0px 8px 8px;
+  background: rgb(245, 245, 245);
+  border-radius: 0px 0px 8px 8px;
 }
 
 .modal__show-all {
-    text-align: center;
-    width: 100%;
-    padding: 5px 0px;
+  text-align: center;
+  width: 100%;
+  padding: 5px 0px;
 }
 
-@media (min-width:500px) {
-    .notification__modal {
-        right: 0;
-        margin: 10px 10px 0px 0px;
-    }
+.unread-notificaton {
+  background: #2f80ed;
+  color: #f2f2f2;
+}
+
+.bell__unread-notificaton {
+  position: absolute;
+  bottom: 0;
+  right: 1px;
+  font-size: 12px;
+  padding: 1px 4px;
+  border-radius: 100%;
+}
+
+@media (min-width: 500px) {
+  .notification__modal {
+    right: 0;
+  }
 }

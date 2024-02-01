@@ -3,91 +3,41 @@ import './notification.css';
 import Bell from '@/icons/bell';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
-
-const notifications = [
-  {
-    notificationId: 1,
-    notificationUserId: 3,
-    createdAt: '2024-01-16T07:39:34.713',
-    notificationUserPhoto:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    notificationUserName: 'misha',
-    notificationText:
-      'Confirm actions with notifications in mobile apps. To do this, tether your device',
-  },
-  {
-    notificationId: 2,
-    notificationUserId: 3,
-    createdAt: '2024-01-16T07:39:34.713',
-    notificationUserPhoto:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    notificationUserName: 'misha',
-    notificationText: 'liked your post',
-  },
-  {
-    notificationId: 3,
-    notificationUserId: 3,
-    createdAt: '2024-01-16T07:39:34.713',
-    notificationUserPhoto:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    notificationUserName: 'misha',
-    notificationText: 'subscribed to you',
-  },
-];
-
-const oldNatification = [
-  {
-    notificationId: 4,
-    notificationUserId: 3,
-    createdAt: '2024-01-16T07:39:34.713',
-    notificationUserPhoto:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    notificationUserName: 'misha',
-    notificationText:
-      'Confirm actions with notifications in mobile apps. To do this, tether your device',
-  },
-  {
-    notificationId: 5,
-    notificationUserId: 3,
-    createdAt: '2024-01-16T07:39:34.713',
-    notificationUserPhoto:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    notificationUserName: 'misha',
-    notificationText: 'liked your post',
-  },
-  {
-    notificationId: 6,
-    notificationUserId: 3,
-    createdAt: '2024-01-16T07:39:34.713',
-    notificationUserPhoto:
-      'https://twittercloneapiproductionenv.azurewebsites.net/3/27.12.2023.08.46.47.714223.png',
-    notificationUserName: 'misha',
-    notificationText: 'subscribed to you',
-  },
-];
+import { format } from 'numerable';
 
 const Notification = () => {
   const { userId } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [currentNotifications, setCurrentNotification] = useState(null);
   const [isAllNotificationShow, setIsAllNotificationShow] = useState(false);
+  const [isAllNatificationShowed, setIsAllNatificationShowed] = useState(false);
   const modalRef = useRef();
   const location = useLocation();
 
   useEffect(() => {
-    console.log(`Page changed to ${location.pathname}`);
-   }, [location.pathname]);
-   
+    fetch(
+      'https://twittercloneapiproductionenv.azurewebsites.net/Notification/GetUnreadNotifications',
+      {
+        method: 'GET',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentNotification(data.data);
+      });
+  }, [location.pathname]);
 
   const getLastNotification = () => {
-    setCurrentNotification(notifications);
     setShowModal(true);
     setIsAllNotificationShow(false);
   };
 
   const getAllNotification = () => {
-    setCurrentNotification(currentNotifications.concat(oldNatification));
     setIsAllNotificationShow(true);
+    setIsAllNatificationShowed(true);
   };
 
   useEffect(() => {
@@ -102,61 +52,82 @@ const Notification = () => {
     };
   }, []);
 
+  if (!currentNotifications) {
+    return;
+  }
+
   return (
     <div ref={modalRef} className='notification relative'>
-      <button onClick={getLastNotification} className='bell notification__bell'>
+      <button
+        onClick={getLastNotification}
+        className='bell notification__bell relative'
+      >
         <Bell width={'32'} height={'32'} />
+        {!isAllNatificationShowed && (
+          <span className='unread-notificaton bell__unread-notificaton'>
+            {format(
+              currentNotifications.reduce(
+                (quantityOfUnreaded, currentQuantity) =>
+                  quantityOfUnreaded + !currentQuantity.isRead,
+                0
+              ),
+              '0a'
+            )}
+          </span>
+        )}
       </button>
 
       {showModal && (
         <div className='container modal notification__modal'>
           <h3 className='subtitle subtitle__modal'>Your page notification</h3>
           <div>
-            {currentNotifications.map((currentNotification) => {
-              const dateOfNoitfication = new Date(
-                currentNotification.createdAt
-              );
-              return (
-                <Link
-                  to={
-                    userId === currentNotification.notificationUserId
-                      ? '/user/currentUser'
-                      : `/user/${currentNotification.notificationUserId}`
-                  }
-                  className='current-notification modal__current-notification'
-                  key={currentNotification.notificationId}
-                >
-                  <img
-                    src={
-                      currentNotification.notificationUserPhoto
-                        ? currentNotification.notificationUserPhoto
-                        : './photos/usersAvatar/emptyAvatar.jpg'
+            {currentNotifications
+              .slice(0, isAllNotificationShow ? currentNotifications.length : 4)
+              .map((currentNotification) => {
+                const dateOfNoitfication = new Date(
+                  currentNotification.createdAt
+                );
+                return (
+                  <Link
+                    to={
+                      userId === currentNotification.sourseUserId
+                        ? '/user/currentUser'
+                        : `/user/${currentNotification.sourseUserId}`
                     }
-                    alt='notification'
-                    width='40'
-                    height='40'
-                    className='avatar'
-                  />
-                  <div>
-                    <div className='post-author'>
-                      <div className='text author current-notification__author'>
-                        {currentNotification.notificationUserName}
+                    className='current-notification modal__current-notification'
+                    key={currentNotification.notificationId}
+                  >
+                    <img
+                      src={
+                        currentNotification.sourseUserImage
+                          ? currentNotification.sourseUserImage
+                          : './photos/usersAvatar/emptyAvatar.jpg'
+                      }
+                      alt='notification'
+                      width='40'
+                      height='40'
+                      className='avatar'
+                    />
+                    <div>
+                      <div className='post-author'>
+                        <div className='text author current-notification__author'>
+                          {currentNotification.sourseUserName}
+                        </div>
+                        <time
+                          className='disabled-text post-author__disabled-text'
+                          datatime={currentNotification.createdAt}
+                        >
+                          {dateOfNoitfication.toLocaleString()}
+                        </time>
                       </div>
-                      <time
-                        className='disabled-text post-author__disabled-text'
-                        datatime={currentNotification.createdAt}
-                      >
-                        {dateOfNoitfication.toLocaleString()}
-                      </time>
-                    </div>
 
-                    <p className='text current-notification__text'>
-                      {currentNotification.notificationText}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
+                      <p className='text current-notification__text'>
+                        {currentNotification.notificationType}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
           </div>
 
           {isAllNotificationShow ? (
@@ -169,7 +140,7 @@ const Notification = () => {
               onClick={getAllNotification}
               className='subtitle show-all modal__show-all'
             >
-              Show all
+              Show more
             </button>
           )}
         </div>
