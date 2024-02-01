@@ -7,10 +7,14 @@ import UsersToFollow from '@/components/usersToFollow/usersToFollow';
 import { useAllTweets } from '@/hooks/use-allTweets';
 import Loader from '@/UI/loader/loader';
 import { useTopHashtags } from '@/hooks/use-topHashtags';
+import { useLocation } from 'react-router-dom';
 
 const HomePage = () => {
+  const location = useLocation();
+  const hashtag = new URLSearchParams(location.search).get('hashtag');
   const [homePageNews, setHomePageNews] = useState(null);
   const [isShouldFetch, setIsShouldFetch] = useState(true);
+  const [isShouldFetchHashtags, setIsShouldFetchHashtags] = useState(true);
   const [hashtags, setHashtags] = useState(null);
   const fetchAndSetTweets = useAllTweets();
   const fetchHashtags = useTopHashtags();
@@ -20,8 +24,12 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    setIsShouldFetch(true);
+  }, [hashtag]);
+
+  useEffect(() => {
     if (isShouldFetch) {
-      fetchAndSetTweets()
+      fetchAndSetTweets(hashtag)
         .then((reversedData) => {
           setIsShouldFetch(false);
           setHomePageNews(reversedData);
@@ -29,11 +37,17 @@ const HomePage = () => {
         .catch((error) => {
           console.error('Failed to load tweets:', error);
         });
+    }
+  }, [fetchAndSetTweets, isShouldFetch, hashtag]);
+
+  useEffect(() => {
+    if (isShouldFetchHashtags) {
       fetchHashtags().then((data) => {
         setHashtags(data);
+        setIsShouldFetchHashtags(false);
       });
     }
-  }, [fetchAndSetTweets, isShouldFetch, fetchHashtags]);
+  }, [fetchHashtags, isShouldFetchHashtags]);
 
   if (!homePageNews || !hashtags) {
     return <Loader />;

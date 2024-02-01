@@ -4,11 +4,11 @@ import { format } from 'numerable';
 import { useNavigate } from 'react-router-dom';
 
 const HashtagFilter = ({ hashtags }) => {
-  const [hashtag, setHashtag] = useState('allNews');
+  const [hashtag, setHashtag] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate(`?hashtag=${hashtag}`);
+    navigate(`?hashtag=${hashtag.replace(/#/g, '')}`);
   }, [hashtag, navigate]);
 
   return (

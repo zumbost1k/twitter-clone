@@ -214,6 +214,15 @@
   color: rgb(5, 158, 5);
 }
 
-.comments__comment-not-written{
+.comments__comment-not-written {
   padding: 0px 10px 10px;
+}
+
+.news-body__hashtags {
+  display: flex;
+  gap: 8px;
+}
+
+.news-body__hashtag {
+  color: #2f80ed;
 }

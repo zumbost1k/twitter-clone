@@ -7,7 +7,7 @@ import Bookmark from '@/icons/bookmark';
 import Heart from '@/icons/heart';
 import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
 import TripletButton from '@/UI/tripletButton/tripletButton';
@@ -25,6 +25,8 @@ import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
 const NewsItem = ({ currentNews, onDeleteFunction }) => {
   const [currentStateNews, setcurrentStateNews] = useState(currentNews);
+  const hashtags = currentStateNews.content.match(/[#]\w+/g);
+  const navigate = useNavigate();
   const { isRetweeted, retweet, unRetweet } = useRetweet(
     currentStateNews.tweetId,
     currentStateNews.isRetweeted
@@ -41,6 +43,7 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
   const [currentPostText, setCurrentPostText] = useState(
     currentStateNews.content || ''
   );
+
   const [currentPostPhoto, setCurrentPostPhoto] = useState(
     currentStateNews.image || null
   );
@@ -137,10 +140,14 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
 
   const saveTweetChanges = () => {
     const formData = new FormData();
+
     formData.append('Content', currentPostText);
     formData.append('OldTweetImage', currentPostPhoto);
     formData.append('NewTweetImage', currentPostPhoto);
     formData.append('IsPublic', currentStateNews.isPublic);
+    currentPostText.match(/[#]\w+/g).forEach((currentHashtag) => {
+      formData.append('Hashtags', currentHashtag);
+    });
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentStateNews.tweetId}`,
       {
@@ -251,7 +258,26 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
             className='text news-body__text news-body__text_textarea'
           />
         ) : (
-          <p className='text news-body__text'>{currentStateNews.content}</p>
+          <div className='news-body__text'>
+            <p className='text'>
+              {currentStateNews.content.replace(/#\S+\s*/g, '')}
+            </p>
+            <p className='news-body__hashtags'>
+              {hashtags?.map((currentHashtag) => {
+                return (
+                  <span
+                    key={currentHashtag}
+                    className='hashtag news-body__hashtag'
+                    onClick={() => {
+                      navigate(`?hashtag=${currentHashtag.replace(/#/g, '')}`);
+                    }}
+                  >
+                    {currentHashtag}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
         )}
 
         <div className='news-body__post-picture'>
