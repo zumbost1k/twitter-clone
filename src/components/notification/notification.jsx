@@ -82,7 +82,7 @@ const Notification = () => {
           <h3 className='subtitle subtitle__modal'>Your page notification</h3>
           <div>
             {currentNotifications
-              .slice(0, isAllNotificationShow ? currentNotifications.length : 4)
+              .slice(0, isAllNotificationShow ? 6 : 3)
               .map((currentNotification) => {
                 const dateOfNoitfication = new Date(
                   currentNotification.createdAt
