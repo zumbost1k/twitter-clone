@@ -24,7 +24,6 @@ const UserPage = () => {
     if (shouldFetch) {
       const fetchUser = async () => {
         const curentUserResponce = await user;
-        console.log(curentUserResponce);
         setCurrentUser(curentUserResponce);
       };
       fetchUser().then(() => {
@@ -78,23 +77,24 @@ const UserPage = () => {
 
   if (!userPageNews && !currentUser) {
     return <Loader />;
+  } else {
+    return (
+      <section>
+        <ProfileHeader currentUser={currentUser} />
+        <div className='filtered-news'>
+          {!userPageNews.length ? (
+            <p className='common-text bookmarks-page-section__common-text'>
+              No posts have been written yet
+            </p>
+          ) : (
+            <div className='explore-all-news'>
+              <AllNews isUserPage={true} allNews={userPageNews} />
+            </div>
+          )}
+        </div>
+      </section>
+    );
   }
-  return (
-    <section>
-      <ProfileHeader currentUser={currentUser} />
-      <div className='filtered-news'>
-        {!userPageNews.length ? (
-          <p className='common-text bookmarks-page-section__common-text'>
-            No posts have been written yet
-          </p>
-        ) : (
-          <div className='explore-all-news'>
-            <AllNews isUserPage={true} allNews={userPageNews} />
-          </div>
-        )}
-      </div>
-    </section>
-  );
 };
 
 export default UserPage;
