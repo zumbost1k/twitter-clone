@@ -140,14 +140,15 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
 
   const saveTweetChanges = () => {
     const formData = new FormData();
-
+    const currentHashtags = currentPostText.match(/[#]\w+/g) || [];
     formData.append('Content', currentPostText);
     formData.append('OldTweetImage', currentPostPhoto);
     formData.append('NewTweetImage', currentPostPhoto);
     formData.append('IsPublic', currentStateNews.isPublic);
-    currentPostText.match(/[#]\w+/g).forEach((currentHashtag) => {
+    currentHashtags.forEach((currentHashtag) => {
       formData.append('Hashtags', currentHashtag);
     });
+    console.log(formData);
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentStateNews.tweetId}`,
       {
@@ -155,6 +156,7 @@ const NewsItem = ({ currentNews, onDeleteFunction }) => {
         body: formData,
         credentials: 'include',
         withCredentials: true,
+        contentType: 'multipart/form-data',
         crossorigin: true,
       }
     )

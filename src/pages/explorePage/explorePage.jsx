@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './explorePage.css';
 import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
@@ -6,27 +6,62 @@ import SearchPanel from '@/components/searchPanel/searchPanel';
 import Loader from '@/UI/loader/loader';
 
 const ExplorePage = () => {
-  const [exploreNews, setexploreNews] = useState(null);
-  const getExplorePageNews = useCallback(async (filter) => {
-    fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Follower/GetFollowersTweetsByParams?page=${filter}`,
-      {
-        method: 'GET',
-        credentials: 'include',
-        withCredentials: true,
-        crossorigin: true,
+  const [currentPage, setCurrentPage] = useState(1);
+  const [exploreNews, setexploreNews] = useState([]);
+  const [prevFilter, setPrevFilter] = useState('latest');
+
+  const [totalTweetsCount, setTotalTweetsCount] = useState(0);
+  const getExplorePageNews = useCallback(
+    async (filter) => {
+      fetch(
+        `https://twittercloneapiproductionenv.azurewebsites.net/Follower/GetFollowersTweetsByParams?page=${filter}&PageNumber=${currentPage}&PageSize=10`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          withCredentials: true,
+          crossorigin: true,
+        }
+      )
+        .then((responce) => {
+          setPrevFilter(filter);
+          setTotalTweetsCount(2);
+          return responce.json();
+        })
+        .then((data) => {
+          if (prevFilter === filter && currentPage !== 1) {
+            setexploreNews((prev) => [...prev, ...data]);
+          } else {
+            setCurrentPage(1);
+            setexploreNews(data);
+          }
+        })
+        .catch((error) => {
+          console.error('Failed to load tweets:', error);
+        });
+    },
+    [currentPage, prevFilter]
+  );
+
+  const scrollHandler = useCallback(
+    (e) => {
+      if (
+        e.target.documentElement.scrollHeight -
+          (e.target.documentElement.scrollTop + window.innerHeight) <
+          200 &&
+        currentPage !== totalTweetsCount
+      ) {
+        setCurrentPage(currentPage + 1);
       }
-    )
-      .then((responce) => {
-        return responce.json();
-      })
-      .then((data) => {
-        setexploreNews(data.data);
-      })
-      .catch((error) => {
-        console.error('Failed to load tweets:', error);
-      });
-  }, []);
+    },
+    [currentPage, totalTweetsCount]
+  );
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler);
+    return function () {
+      document.removeEventListener('scroll', scrollHandler);
+    };
+  }, [scrollHandler]);
 
   return (
     <section className='explore-page'>

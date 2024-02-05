@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './homePage.css';
 import AllNews from '@/components/allNews/allNews';
 import AddNews from '@/components/addNews/addNews';
@@ -12,7 +12,9 @@ import { useLocation } from 'react-router-dom';
 const HomePage = () => {
   const location = useLocation();
   const hashtag = new URLSearchParams(location.search).get('hashtag');
-  const [homePageNews, setHomePageNews] = useState(null);
+  const [homePageNews, setHomePageNews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalTweetsCount, setTotalTweetsCount] = useState(0);
   const [isShouldFetch, setIsShouldFetch] = useState(true);
   const [isShouldFetchHashtags, setIsShouldFetchHashtags] = useState(true);
   const [hashtags, setHashtags] = useState(null);
@@ -23,22 +25,48 @@ const HomePage = () => {
     setHomePageNews(newHomePageNews);
   };
 
+  const scrollHandler = useCallback(
+    (e) => {
+      if (
+        e.target.documentElement.scrollHeight -
+          (e.target.documentElement.scrollTop + window.innerHeight) <
+          200 &&
+        currentPage !== totalTweetsCount &&
+        !hashtag
+      ) {
+        setCurrentPage(currentPage + 1);
+        setIsShouldFetch(true);
+      }
+    },
+    [currentPage, totalTweetsCount, hashtag]
+  );
+
   useEffect(() => {
+    setCurrentPage(1);
     setIsShouldFetch(true);
   }, [hashtag]);
 
   useEffect(() => {
     if (isShouldFetch) {
-      fetchAndSetTweets(hashtag)
+      fetchAndSetTweets(hashtag, currentPage)
+        .then((responce) => {
+          setTotalTweetsCount(2);
+          return responce.json();
+        })
         .then((reversedData) => {
-          setIsShouldFetch(false);
-          setHomePageNews(reversedData);
+          if (hashtag || currentPage === 1) {
+            setIsShouldFetch(false);
+            setHomePageNews(reversedData);
+          } else {
+            setIsShouldFetch(false);
+            setHomePageNews((prev) => [...prev, ...reversedData]);
+          }
         })
         .catch((error) => {
           console.error('Failed to load tweets:', error);
         });
     }
-  }, [fetchAndSetTweets, isShouldFetch, hashtag]);
+  }, [fetchAndSetTweets, isShouldFetch, hashtag, currentPage]);
 
   useEffect(() => {
     if (isShouldFetchHashtags) {
@@ -48,6 +76,13 @@ const HomePage = () => {
       });
     }
   }, [fetchHashtags, isShouldFetchHashtags]);
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler);
+    return function () {
+      document.removeEventListener('scroll', scrollHandler);
+    };
+  }, [scrollHandler]);
 
   if (!homePageNews || !hashtags) {
     return <Loader />;

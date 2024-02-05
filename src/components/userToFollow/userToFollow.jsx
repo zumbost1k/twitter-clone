@@ -8,7 +8,8 @@ import Subscribe from '@/icons/subscribe';
 import { useAuth } from '@/hooks/use-auth';
 const UserToFollow = ({ currentTopUserByFollowers }) => {
   const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
-    currentTopUserByFollowers.userId
+    currentTopUserByFollowers.userId,
+    currentTopUserByFollowers.isSubscribed
   );
   const { userId } = useAuth();
   const isCurrentUser = userId === currentTopUserByFollowers.userId;

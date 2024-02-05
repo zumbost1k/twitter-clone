@@ -1,42 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './profileHeader.css';
 import Subscribe from '@/icons/subscribe';
 import CustomButton from '@/UI/customButton/cistomButton';
 import { useParams } from 'react-router-dom';
 import { format } from 'numerable';
 import { useSubscribe } from '@/hooks/use-subscribe';
-import { useGetUserById } from '@/hooks/use-getUserById';
-import Loader from '@/UI/loader/loader';
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ currentUser }) => {
   const { id = 'currentUser' } = useParams();
-  const [shouldFetch, setShouldFetch] = useState(true);
+  console.log(currentUser);
   const isCurrentUserPage = id === 'currentUser';
   const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
-    isCurrentUserPage ? 1 : id
+    isCurrentUserPage ? 1 : id,
+    currentUser?.isSubscribed ? currentUser.isSubscribed : false
   );
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const user = useGetUserById(id);
-
-  useEffect(() => {
-    setShouldFetch(true);
-  }, [id]);
-
-  useEffect(() => {
-    if (shouldFetch) {
-      const fetchUser = async () => {
-        setCurrentUser(await user);
-      };
-      fetchUser().then(() => {
-        setShouldFetch(false);
-      });
-    }
-  }, [id, user, shouldFetch]);
 
   if (!currentUser) {
-    return <Loader />;
+    return;
   }
+
   return (
     <section
       className='profile-header-container'
