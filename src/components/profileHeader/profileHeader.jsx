@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './profileHeader.css';
 import Subscribe from '@/icons/subscribe';
 import CustomButton from '@/UI/customButton/cistomButton';
@@ -8,12 +8,18 @@ import { useSubscribe } from '@/hooks/use-subscribe';
 
 const ProfileHeader = ({ currentUser }) => {
   const { id = 'currentUser' } = useParams();
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const isCurrentUserPage = id === 'currentUser';
-  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
+  const { subscribe, unsubscribe } = useSubscribe(
     isCurrentUserPage ? 1 : id,
-    currentUser?.isSubscribed
+    isSubscribed
   );
 
+  useEffect(() => {
+    if (currentUser) {
+      setIsSubscribed(currentUser.isSubscribed);
+    }
+  }, [currentUser]);
 
   if (!currentUser) {
     return;
@@ -66,11 +72,19 @@ const ProfileHeader = ({ currentUser }) => {
               <CustomButton
                 type={'button'}
                 size={'standard'}
-                onClickfunction={isSubscribe ? unsubscribe : subscribe}
-                activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
+                onClickfunction={() => {
+                  if (isSubscribed) {
+                    setIsSubscribed(false);
+                    unsubscribe();
+                  } else {
+                    setIsSubscribed(true);
+                    subscribe();
+                  }
+                }}
+                activeClass={isSubscribed ? 'button__subscribee-grey' : 'blue'}
                 content={
                   <div>
-                    {isSubscribe ? (
+                    {isSubscribed ? (
                       <span className='content container__content'>
                         Unsubscribe
                       </span>
