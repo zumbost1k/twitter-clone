@@ -74,11 +74,13 @@ const ProfileHeader = ({ currentUser }) => {
                 size={'standard'}
                 onClickfunction={() => {
                   if (isSubscribed) {
-                    setIsSubscribed(false);
-                    unsubscribe();
+                    unsubscribe().then(() => {
+                      setIsSubscribed(false);
+                    });
                   } else {
-                    setIsSubscribed(true);
-                    subscribe();
+                    subscribe().then(() => {
+                      setIsSubscribed(true);
+                    });
                   }
                 }}
                 activeClass={isSubscribed ? 'button__subscribee-grey' : 'blue'}
