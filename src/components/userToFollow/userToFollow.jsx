@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './userToFollow.css';
 import CustomButton from '@/UI/customButton/cistomButton';
 import { format } from 'numerable';
@@ -7,7 +7,10 @@ import { useSubscribe } from '@/hooks/use-subscribe';
 import Subscribe from '@/icons/subscribe';
 import { useAuth } from '@/hooks/use-auth';
 const UserToFollow = ({ currentTopUserByFollowers }) => {
-  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
+  const [isSubscribed, setIsSubscribed] = useState(
+    currentTopUserByFollowers.isSubscribed
+  );
+  const { subscribe, unsubscribe } = useSubscribe(
     currentTopUserByFollowers.userId,
     currentTopUserByFollowers.isSubscribed
   );
@@ -56,11 +59,19 @@ const UserToFollow = ({ currentTopUserByFollowers }) => {
           <CustomButton
             type={'button'}
             size={'small'}
-            onClickfunction={isSubscribe ? unsubscribe : subscribe}
-            activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
+            onClickfunction={() => {
+              if (isSubscribed) {
+                setIsSubscribed(false);
+                unsubscribe();
+              } else {
+                setIsSubscribed(true);
+                subscribe();
+              }
+            }}
+            activeClass={isSubscribed ? 'button__subscribee-grey' : 'blue'}
             content={
               <div>
-                {isSubscribe ? (
+                {isSubscribed ? (
                   <span className='content container__content'>
                     Unsubscribe
                   </span>

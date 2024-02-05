@@ -5,9 +5,11 @@ import { selectCurrentUser } from '@/selectors/selectors';
 import SettingBlock from '@/UI/settingBlock/settingBlock';
 import CustomButton from '@/UI/customButton/cistomButton';
 import { setCurrentUser } from '../../slices/currentUserSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SettingsPage = () => {
   const currentUsersProfile = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
   const [userAvatar, setUserAvatar] = useState(null);
   const [currentUserAvatar, setCurrentUserAvatar] = useState(
     `${currentUsersProfile.profileAvatar}`
@@ -57,6 +59,9 @@ const SettingsPage = () => {
           ? responseData.data.backPicture
           : './photos/profileBackgrounds/mountain.jpg';
         dispatch(setCurrentUser(responseData.data));
+      })
+      .then(() => {
+        navigate('/home');
       });
   };
 
