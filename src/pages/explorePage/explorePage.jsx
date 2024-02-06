@@ -30,10 +30,10 @@ const ExplorePage = () => {
         })
         .then((data) => {
           if (prevFilter === filter && currentPage !== 1) {
-            setexploreNews((prev) => [...prev, ...data]);
+            setexploreNews((prev) => [...prev, ...data.reverse()]);
           } else {
             setCurrentPage(1);
-            setexploreNews(data);
+            setexploreNews(data.reverse());
           }
         })
         .catch((error) => {

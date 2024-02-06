@@ -56,7 +56,7 @@ const HomePage = () => {
         .then((reversedData) => {
           if (hashtag || currentPage === 1) {
             setIsShouldFetch(false);
-            setHomePageNews(reversedData);
+            setHomePageNews(reversedData.reverse());
           } else {
             setIsShouldFetch(false);
             setHomePageNews((prev) => [...prev, ...reversedData.reverse()]);
