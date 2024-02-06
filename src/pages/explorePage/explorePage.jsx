@@ -9,8 +9,8 @@ const ExplorePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [exploreNews, setexploreNews] = useState([]);
   const [prevFilter, setPrevFilter] = useState('latest');
+  const [hasNextPage, setHasNextPage] = useState(false);
 
-  const [totalTweetsCount, setTotalTweetsCount] = useState(0);
   const getExplorePageNews = useCallback(
     async (filter) => {
       fetch(
@@ -22,10 +22,11 @@ const ExplorePage = () => {
           crossorigin: true,
         }
       )
-        .then((responce) => {
+        .then((response) => {
           setPrevFilter(filter);
-          setTotalTweetsCount(2);
-          return responce.json();
+          const paginaton = JSON.parse(response.headers.get('X-Pagination'));
+          setHasNextPage(paginaton.HasNext);
+          return response.json();
         })
         .then((data) => {
           if (prevFilter === filter && currentPage !== 1) {
@@ -47,13 +48,13 @@ const ExplorePage = () => {
       if (
         e.target.documentElement.scrollHeight -
           (e.target.documentElement.scrollTop + window.innerHeight) <
-          200 &&
-        currentPage !== totalTweetsCount
+          300 &&
+        hasNextPage
       ) {
         setCurrentPage(currentPage + 1);
       }
     },
-    [currentPage, totalTweetsCount]
+    [currentPage, hasNextPage]
   );
 
   useEffect(() => {

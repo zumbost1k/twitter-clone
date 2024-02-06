@@ -8,12 +8,15 @@ const BookmarksPage = () => {
   const [bookMaksNews, setbookMaksNews] = useState([]);
   const [isShouldFetch, setIsShouldFetch] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const fetchAndSetTweets = useSavedTweets();
   useEffect(() => {
     if (isShouldFetch) {
       fetchAndSetTweets(currentPage)
-        .then((responce) => {
-          return responce.json();
+        .then((response) => {
+          const paginaton = JSON.parse(response.headers.get('X-Pagination'));
+          setHasNextPage(paginaton.HasNext);
+          return response.json();
         })
         .then((reversedData) => {
           if (currentPage !== 1) {
@@ -35,13 +38,13 @@ const BookmarksPage = () => {
       if (
         e.target.documentElement.scrollHeight -
           (e.target.documentElement.scrollTop + window.innerHeight) <
-          200 &&
-        false
+          300 &&
+        hasNextPage
       ) {
         setCurrentPage(currentPage + 1);
       }
     },
-    [currentPage]
+    [currentPage, hasNextPage]
   );
 
   useEffect(() => {

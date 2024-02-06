@@ -11,6 +11,7 @@ const UserPage = () => {
   const [userPageNews, setUserPageNews] = useState([]);
   const [shouldFetch, setShouldFetch] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const { id = 'currentUser' } = useParams();
   const { userId } = useAuth();
   const user = useGetUserById(id);
@@ -36,7 +37,7 @@ const UserPage = () => {
     fetch(
       `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetUserTweetsAndRetweets${
         id === 'currentUser' ? userId : id
-      }`,
+      }?PageNumber=${currentPage}&PageSize=10`,
       {
         method: 'GET',
         credentials: 'include',
@@ -44,7 +45,11 @@ const UserPage = () => {
         crossorigin: true,
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        const paginaton = JSON.parse(response.headers.get('X-Pagination'));
+        setHasNextPage(paginaton.HasNext);
+        return response.json();
+      })
       .then((reversedData) => {
         if (currentPage !== 1) {
           setUserPageNews((prev) => [...prev, ...reversedData.reverse()]);
@@ -59,13 +64,13 @@ const UserPage = () => {
       if (
         e.target.documentElement.scrollHeight -
           (e.target.documentElement.scrollTop + window.innerHeight) <
-          200 &&
-        false
+          300 &&
+        hasNextPage
       ) {
         setCurrentPage(currentPage + 1);
       }
     },
-    [currentPage]
+    [currentPage, hasNextPage]
   );
 
   useEffect(() => {

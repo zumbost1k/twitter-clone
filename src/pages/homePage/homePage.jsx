@@ -14,7 +14,7 @@ const HomePage = () => {
   const hashtag = new URLSearchParams(location.search).get('hashtag');
   const [homePageNews, setHomePageNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalTweetsCount, setTotalTweetsCount] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const [isShouldFetch, setIsShouldFetch] = useState(true);
   const [isShouldFetchHashtags, setIsShouldFetchHashtags] = useState(true);
   const [hashtags, setHashtags] = useState(null);
@@ -30,15 +30,14 @@ const HomePage = () => {
       if (
         e.target.documentElement.scrollHeight -
           (e.target.documentElement.scrollTop + window.innerHeight) <
-          200 &&
-        currentPage !== totalTweetsCount &&
-        !hashtag
+          300 &&
+        hasNextPage
       ) {
         setCurrentPage(currentPage + 1);
         setIsShouldFetch(true);
       }
     },
-    [currentPage, totalTweetsCount, hashtag]
+    [currentPage, hasNextPage]
   );
 
   useEffect(() => {
@@ -50,7 +49,8 @@ const HomePage = () => {
     if (isShouldFetch) {
       fetchAndSetTweets(hashtag, currentPage)
         .then((responce) => {
-          setTotalTweetsCount(2);
+          const paginaton = JSON.parse(responce.headers.get('X-Pagination'));
+          setHasNextPage(paginaton.HasNext);
           return responce.json();
         })
         .then((reversedData) => {
@@ -59,7 +59,7 @@ const HomePage = () => {
             setHomePageNews(reversedData);
           } else {
             setIsShouldFetch(false);
-            setHomePageNews((prev) => [...prev, ...reversedData]);
+            setHomePageNews((prev) => [...prev, ...reversedData.reverse()]);
           }
         })
         .catch((error) => {
