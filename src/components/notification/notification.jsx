@@ -10,7 +10,6 @@ const Notification = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentNotifications, setCurrentNotification] = useState(null);
   const [isAllNotificationShow, setIsAllNotificationShow] = useState(false);
-  const [isAllNatificationShowed, setIsAllNatificationShowed] = useState(false);
   const modalRef = useRef();
   const location = useLocation();
 
@@ -30,14 +29,55 @@ const Notification = () => {
       });
   }, [location.pathname]);
 
+  const updateNotification = async (nitificationsIds) => {
+    fetch(
+      'https://twittercloneapiproductionenv.azurewebsites.net/Notification/UpdateNotifications',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([...nitificationsIds]),
+        method: 'PUT',
+        credentials: 'include',
+        withCredentials: true,
+        crossorigin: true,
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const newNotificationsState = currentNotifications.map(
+          (notification) => {
+            const newNotification = data.data.find(
+              (newNote) =>
+                newNote.notificationId === notification.notificationId
+            );
+            return newNotification || notification;
+          }
+        );
+        setCurrentNotification(newNotificationsState);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const getLastNotification = () => {
-    setShowModal(true);
-    setIsAllNotificationShow(false);
+    const notificationsToUpdateState = currentNotifications
+      .slice(0, 3)
+      .map((currentNotification) => currentNotification.notificationId);
+    updateNotification(notificationsToUpdateState).then(() => {
+      setShowModal(true);
+      setIsAllNotificationShow(false);
+    });
   };
 
   const getAllNotification = () => {
-    setIsAllNotificationShow(true);
-    setIsAllNatificationShowed(true);
+    const notificationsToUpdateState = currentNotifications
+      .slice(0, 6)
+      .map((currentNotification) => currentNotification.notificationId);
+    updateNotification(notificationsToUpdateState).then((responce) => {
+      setIsAllNotificationShow(true);
+    });
   };
 
   useEffect(() => {
@@ -63,7 +103,7 @@ const Notification = () => {
         className='bell notification__bell relative'
       >
         <Bell width={'32'} height={'32'} />
-        {!isAllNatificationShowed && (
+        {
           <span className='unread-notificaton bell__unread-notificaton'>
             {format(
               currentNotifications.reduce(
@@ -74,7 +114,7 @@ const Notification = () => {
               '0a'
             )}
           </span>
-        )}
+        }
       </button>
 
       {showModal && (
