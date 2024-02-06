@@ -1,17 +1,23 @@
 export const useAllTweets = () => {
-  const fetchAndSetTweets = async () => {
+  const fetchAndSetTweets = async (hashtag, currentPage) => {
+    console.log(hashtag);
     const response = await fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetAllTweets`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/GetAllTweets?PageNumber=${
+        currentPage || 1
+      }&PageSize=10`,
       {
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          hashtags: JSON.stringify(hashtag ? '#' + hashtag : ''),
+        },
         credentials: 'include',
         withCredentials: true,
         crossorigin: true,
       }
     );
-    const data = await response.json();
-    const reversedData = [...data.data].reverse();
-    return reversedData;
+
+    return response;
   };
 
   return fetchAndSetTweets;

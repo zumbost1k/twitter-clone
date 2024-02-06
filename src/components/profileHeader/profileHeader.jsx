@@ -5,38 +5,26 @@ import CustomButton from '@/UI/customButton/cistomButton';
 import { useParams } from 'react-router-dom';
 import { format } from 'numerable';
 import { useSubscribe } from '@/hooks/use-subscribe';
-import { useGetUserById } from '@/hooks/use-getUserById';
-import Loader from '@/UI/loader/loader';
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ currentUser }) => {
   const { id = 'currentUser' } = useParams();
-  const [shouldFetch, setShouldFetch] = useState(true);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const isCurrentUserPage = id === 'currentUser';
-  const { isSubscribe, subscribe, unsubscribe } = useSubscribe(
-    isCurrentUserPage ? 1 : id
+  const { subscribe, unsubscribe } = useSubscribe(
+    isCurrentUserPage ? 1 : id,
+    isSubscribed
   );
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const user = useGetUserById(id);
 
   useEffect(() => {
-    setShouldFetch(true);
-  }, [id]);
-
-  useEffect(() => {
-    if (shouldFetch) {
-      const fetchUser = async () => {
-        setCurrentUser(await user);
-      };
-      fetchUser().then(() => {
-        setShouldFetch(false);
-      });
+    if (currentUser) {
+      setIsSubscribed(currentUser.isSubscribed);
     }
-  }, [id, user, shouldFetch]);
+  }, [currentUser]);
 
   if (!currentUser) {
-    return <Loader />;
+    return;
   }
+
   return (
     <section
       className='profile-header-container'
@@ -53,9 +41,15 @@ const ProfileHeader = () => {
           height='116'
         />
         <div className='container profile-header__container'>
-          <h2 className='name profile-header__name'>
-            {currentUser.fullName ? currentUser.fullName : currentUser.nickName}
-          </h2>
+          <div className='user-names profile-header__user-names'>
+            <h2 className='name profile-header__name'>
+              {currentUser.fullName
+                ? currentUser.fullName
+                : currentUser.nickName}
+            </h2>{' '}
+            <span className='common-text'>@{currentUser.nickName}</span>
+          </div>
+
           <div className='followers container__followers'>
             <p className='common-text followers__common-text'>
               <span className='followers__common-text_bold'>
@@ -78,11 +72,21 @@ const ProfileHeader = () => {
               <CustomButton
                 type={'button'}
                 size={'standard'}
-                onClickfunction={isSubscribe ? unsubscribe : subscribe}
-                activeClass={isSubscribe ? 'button__subscribee-grey' : 'blue'}
+                onClickfunction={() => {
+                  if (isSubscribed) {
+                    unsubscribe().then(() => {
+                      setIsSubscribed(false);
+                    });
+                  } else {
+                    subscribe().then(() => {
+                      setIsSubscribed(true);
+                    });
+                  }
+                }}
+                activeClass={isSubscribed ? 'button__subscribee-grey' : 'blue'}
                 content={
                   <div>
-                    {isSubscribe ? (
+                    {isSubscribed ? (
                       <span className='content container__content'>
                         Unsubscribe
                       </span>

@@ -9,6 +9,9 @@ const Registration = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [retryPassword, setRetryPassword] = useState('');
+  const [hasInteractedEmail, setHasInteractedEmail] = useState(false);
+  const [hasInteractedPassword, setHasInteractedPassword] = useState(false);
+
   const checkPasswords = (password1, password2) => {
     return password1 === password2;
   };
@@ -20,7 +23,7 @@ const Registration = () => {
   const HandleRegistration = (e) => {
     e.preventDefault();
     fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Registration`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Authentication/Registration`,
       {
         method: 'POST',
         headers: {
@@ -64,6 +67,7 @@ const Registration = () => {
           </Link>
           !
         </p>
+
         <form
           onSubmit={HandleRegistration}
           className='registration-form registration-section__form'
@@ -77,20 +81,24 @@ const Registration = () => {
               value={email}
               onInput={(e) => {
                 setEmail(e.target.value);
+                setHasInteractedEmail(true);
               }}
               id='login'
               className='registration-input'
-              placeholder='Enter your email...'
+              placeholder='example@gmail.com'
               type='email'
             />
-            {isEmailValid ? '' : (
+            {hasInteractedEmail &&
+              (isEmailValid ? (
+                ''
+              ) : (
                 <label
-                    htmlFor='login'
-                    className='text registration-input__input-caption_red'
+                  htmlFor='login'
+                  className='text registration-input__input-caption_red'
                 >
                   Please insert a valid email address
                 </label>
-            )}
+              ))}
           </div>
           <div className='form__registration-input'>
             <label htmlFor='password' className='text'>
@@ -101,12 +109,21 @@ const Registration = () => {
               value={password}
               onInput={(e) => {
                 setPassword(e.target.value);
+                setHasInteractedPassword(true);
               }}
               id='password'
               className='registration-input'
               placeholder='Enter your password...'
               type='password'
             />
+            {hasInteractedPassword &&
+              (!isPasswordValid ? (
+                <p className='text registration-input__input-caption_red'>
+                  Password must be longer than 7 characters.
+                </p>
+              ) : (
+                ''
+              ))}
           </div>
           <div className='form__registration-input'>
             <label htmlFor='confirm-password' className='text'>

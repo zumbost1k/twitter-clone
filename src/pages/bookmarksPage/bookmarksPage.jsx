@@ -1,53 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './bookmarksPage.css';
-import ContentFilter from '@/components/contentFilter/contentFilter';
 import AllNews from '@/components/allNews/allNews';
 import { useSavedTweets } from '@/hooks/use-savedTweets';
 import Loader from '@/UI/loader/loader';
 
 const BookmarksPage = () => {
-  const [bookMaksNews, setbookMaksNews] = useState(null);
+  const [bookMaksNews, setbookMaksNews] = useState([]);
   const [isShouldFetch, setIsShouldFetch] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const fetchAndSetTweets = useSavedTweets();
   useEffect(() => {
     if (isShouldFetch) {
-      fetchAndSetTweets()
+      fetchAndSetTweets(currentPage)
+        .then((response) => {
+          const paginaton = JSON.parse(response.headers.get('X-Pagination'));
+          setHasNextPage(paginaton.HasNext);
+          return response.json();
+        })
         .then((reversedData) => {
-          setIsShouldFetch(false);
-          setbookMaksNews(reversedData);
+          if (currentPage !== 1) {
+            setIsShouldFetch(false);
+            setbookMaksNews((prev) => [...prev, ...reversedData.reverse()]);
+          } else {
+            setIsShouldFetch(false);
+            setbookMaksNews(reversedData.reverse());
+          }
         })
         .catch((error) => {
           console.error('Failed to load tweets:', error);
         });
     }
-  }, [fetchAndSetTweets, isShouldFetch]);
+  }, [fetchAndSetTweets, isShouldFetch, currentPage]);
+
+  const scrollHandler = useCallback(
+    (e) => {
+      if (
+        e.target.documentElement.scrollHeight -
+          (e.target.documentElement.scrollTop + window.innerHeight) <
+          300 &&
+        hasNextPage
+      ) {
+        setCurrentPage(currentPage + 1);
+      }
+    },
+    [currentPage, hasNextPage]
+  );
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler);
+    return function () {
+      document.removeEventListener('scroll', scrollHandler);
+    };
+  }, [scrollHandler]);
+
   if (!bookMaksNews) {
     return <Loader />;
   }
   return (
     <section className='bookmarks-page-section'>
       <div className='filtered-news'>
-        <ContentFilter
-          filterInitial={'tweets'}
-          filterLinks={[
-            {
-              labelText: 'Tweets',
-              id: 'tweets',
-            },
-            {
-              labelText: 'Tweets & replies',
-              id: 'replies',
-            },
-            {
-              labelText: 'Media',
-              id: 'media',
-            },
-            {
-              labelText: 'Likes',
-              id: 'likes',
-            },
-          ]}
-        />
         {!bookMaksNews.length ? (
           <p className='common-text bookmarks-page-section__common-text'>
             No posts have been saved

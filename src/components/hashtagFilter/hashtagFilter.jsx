@@ -3,40 +3,14 @@ import './hashtagFilter.css';
 import { format } from 'numerable';
 import { useNavigate } from 'react-router-dom';
 
-const hashtags = [
-  {
-    hashtagName: 'programming',
-    tweetsQuantity: 234000,
-  },
-  {
-    hashtagName: 'devchallenges',
-    tweetsQuantity: 234000,
-  },
-  {
-    hashtagName: 'frontend',
-    tweetsQuantity: 123000,
-  },
-  {
-    hashtagName: '100DaysOfCode',
-    tweetsQuantity: 11500,
-  },
-  {
-    hashtagName: 'helsinki',
-    tweetsQuantity: 5000,
-  },
-
-  {
-    hashtagName: 'learntocode',
-    tweetsQuantity: 1000,
-  },
-];
-
-const HashtagFilter = () => {
-  const [filter, setFilter] = useState('allNews');
+const HashtagFilter = ({ hashtags }) => {
+  const [hashtag, setHashtag] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
-    navigate(`?hashtag=${filter}`);
-  }, [filter, navigate]);
+    navigate(`?hashtag=${hashtag.replace(/#/g, '')}`);
+  }, [hashtag, navigate]);
+
   return (
     <section className='hashtag-filter-section'>
       <div className='container hashtag-filter-section__container'>
@@ -45,17 +19,17 @@ const HashtagFilter = () => {
           {hashtags.map((currentHashtag) => {
             return (
               <div
-                key={currentHashtag.hashtagName}
+                key={currentHashtag.hashtagId}
                 onClick={() => {
-                  setFilter(currentHashtag.hashtagName);
+                  setHashtag(currentHashtag.hashtagName);
                 }}
                 className='hashtag'
               >
                 <h4 className='dark-text hashtag__dark-text'>
-                  #{currentHashtag.hashtagName}
+                  {currentHashtag.hashtagName}
                 </h4>
                 <p className='common-text hashtag__common-text'>
-                  {format(currentHashtag.tweetsQuantity, '0a')} Tweets
+                  {format(currentHashtag.tweetsCount, '0a')} Tweets
                 </p>
               </div>
             );

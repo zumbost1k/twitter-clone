@@ -30,28 +30,24 @@ const navLinks = [
 ];
 
 const UserNavigation = () => {
-  const [activeButton, setActiveButton] = useState('My Profile');
+  const [activeButton, setActiveButton] = useState('');
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const elementRef = useRef(null);
+  const modalRef = useRef();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsActiveMenu(false);
+    const checkIfClickedOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        setIsActiveMenu(false);
+      }
     };
-
-    const handlePageChange = () => {
-      setIsActiveMenu(false);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('beforeunload', handlePageChange);
-
+    document.addEventListener('click', checkIfClickedOutside);
+    document.addEventListener('scroll', checkIfClickedOutside);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handlePageChange);
+      document.removeEventListener('click', checkIfClickedOutside);
+      document.removeEventListener('scroll', checkIfClickedOutside);
     };
   }, []);
 
@@ -97,7 +93,7 @@ const UserNavigation = () => {
     <>
       <div
         className='currentUser__info'
-        ref={elementRef}
+        ref={modalRef}
         onClick={() => setIsActiveMenu(!isActiveMenu)}
       >
         <img
@@ -110,8 +106,14 @@ const UserNavigation = () => {
         <span className='dark-text currentUser__dark-text'>
           {currentUser.userName ? currentUser.userName : currentUser.nickName}
         </span>
-        <span className={'currentUser__triangle'}>
-          <Triangle width={'7'} height={'5'} />
+        <span
+          style={{
+            transform: `rotate(${isActiveMenu ? 90 : 0}deg)`,
+            transition: 'all 0.5s ease-out',
+          }}
+          className={'currentUser__triangle'}
+        >
+          <Triangle width={'10'} height={'8'} />
         </span>
       </div>
       <nav

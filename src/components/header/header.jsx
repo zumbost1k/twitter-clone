@@ -4,7 +4,8 @@ import './header.css';
 import { useAuth } from '@/hooks/use-auth';
 import Tweeter from '@/icons/tweeter';
 import NavElement from '@/UI/nav/nav';
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
+import Notification from '../notification/notification';
 
 const navLinks = [
   {
@@ -49,7 +50,10 @@ const Header = () => {
               );
             })}
           </div>
-          <UserNavigation />
+          <div className='flex-between-center'>
+            <Notification />
+            <UserNavigation />
+          </div>
         </div>
       </section>
     );

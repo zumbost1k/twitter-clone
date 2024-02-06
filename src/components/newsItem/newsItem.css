@@ -10,11 +10,10 @@
 
 .text {
   color: #000;
-  /* font-family: 'Poppins', sans-serif; */
   font-family: 'Montserrat', sans-serif;
   line-height: 22px;
   letter-spacing: .3px;
-  /* font-family: 'Century Gothic Paneuropean', sans-serif; */
+  font-weight: 500;
 }
 
 .news-body__avatar {
@@ -213,4 +212,17 @@
 
 .add-post-photo:hover {
   color: rgb(5, 158, 5);
+}
+
+.comments__comment-not-written {
+  padding: 0px 10px 10px;
+}
+
+.news-body__hashtags {
+  display: flex;
+  gap: 8px;
+}
+
+.news-body__hashtag {
+  color: #2f80ed;
 }

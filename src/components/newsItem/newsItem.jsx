@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './newsItem.css';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/selectors/selectors';
@@ -7,7 +7,7 @@ import Bookmark from '@/icons/bookmark';
 import Heart from '@/icons/heart';
 import Reboot from '@/icons/reboot';
 import Send from '@/icons/send';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRetweet } from '@/hooks/use-retweet';
 import NewsItemButton from '@/UI/newsItemButton/newsItemButton';
 import TripletButton from '@/UI/tripletButton/tripletButton';
@@ -23,28 +23,32 @@ import Tick from '@/icons/tick';
 import CustomButton from '@/UI/customButton/cistomButton';
 import DragAndDrop from '@/UI/dragAndDrop/dragAndDrop';
 
-const NewsItem = ({ currentNews }) => {
+const NewsItem = ({ currentNews, onDeleteFunction }) => {
+  const [currentStateNews, setcurrentStateNews] = useState(currentNews);
+  const hashtags = currentStateNews.content.match(/[#]\w+/g);
+  const navigate = useNavigate();
   const { isRetweeted, retweet, unRetweet } = useRetweet(
-    currentNews.tweetId,
-    currentNews.isRetweeted
+    currentStateNews.tweetId,
+    currentStateNews.isRetweeted
   );
   const { isLiked, like, unLike } = useLike(
-    currentNews.tweetId,
-    currentNews.isLiked
+    currentStateNews.tweetId,
+    currentStateNews.isLiked
   );
   const { isSaved, save, unSave } = useSave(
-    currentNews.tweetId,
-    currentNews.isSaved
+    currentStateNews.tweetId,
+    currentStateNews.isSaved
   );
   const { userId } = useAuth();
   const [currentPostText, setCurrentPostText] = useState(
-    currentNews.content || ''
+    currentStateNews.content || ''
   );
+
   const [currentPostPhoto, setCurrentPostPhoto] = useState(
-    currentNews.image || null
+    currentStateNews.image || null
   );
   const [currentPostPhotoURL, setCurrentPostPhotoURL] = useState(
-    currentNews.image || null
+    currentStateNews.image || null
   );
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(null);
@@ -54,17 +58,19 @@ const NewsItem = ({ currentNews }) => {
   const [isCommentsShowing, setIsCommentsShowing] = useState(false);
   const [commentPhoto, setcommentPhoto] = useState(null);
 
-  const postCreatedAt = new Date(currentNews.createdAt);
+  const postCreatedAt = useMemo(
+    () => new Date(currentStateNews.createdAt),
+    [currentStateNews.createdAt]
+  );
 
-  const onClickCommentHandle = (tweetId) => {
+  const onClickCommentHandle = () => {
     setActiveComment(!activeComment);
   };
 
   const getCommentsHandler = () => {
-    setIsCommentsShowing(!isCommentsShowing);
-    if (!comment) {
+    if (!isCommentsShowing) {
       fetch(
-        `https://twittercloneapiproductionenv.azurewebsites.net/Comment/GetTweetComments${currentNews.tweetId}`,
+        `https://twittercloneapiproductionenv.azurewebsites.net/Comment/GetTweetComments${currentStateNews.tweetId}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -75,7 +81,12 @@ const NewsItem = ({ currentNews }) => {
         .then((responce) => responce.json())
         .then((data) => {
           setComment(data.data);
+        })
+        .then(() => {
+          setIsCommentsShowing(!isCommentsShowing);
         });
+    } else {
+      setIsCommentsShowing(!isCommentsShowing);
     }
   };
 
@@ -86,7 +97,7 @@ const NewsItem = ({ currentNews }) => {
     formData.append('Image', commentPhoto);
 
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/CreateComment${currentNews.tweetId}`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/CreateComment${currentStateNews.tweetId}`,
       {
         method: 'POST',
         body: formData,
@@ -129,22 +140,33 @@ const NewsItem = ({ currentNews }) => {
 
   const saveTweetChanges = () => {
     const formData = new FormData();
+    const currentHashtags = currentPostText.match(/[#]\w+/g) || [];
     formData.append('Content', currentPostText);
     formData.append('OldTweetImage', currentPostPhoto);
     formData.append('NewTweetImage', currentPostPhoto);
-    formData.append('IsPublic', currentNews.isPublic);
+    formData.append('IsPublic', currentStateNews.isPublic);
+    currentHashtags.forEach((currentHashtag) => {
+      formData.append('Hashtags', currentHashtag);
+    });
+    console.log(formData);
     fetch(
-      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentNews.tweetId}`,
+      `https://twittercloneapiproductionenv.azurewebsites.net/Tweet/UpdateTweet${currentStateNews.tweetId}`,
       {
         method: 'PUT',
         body: formData,
         credentials: 'include',
         withCredentials: true,
+        contentType: 'multipart/form-data',
         crossorigin: true,
       }
-    ).then(() => {
-      setIsEditing(false);
-    });
+    )
+      .then((responce) => responce.json())
+      .then((data) => {
+        setcurrentStateNews(data.data);
+      })
+      .then(() => {
+        setIsEditing(false);
+      });
   };
   return (
     <div className='container news-container'>
@@ -154,7 +176,7 @@ const NewsItem = ({ currentNews }) => {
             <img
               className='avatar news-body__avatar'
               src={
-                currentNews.postedUserImage ||
+                currentStateNews.postedUserImage ||
                 './photos/usersAvatar/emptyAvatar.jpg'
               }
               alt='avatar'
@@ -164,26 +186,26 @@ const NewsItem = ({ currentNews }) => {
             <div className='post-author news-body__post-author'>
               <Link
                 to={`/user/${
-                  userId === currentNews.postedUserId
+                  userId === currentStateNews.postedUserId
                     ? 'currentUser'
-                    : currentNews.postedUserId
+                    : currentStateNews.postedUserId
                 }`}
                 className='text post-author__text'
               >
-                {currentNews.postedUserName}
+                {currentStateNews.postedUserName}
               </Link>
               <time
                 className='disabled-text post-author__disabled-text'
-                datatime={currentNews.createdAt}
+                datatime={currentStateNews.createdAt}
               >
                 {postCreatedAt.toLocaleString()}
               </time>
             </div>
           </div>
-          {currentNews.isOwner &&
+          {currentStateNews.isOwner &&
             (!isEditing ? (
               <TripletButton
-                tweetId={currentNews.tweetId}
+                tweetId={currentStateNews.tweetId}
                 tripletButtons={[
                   {
                     text: 'Delete post',
@@ -206,7 +228,9 @@ const NewsItem = ({ currentNews }) => {
                         withCredentials: true,
                         crossorigin: true,
                       }
-                    );
+                    ).then(() => {
+                      onDeleteFunction(tweetId);
+                    });
                   },
                   update: (tweetId) => {
                     setIsEditing(true);
@@ -236,7 +260,26 @@ const NewsItem = ({ currentNews }) => {
             className='text news-body__text news-body__text_textarea'
           />
         ) : (
-          <p className='text news-body__text'>{currentNews.content}</p>
+          <div className='news-body__text'>
+            <p className='text'>
+              {currentStateNews.content.replace(/#\S+\s*/g, '')}
+            </p>
+            <p className='news-body__hashtags'>
+              {hashtags?.map((currentHashtag) => {
+                return (
+                  <span
+                    key={currentHashtag}
+                    className='hashtag news-body__hashtag'
+                    onClick={() => {
+                      navigate(`?hashtag=${currentHashtag.replace(/#/g, '')}`);
+                    }}
+                  >
+                    {currentHashtag}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
         )}
 
         <div className='news-body__post-picture'>
@@ -279,35 +322,35 @@ const NewsItem = ({ currentNews }) => {
 
         <div className='media news-body__media'>
           <p className='disabled-text media__disabled-text'>
-            {currentNews.commentsCount} Comments
+            {currentStateNews.commentsCount} Comments
           </p>
           <p className='disabled-text media__disabled-text'>
-            {currentNews.retweetCount} Retweets
+            {currentStateNews.retweetCount} Retweets
           </p>
           <p className='disabled-text media__disabled-text'>
-            {currentNews.saveCount} Saved
+            {currentStateNews.saveCount} Saved
           </p>
         </div>
         <div className='buttons news-body__buttons'>
-          {currentNews.isPublic && (
+          {currentStateNews.isPublic && (
             <NewsItemButton
               icon={<Message width={'20'} height={'20'} />}
-              tweetId={currentNews.tweetId}
+              tweetId={currentStateNews.tweetId}
               isChecked={activeComment}
               onClickFunction={onClickCommentHandle}
-              buttonName={'comment' + currentNews.tweetId}
+              buttonName={'comment' + currentStateNews.tweetId}
               activeClass={'grey-text'}
               Text={'Comment'}
             />
           )}
 
-          {!currentNews.isOwner && (
+          {!currentStateNews.isOwner && (
             <NewsItemButton
               icon={<Reboot width={'20'} height={'20'} />}
-              tweetId={currentNews.tweetId}
+              tweetId={currentStateNews.tweetId}
               isChecked={isRetweeted}
               onClickFunction={isRetweeted ? unRetweet : retweet}
-              buttonName={'retweet' + currentNews.tweetId}
+              buttonName={'retweet' + currentStateNews.tweetId}
               activeClass={'green-text'}
               Text={isRetweeted ? 'Retweeted' : 'Retweet'}
             />
@@ -315,19 +358,19 @@ const NewsItem = ({ currentNews }) => {
 
           <NewsItemButton
             icon={<Heart width={'20'} height={'20'} />}
-            tweetId={currentNews.tweetId}
+            tweetId={currentStateNews.tweetId}
             isChecked={isLiked}
             onClickFunction={isLiked ? unLike : like}
-            buttonName={'like' + currentNews.tweetId}
+            buttonName={'like' + currentStateNews.tweetId}
             activeClass={'red-text'}
             Text={isLiked ? 'Liked' : 'Like'}
           />
           <NewsItemButton
             icon={<Bookmark width={'20'} height={'20'} />}
-            tweetId={currentNews.tweetId}
+            tweetId={currentStateNews.tweetId}
             isChecked={isSaved}
             onClickFunction={isSaved ? unSave : save}
-            buttonName={'save' + currentNews.tweetId}
+            buttonName={'save' + currentStateNews.tweetId}
             activeClass={'blue-text'}
             Text={isSaved ? 'Saved' : 'Save'}
           />
@@ -382,100 +425,106 @@ const NewsItem = ({ currentNews }) => {
             </form>
           </div>
         )}
-        {currentNews.isPublic && (
+        {currentStateNews.isPublic && (
           <div className='comments-section news-body__comments-section'>
             {comment && isCommentsShowing ? (
               <div className='comments comments-section__comments'>
-                {comment.map((currentComment) => {
-                  const postCreatedAt = new Date(currentComment.createdAt);
-                  return (
-                    <div className='comment' key={currentComment.commentId}>
-                      <img
-                        src={
-                          currentComment.postedUserImage
-                            ? currentComment.postedUserImage
-                            : './photos/usersAvatar/emptyAvatar.jpg'
-                        }
-                        alt='avatar'
-                        width='40'
-                        height='40'
-                        className='avatar'
-                      />
-                      <div className='content comment__content'>
-                        <div className='comment__first-line'>
-                          <div className='comment-author'>
-                            <Link
-                              to={
-                                currentUserInfo.userId ===
-                                currentComment.posterUserId
-                                  ? '/user/currentUser'
-                                  : `/user/${currentComment.posterUserId}`
-                              }
-                              className='text post-author__text'
-                            >
-                              {currentComment.postedUserName}
-                            </Link>
-                            <time
-                              className='disabled-text post-author__disabled-text'
-                              datatime={currentComment.createdAt}
-                            >
-                              {postCreatedAt.toLocaleString()}
-                            </time>
-                          </div>
+                {comment.length ? (
+                  comment.map((currentComment) => {
+                    const postCreatedAt = new Date(currentComment.createdAt);
+                    return (
+                      <div className='comment' key={currentComment.commentId}>
+                        <img
+                          src={
+                            currentComment.postedUserImage
+                              ? currentComment.postedUserImage
+                              : './photos/usersAvatar/emptyAvatar.jpg'
+                          }
+                          alt='avatar'
+                          width='40'
+                          height='40'
+                          className='avatar'
+                        />
+                        <div className='content comment__content'>
+                          <div className='comment__first-line'>
+                            <div className='comment-author'>
+                              <Link
+                                to={
+                                  currentUserInfo.userId ===
+                                  currentComment.posterUserId
+                                    ? '/user/currentUser'
+                                    : `/user/${currentComment.posterUserId}`
+                                }
+                                className='text post-author__text'
+                              >
+                                {currentComment.postedUserName}
+                              </Link>
+                              <time
+                                className='disabled-text post-author__disabled-text'
+                                datatime={currentComment.createdAt}
+                              >
+                                {postCreatedAt.toLocaleString()}
+                              </time>
+                            </div>
 
-                          {currentComment.isOwner && (
-                            <TripletButton
-                              tweetId={currentComment.commentId}
-                              tripletButtons={[
-                                {
-                                  text: 'Delete',
-                                  icon: <Trash width={'16'} height={'16'} />,
-                                  functionKey: 'delete',
-                                },
-                              ]}
-                              tripletFunctions={{
-                                delete: (commentId) => {
-                                  fetch(
-                                    `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
-                                    {
-                                      method: 'DELETE',
-                                      credentials: 'include',
-                                      withCredentials: true,
-                                      crossorigin: true,
-                                    }
-                                  );
-                                },
-                              }}
-                            />
-                          )}
-                        </div>
-                        <p className='text comment__text'>
-                          {currentComment.content}
-                        </p>
-                        {currentComment.image && (
-                          <div>
-                            <img
-                              src={currentComment.image}
-                              alt='comment'
-                              width='400'
-                              height='200'
-                              className='post-picture content__post-picture'
-                            />
+                            {currentComment.isOwner && (
+                              <TripletButton
+                                tweetId={currentComment.commentId}
+                                tripletButtons={[
+                                  {
+                                    text: 'Delete',
+                                    icon: <Trash width={'16'} height={'16'} />,
+                                    functionKey: 'delete',
+                                  },
+                                ]}
+                                tripletFunctions={{
+                                  delete: (commentId) => {
+                                    fetch(
+                                      `https://twittercloneapiproductionenv.azurewebsites.net/Comment/DeleteComment${commentId}`,
+                                      {
+                                        method: 'DELETE',
+                                        credentials: 'include',
+                                        withCredentials: true,
+                                        crossorigin: true,
+                                      }
+                                    );
+                                  },
+                                }}
+                              />
+                            )}
                           </div>
-                        )}
-                        <div className='comment-likes content-comment__likes'>
-                          <Likebutton
-                            commentId={currentComment.commentId}
-                            isLikedInitianally={currentComment.isLiked}
-                          />
-                          <p className='common-text comment-likes__commont-text'>
-                            {currentComment.likesCount} Likes
+                          <p className='text comment__text'>
+                            {currentComment.content}
                           </p>
+                          {currentComment.image && (
+                            <div>
+                              <img
+                                src={currentComment.image}
+                                alt='comment'
+                                width='400'
+                                height='200'
+                                className='post-picture content__post-picture'
+                              />
+                            </div>
+                          )}
+                          <div className='comment-likes content-comment__likes'>
+                            <Likebutton
+                              commentId={currentComment.commentId}
+                              isLikedInitianally={currentComment.isLiked}
+                            />
+                            <p className='common-text comment-likes__commont-text'>
+                              {currentComment.likesCount} Likes
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <p className='common-text comment-not-written comments__comment-not-written'>
+                    Comments have not yet been written
+                  </p>
+                )}
               </div>
             ) : (
               ''

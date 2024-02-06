@@ -24,7 +24,7 @@ const navLinks = [
 ];
 
 const Navigation = () => {
-  const [activeButtons, setActiveButtons] = useState('Explore');
+  const [activeButtons, setActiveButtons] = useState('Home');
   const interactionToolClick = (buttonName) => {
     setActiveButtons(buttonName);
   };

@@ -60,7 +60,7 @@ export default function SetUserAuth() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchRefreshToken();
-    }, 600000);
+    }, 480000);
     return () => clearInterval(interval);
   }, [fetchRefreshToken]);
 }
